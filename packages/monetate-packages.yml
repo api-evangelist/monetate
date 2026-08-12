@@ -1,0 +1,148 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://developer.monetate.com/sdks/monetate-sdk-install plus live registry metadata reads against
+  registry.npmjs.org, trunk.cocoapods.org, monetate.jfrog.io (Artifactory npm + maven-layout repos) and
+  the github.com/monetate organization
+note: >-
+  Monetate ships first-party SDKs for iOS, Android, React Web and React Native, but almost none of them are
+  distributed through a public package registry. The JavaScript packages are published to Monetate's own
+  JFrog Artifactory npm repo — the docs literally instruct the developer to repoint their global npm
+  registry with `npm config set registry https://monetate.jfrog.io/artifactory/api/npm/monetate-npm-local`
+  — and the Android SDK is a bare .jar the developer downloads from Artifactory and drops into `app/libs`
+  with `implementation fileTree(...)`. Neither `monetate` nor `@personalization-js-sdk/*` exists on
+  npmjs.com, PyPI, RubyGems or Packagist. Only the iOS SDK reaches a public registry (CocoaPods trunk,
+  plus a Swift Package Manager repo on GitHub added in 2026.02.03). Versions below were read from each
+  registry's own metadata endpoint on the generated date.
+packages:
+- language: swift
+  platform: ios
+  registry: cocoapods
+  name: monetate-ios-sdk
+  url: https://cocoapods.org/pods/monetate-ios-sdk
+  install: "pod 'monetate-ios-sdk'"
+  official: true
+  version: 2026.04.28
+  published: '2026-04-28'
+  note: >-
+    Latest STABLE release. Four newer entries exist on the CocoaPods trunk but are all pre-release
+    (2026.04.29-beta.0/beta.1/beta.2 and a 2026.04.29-test1 published 2026-06-11), so the last shipping
+    version is 2026.04.28. 33 versions total; the pod dates back to 2021.07.19.
+- language: swift
+  platform: ios
+  registry: swift-package-manager
+  name: monetate-personalization-ios-sdk
+  url: https://github.com/monetate/monetate-personalization-ios-sdk
+  install: '.package(url: "https://github.com/monetate/monetate-personalization-ios-sdk.git", ...)'
+  official: true
+  version: null
+  published: null
+  note: >-
+    The docs give this repository URL as the SPM integration point (SPM support added in version
+    2026.02.03), but github.com/monetate/monetate-personalization-ios-sdk returns 404 to the GitHub API —
+    the repo is either private or renamed, so the documented install path does not resolve for a public
+    consumer and no version can be read. Two companion repos ARE public in the same org:
+    monetate-personalization-ios-sdk-cocoapod (tags 2026.01.06, 2026.02.03, 2026.04.06, 2026.04.28,
+    2026.07.10) and monetate-personalization-ios-sdk-binary-config (tag 2026.07.10), which suggests a
+    2026.07.10 binary distribution exists that the CocoaPods trunk has not received.
+- language: javascript
+  platform: react-web
+  registry: artifactory
+  name: '@personalization-js-sdk/web'
+  url: https://monetate.jfrog.io/artifactory/api/npm/monetate-npm-local/@personalization-js-sdk/web
+  install: |-
+    npm config set registry https://monetate.jfrog.io/artifactory/api/npm/monetate-npm-local
+    npm install @personalization-js-sdk/web
+  official: true
+  version: 1.0.6
+  published: '2026-06-03'
+  note: >-
+    NOT on npmjs.com (registry.npmjs.org returns 404). Published only to Monetate's Artifactory npm repo,
+    which does answer unauthenticated reads — 4 versions published there.
+- language: javascript
+  platform: react-native
+  registry: artifactory
+  name: '@personalization-js-sdk/react-native'
+  url: https://monetate.jfrog.io/artifactory/api/npm/monetate-npm-local/@personalization-js-sdk/react-native
+  install: npm install @personalization-js-sdk/react-native
+  official: true
+  version: 1.0.6
+  published: '2026-06-03'
+  note: NOT on npmjs.com. 6 versions on Artifactory.
+- language: javascript
+  platform: shared
+  registry: artifactory
+  name: '@personalization-js-sdk/common'
+  url: https://monetate.jfrog.io/artifactory/api/npm/monetate-npm-local/@personalization-js-sdk/common
+  install: npm install @personalization-js-sdk/common
+  official: true
+  version: 1.0.6
+  published: '2026-06-02'
+  note: >-
+    Shared events/constants package required by both the web and react-native packages. NOT on npmjs.com.
+    7 versions on Artifactory.
+- language: java
+  platform: android
+  registry: artifactory
+  name: com.monetate.personalization.androidsdk:monetate-personalization-android-sdk
+  url: https://monetate.jfrog.io/artifactory/monetate-android-local/com/monetate/personalization/androidsdk/monetate-personalization-android-sdk/
+  install: >-
+    Download monetate-personalization-android-sdk-1.0.9-A.jar, copy into app/libs, then
+    `implementation fileTree(include: ['*.jar'], dir: 'libs')`
+  official: true
+  version: 1.0.9-A
+  published: '2026-06-18'
+  note: >-
+    Not on Maven Central and not consumable as a Gradle coordinate — the repo is maven-LAYOUT but the docs
+    prescribe a manual .jar download into app/libs. Ten versions published, 1.0.0 (2023-09-27) through
+    1.0.9-A (2026-06-18); the directory listing is publicly readable. Version/date read from the
+    Artifactory directory index, which is the only metadata endpoint this distribution has.
+- language: javascript
+  platform: browser
+  registry: cdn
+  name: Monetate JavaScript API (mt.js tag)
+  url: https://developer.monetate.com/monetate-javascript-api
+  official: true
+  version: null
+  published: null
+  note: >-
+    The classic browser integration is a site tag served from Monetate's own CDN and configured per
+    retailer in the platform, not a versioned package. The distribution is unpinned and floats to whatever
+    Monetate serves, so a consumer cannot tell what version they are running either — that is the finding,
+    not a gap in this check.
+absent_from:
+- registry: npm
+  checked:
+  - monetate
+  - monetate-sdk
+  - monetate-js
+  - '@personalization-js-sdk/web'
+  result: 404 on all
+  note: >-
+    The only npmjs.com package matching "monetate" is @segment/analytics.js-integration-monetate (3.0.2,
+    2021-07-12) — a THIRD-PARTY Segment integration, not a Monetate release. official: false, not listed.
+- registry: pypi
+  checked:
+  - monetate
+  result: 404
+- registry: rubygems
+  checked:
+  - monetate
+  result: 404
+- registry: packagist
+  checked:
+  - monetate
+  result: no first-party match
+- registry: maven-central
+  checked:
+  - com.monetate
+  result: not published
+summary:
+  official_packages: 7
+  public_registry_packages: 1
+  vendor_registry_packages: 5
+  unpinned_cdn_packages: 1
+  languages:
+  - swift
+  - javascript
+  - java

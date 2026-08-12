@@ -1,0 +1,86 @@
+generated: '2026-08-12'
+method: derived
+source: mcp/monetate-mcp.yml + openapi/*.yml
+note: >-
+  Emitted to RECORD A DIVERGENCE, not a binding. Monetate has both an MCP server and OpenAPI, but they are
+  not two projections of one core: the MCP server is published by the AI Engine WordPress plugin on the
+  monetate.com marketing site, while the OpenAPIs describe the product APIs on engine.monetate.net and
+  api.monetate.net. There is no MCP surface over the decision engine, the data pipeline or the account
+  metadata. The MCP tool list is additionally auth-gated (401), so not one tool name is known — every
+  crosswalk[] row is therefore empty rather than guessed. All 24 published REST operations are rest_only.
+surfaces:
+  openapi:
+  - file: openapi/monetate-engine-api-openapi.yml
+    spec: Swagger 2.0
+    host: engine.monetate.net
+    gated: false
+  - file: openapi/monetate-data-api-openapi.yml
+    spec: OpenAPI 3.0.1
+    host: api.monetate.net
+    gated: false
+  - file: openapi/monetate-metadata-api-openapi.yml
+    spec: OpenAPI 3.0.1
+    host: api.monetate.net
+    gated: false
+  - file: openapi/monetate-auth-api-openapi.yml
+    spec: OpenAPI 3.0.1
+    host: api.monetate.net
+    gated: false
+  graphql: null
+  mcp:
+    url: https://monetate.com/wp-json/mcp/v1/http
+    gated: true
+    gate: 'tools/list -> HTTP 401, WWW-Authenticate: Bearer realm="MCP"'
+    scope: monetate.com WordPress site content — NOT the Monetate product APIs
+crosswalk: []
+mcp_only: []
+mcp_unknown:
+- reason: >-
+    tools/list is auth-gated and no published tool list exists in any llms.txt on any Monetate host, so the
+    tool names cannot be enumerated without credentials. Nothing is asserted here.
+rest_only:
+- capability: Decisioning
+  operations:
+  - decide
+  note: POST /decide/{retailerShortname} on engine.monetate.net — the whole Engine API.
+- capability: Data schema management
+  operations:
+  - GET /schema/
+  - POST /schema/
+  - GET /schema/{schema-name}/
+  - PATCH /schema/{schema-name}/
+  - GET /schematype/
+  - GET /schematype/{schema-type}/
+  note: Data API. The published spec declares no operationIds, so operations are named by method+path.
+- capability: Data ingestion and upload history
+  operations:
+  - GET /upload/{schema-name}/
+  - GET /data/example_schema/
+  - POST /data/example_schema/
+- capability: Product catalog defaults
+  operations:
+  - GET /defaultcatalog/
+  - POST /defaultcatalog/
+  - POST /bulk-defaultcatalog/
+- capability: Account and experience metadata
+  operations:
+  - GET /metadata/account
+  - GET /metadata/account/{account-id}
+  - GET /metadata/variant
+  - GET /metadata/variant/{variant-id}
+  - GET /metadata/experience-summary
+  - GET /metadata/experience-summary/{experience-summary-id}
+  - GET /metadata/pageevent
+  - GET /metadata/pageevent/{pageevent-id}
+  - GET /metadata/customtarget
+  - GET /metadata/customtarget/{customtarget-id}
+- capability: Token lifecycle
+  operations:
+  - GET /refresh/
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 0
+  rest_operations_total: 24
+  rest_operations_with_tool: 0
+  rest_operations_only: 24

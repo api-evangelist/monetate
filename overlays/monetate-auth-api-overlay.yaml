@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Monetate Auth API
+  version: 1.0.0
+extends: monetate-auth-api-openapi.yml
+x-generated: '2026-08-12'
+x-method: generated
+x-source: openapi/monetate-auth-api-openapi.yml
+x-note: Enhancements API Evangelist applies on top of the harvested Monetate Auth API specification. The
+  original is never mutated; openapi/_original/ holds the verbatim harvest. This specification declares
+  no operationId on 1 of its operations, so the overlay supplies one per operation, derived deterministically
+  from the published summary.
+actions:
+- target: $.info
+  description: Record the API Evangelist provenance and the repo artifacts derived from this specification.
+  update:
+    x-apievangelist-source: https://developer.monetate.com/auth-api
+    x-apievangelist-artifacts:
+      authentication: authentication/monetate-authentication.yml
+      conventions: conventions/monetate-conventions.yml
+      errors: errors/monetate-problem-types.yml
+      lifecycle: lifecycle/monetate-lifecycle.yml
+      rate_limits: rate-limits/monetate-rate-limits.yml
+      data_model: data-model/monetate-data-model.yml
+- target: $.paths['/refresh/'].get
+  description: Add a stable operationId. The published specification declares none for GET /refresh/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: refreshAToken

@@ -1,0 +1,130 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/monetate-data-api-openapi.yml, openapi/monetate-metadata-api-openapi.yml,
+  openapi/monetate-auth-api-openapi.yml, openapi/monetate-engine-api-openapi.yml, plus
+  https://developer.monetate.com/data-api and https://developer.monetate.com/metadata-api
+note: >-
+  Monetate's cross-cutting semantics are consistent inside the api.monetate.net family (Data, Metadata,
+  Auth) and completely different on engine.monetate.net. Treat them as two contracts, not one.
+authentication:
+  style: opaque bearer token in an Authorization header, minted from a signed JWT
+  header: 'Authorization: Token <token_string>'
+  bootstrap: 'Authorization: JWT <signed_jwt> against GET /api/auth/v0/refresh/'
+  engine_api: none — the decision endpoint is unauthenticated by design
+  detail: authentication/monetate-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    No Idempotency-Key header, no idempotency section in any of the four published specs, and no mention
+    of idempotency, replay safety or de-duplication anywhere in the Data API, Metadata API, Auth API or
+    Engine API documentation. The write surface (POST /schema/, POST /data/{schema}/, POST
+    /defaultcatalog/, POST /bulk-defaultcatalog/, POST /decide/{retailerShortname}) offers no
+    client-supplied request key, so a retried write is a duplicate write.
+  note: >-
+    Recorded as a genuine absence. No `Idempotency` pointer is emitted in apis.yml, because the provider
+    does not support it.
+pagination:
+  style: page-number with a server-supplied next/previous URL
+  applies_to: Metadata API list endpoints, Data API list endpoints
+  request_params:
+  - name: page_size
+    in: query
+    max: 1000
+    note: 1000 is documented as the maximum allowed in one request.
+  - name: page
+    in: query
+    note: >-
+      Used in the provider's own Python walkthrough (`params = {'page_size': 1000, 'page': page}`) but NOT
+      declared as a parameter on the list operations in the published Metadata API spec — a documented
+      parameter missing from the contract.
+  response_fields:
+    envelope: meta
+    schema: ResponseMetaPagination (allOf ResponseMeta + ResponsePagination)
+    fields:
+    - name: meta.count
+      description: number of items returned in this response
+    - name: meta.next
+      description: URL to the next group of items, if any
+    - name: meta.previous
+      description: URL to the previous group of items, if any
+response_envelope:
+  shape: 'every response is {"meta": {...}, "data": {...}}'
+  schema: '#/components/schemas/Response'
+  meta:
+  - name: code
+    type: integer
+    required: true
+    description: the HTTP response code, repeated inside the body
+  - name: warnings
+    type: array
+    required: false
+  - name: errors
+    type: array
+    required: false
+  data:
+    type: object
+    schema: ResponseAnyData
+    note: additionalProperties true — the payload shape is per-endpoint.
+  engine_api:
+    shape: different — the Engine API returns its own meta/data structure (HttpResponseBody)
+    reference: https://developer.monetate.com/engine-api/engine-api-model-httpresponsebody
+error_envelope:
+  format: custom (NOT RFC 9457 / application/problem+json)
+  media_type: application/json
+  location: meta.errors[]
+  status_codes_used:
+  - 400
+  - 401
+  - 403
+  - 404
+  - 429
+  - 500
+  detail: errors/monetate-problem-types.yml
+rate_limit_signaling:
+  documented_headers: []
+  status_on_exhaustion: 429
+  note: >-
+    A 429 response ("Too many requests. The user has sent too many requests in a given amount of time to a
+    rate-limited endpoint.") is declared on exactly one operation — GET /data/{schema_name}/ in the Data
+    API. No X-RateLimit-*, RateLimit-* or Retry-After header is documented anywhere, and no numeric limit
+    is published, so an agent cannot back off on anything but the bare status code.
+  detail: rate-limits/monetate-rate-limits.yml
+versioning:
+  style: path segment
+  examples:
+  - /api/engine/v1/
+  - /api/data/v1/
+  - /api/metadata/v1/
+  - /api/auth/v0/
+  note: >-
+    Note the Auth API is still on v0 while the APIs that depend on it are on v1. The Data and Metadata
+    base paths additionally embed an environment segment — `/{retailerShortname}/production` — so the
+    tenant and the environment are both in the URL rather than in a header or the token.
+  detail: lifecycle/monetate-lifecycle.yml
+request_id_tracing:
+  supported: unknown
+  note: No correlation/request-id header is documented or declared in any published spec.
+field_expansion:
+  supported: false
+  note: >-
+    No expand/fields/include parameter. The Data API instead exposes a few boolean query flags that turn
+    extra computed values on for a resource — `row_count`, `latest_upload`, `usable_in_accounts` on the
+    schema endpoints — which is a narrower, per-endpoint version of the same idea.
+metadata_fields:
+  supported: false
+  note: >-
+    No generic customer-supplied metadata bag on resources. Custom data lives in user-defined Data API
+    schemas instead, which is the platform's actual extension mechanism.
+media_types:
+  request:
+  - application/json
+  response:
+  - application/json
+cross_links:
+  errors: errors/monetate-problem-types.yml
+  lifecycle: lifecycle/monetate-lifecycle.yml
+  authentication: authentication/monetate-authentication.yml
+  rate_limits: rate-limits/monetate-rate-limits.yml
+  data_model: data-model/monetate-data-model.yml

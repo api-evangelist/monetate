@@ -42,5 +42,40 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Monetate is a company surfaced via the API Evangelist harvest backlog (source: marketing-integration-graph) and added to the network as a stub for full-pipeline profiling.
-- https://monetate.com/
+Monetate is an enterprise experience-optimization and personalization platform for ecommerce and digital
+businesses — A/B and multivariate testing, automated 1:1 personalization, product and content
+recommendations, personalized search, dynamic bundles, social proof and product badging — operating as part
+of Kibo Commerce.
+
+- Website: https://monetate.com/
+- Developer hub: https://developer.monetate.com/
+- Knowledge base: https://docs.monetate.com/docs
+- Status: https://monetate.statuspage.io
+
+## Published APIs
+
+| API | Base | Spec |
+|---|---|---|
+| Engine API | `https://engine.monetate.net/api/engine/v1` | Swagger 2.0, 1 operation (`POST /decide/{retailerShortname}`) |
+| Data API | `https://api.monetate.net/api/data/v1/{retailerShortname}/production` | OpenAPI 3.0.1, 12 operations |
+| Metadata API | `https://api.monetate.net/api/metadata/v1/{retailerShortname}/production` | OpenAPI 3.0.1, 10 operations |
+| Auth API | `https://api.monetate.net/api/auth/v0` | OpenAPI 3.0.1, 1 operation |
+
+All four specifications are real, provider-authored documents harvested from the Archbee document store
+behind developer.monetate.com. Monetate does not serve them from a stable public URL of its own — the
+developer hub is a client-rendered Next.js site whose `/openapi.json` returns an HTML "Not found" shell —
+so `openapi/_original/` records the exact upload each was taken from.
+
+## What this profile records
+
+`apis.yml` is the index. Alongside the specs, this repo holds the authentication model (a two-scheme JWT →
+bearer-token exchange), API conventions, the derived error catalog, the entity/relationship data model,
+lifecycle and versioning, the dated changelog, published packages, well-known probes, the MCP server
+Monetate publishes on its marketing site, domain-security probes, trust-center findings, and four packaged
+Agent Skills grounded in real operations.
+
+Notable honest findings, recorded rather than smoothed over: no published rate limits or rate-limit
+headers, no idempotency support on any write, no deprecation policy or Sunset headers, no
+`/.well-known/security.txt` or vulnerability-disclosure channel, a trust center with zero named
+certifications, quote-only pricing with no published plans, and no `operationId` on 23 of the 24 published
+operations. See each artifact for the evidence.

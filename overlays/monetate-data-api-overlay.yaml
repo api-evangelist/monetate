@@ -1,0 +1,84 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Monetate Data API
+  version: 1.0.0
+extends: monetate-data-api-openapi.yml
+x-generated: '2026-08-12'
+x-method: generated
+x-source: openapi/monetate-data-api-openapi.yml
+x-note: Enhancements API Evangelist applies on top of the harvested Monetate Data API specification. The
+  original is never mutated; openapi/_original/ holds the verbatim harvest. This specification declares
+  no operationId on 12 of its operations, so the overlay supplies one per operation, derived deterministically
+  from the published summary.
+actions:
+- target: $.info
+  description: Record the API Evangelist provenance and the repo artifacts derived from this specification.
+  update:
+    x-apievangelist-source: https://developer.monetate.com/data-api
+    x-apievangelist-artifacts:
+      authentication: authentication/monetate-authentication.yml
+      conventions: conventions/monetate-conventions.yml
+      errors: errors/monetate-problem-types.yml
+      lifecycle: lifecycle/monetate-lifecycle.yml
+      rate_limits: rate-limits/monetate-rate-limits.yml
+      data_model: data-model/monetate-data-model.yml
+- target: $.paths['/schema/'].get
+  description: Add a stable operationId. The published specification declares none for GET /schema/, which
+    leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getActiveSchema
+- target: $.paths['/schema/'].post
+  description: Add a stable operationId. The published specification declares none for POST /schema/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: createANewSchema
+- target: $.paths['/schema/{schema-name}/'].get
+  description: Add a stable operationId. The published specification declares none for GET /schema/{schema-name}/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getSchemaDetails
+- target: $.paths['/schema/{schema-name}/'].patch
+  description: Add a stable operationId. The published specification declares none for PATCH /schema/{schema-name}/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: updateAnExistingSchema
+- target: $.paths['/schematype/'].get
+  description: Add a stable operationId. The published specification declares none for GET /schematype/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listSchemaTypes
+- target: $.paths['/schematype/{schema-type}/'].get
+  description: Add a stable operationId. The published specification declares none for GET /schematype/{schema-type}/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getSchemaTypeDetails
+- target: $.paths['/upload/{schema-name}/'].get
+  description: Add a stable operationId. The published specification declares none for GET /upload/{schema-name}/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getUploadHistory
+- target: $.paths['/data/example_schema/'].get
+  description: Add a stable operationId. The published specification declares none for GET /data/example_schema/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getDataForExampleschema
+- target: $.paths['/data/example_schema/'].post
+  description: Add a stable operationId. The published specification declares none for POST /data/example_schema/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: postDataForExampleschema
+- target: $.paths['/defaultcatalog/'].get
+  description: Add a stable operationId. The published specification declares none for GET /defaultcatalog/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listAccountDefaults
+- target: $.paths['/defaultcatalog/'].post
+  description: Add a stable operationId. The published specification declares none for POST /defaultcatalog/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: setAccountDefault
+- target: $.paths['/bulk-defaultcatalog/'].post
+  description: Add a stable operationId. The published specification declares none for POST /bulk-defaultcatalog/,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: bulkSetAccountDefaults

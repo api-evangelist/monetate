@@ -1,27 +1,233 @@
 aid: monetate
 name: Monetate
-description: 'Monetate is a company surfaced via the API Evangelist harvest backlog (source: marketing-integration-graph)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Monetate is an enterprise experience-optimization and personalization platform for ecommerce and digital
+  businesses, delivering A/B and multivariate testing, automated 1:1 personalization, product and content
+  recommendations, personalized search, dynamic bundles, social proof and product badging across web, mobile,
+  email and in-store channels. Its decision engine is exposed to developers through four public REST APIs — the
+  Engine API (real-time decision requests), the Data API (schema definition, customer/product data ingestion and
+  default catalog management), the Metadata API (accounts, experiences, page events and custom targets) and the
+  Auth API (bearer-token issue and refresh) — plus a browser JavaScript API and native SDKs for iOS, Android,
+  React Web and React Native. Monetate operates as part of Kibo Commerce.
+image: https://images.archbee.com/ceIfEvQHzQk1IVxoRWUh7/48dIncdY24xPwZLOvfSEr_horizontal-pink-blue-800px.png
 url: https://raw.githubusercontent.com/api-evangelist/monetate/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:marketing-integration-graph
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-12'
 modified: '2026-08-12'
 tags:
 - Company
-apis: []
+- Personalization
+- Experience Optimization
+- A/B Testing
+- Ecommerce
+- Product Recommendations
+- Personalized Search
+- Marketing
+- Customer Data
+- Retail
+- Decision Engine
+apis:
+- name: Monetate Engine API
+  description: >-
+    RESTful entry point to the Monetate decision engine. A client POSTs a batch of context events, page events
+    and record events for a session and receives back the actions (experiences) the engine decided to serve —
+    usable from a server, a browser, a mobile app, a single-page app, or non-web channels such as in-store
+    displays, kiosks and SMS. Regional endpoints are available alongside the default host.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Decision Engine
+  - Personalization
+  - A/B Testing
+  - Ecommerce
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-engine-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Overlay
+    url: overlays/monetate-engine-api-overlay.yaml
+- name: Monetate Data API
+  description: >-
+    Create and manage data schemas and send customer, product and catalog data into Monetate in real time for use
+    by the decision engine. Covers schema CRUD, schema types, upload history, row-level data POST/GET and default
+    product-catalog assignment (single and bulk), plus customer data-privacy operations.
+  humanURL: https://developer.monetate.com/data-api
+  baseURL: https://api.monetate.net/api/data/v1/{retailerShortname}/production
+  tags:
+  - Customer Data
+  - Product Data
+  - Data Ingestion
+  - Ecommerce
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-data-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/data-api
+  - type: APIReference
+    url: https://developer.monetate.com/data-api/monetate-data-api
+  - type: RateLimits
+    url: rate-limits/monetate-rate-limits.yml
+  - type: Overlay
+    url: overlays/monetate-data-api-overlay.yaml
+- name: Monetate Metadata API
+  description: >-
+    Read-only API returning metadata about a Monetate account so that experience, page-event and custom-target
+    identifiers seen in engine responses and analytics exports can be resolved to human-interpretable names.
+    Covers accounts, experiences (variants), experience summaries, page events and custom targets.
+  humanURL: https://developer.monetate.com/metadata-api
+  baseURL: https://api.monetate.net/api/metadata/v1/{retailerShortname}/production
+  tags:
+  - Metadata
+  - Analytics
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/metadata-api
+  - type: APIReference
+    url: https://developer.monetate.com/metadata-api/monetate-metadata-api
+  - type: Overlay
+    url: overlays/monetate-metadata-api-overlay.yaml
+- name: Monetate Auth API
+  description: >-
+    Issues and refreshes the bearer tokens used by the Data API and Metadata API. A signed JWT user key is
+    exchanged for a token with a caller-specified TTL; the token is then sent as an `Authorization: Token
+    <token_string>` header on every subsequent API call.
+  humanURL: https://developer.monetate.com/auth-api
+  baseURL: https://api.monetate.net/api/auth/v0
+  tags:
+  - Authentication
+  - Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-auth-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
+  - type: Overlay
+    url: overlays/monetate-auth-api-overlay.yaml
+- name: Monetate Website MCP Server
+  description: >-
+    Hosted Model Context Protocol server published on the monetate.com marketing site, advertised through RFC 8414
+    OAuth authorization-server metadata and RFC 9728 protected-resource metadata. Provided by the AI Engine
+    WordPress plugin. The MCP endpoint answers 401 with a Bearer challenge to anonymous callers, so the live tool
+    list requires an authenticated OAuth session.
+  humanURL: https://monetate.com/.well-known/oauth-protected-resource
+  baseURL: https://monetate.com/wp-json/mcp/v1/http
+  tags:
+  - MCP
+  - Agent
+  properties:
+  - type: MCPServer
+    url: mcp/monetate-mcp.yml
+  - type: MCPServer
+    url: https://monetate.com/wp-json/mcp/v1/http
+  - type: ToolCrosswalk
+    url: mcp/monetate-tool-crosswalk.yml
+  - type: WellKnown
+    url: well-known/monetate-well-known.yml
+common:
+- type: Website
+  url: https://monetate.com/
+- type: DeveloperPortal
+  url: https://developer.monetate.com/
+- type: Documentation
+  url: https://docs.monetate.com/docs
+- type: APIReference
+  url: https://developer.monetate.com/
+- type: GettingStarted
+  url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+- type: Support
+  url: https://monetate.com/contact/
+- type: HelpCenter
+  url: https://docs.monetate.com/docs
+- type: Blog
+  url: https://monetate.com/media-type/blog/
+- type: GitHubOrganization
+  url: https://github.com/monetate
+- type: Pricing
+  url: https://monetate.com/pricing/
+- type: Plans
+  url: plans/monetate-plans-pricing.yml
+- type: Login
+  url: https://marketer.monetate.net/auth/login/
+- type: SignUp
+  url: https://monetate.com/demo/
+- type: PrivacyPolicy
+  url: https://monetate.com/website-privacy-policy/
+- type: TermsOfService
+  url: https://monetate.com/terms-of-use/
+- type: StatusPage
+  url: https://monetate.statuspage.io
+- type: ChangeLog
+  url: https://docs.monetate.com/docs/release-notes
+- type: ChangeLog
+  url: changelog/monetate-changelog.yml
+- type: TrustCenter
+  url: https://trust.monetate.com/
+- type: TrustCenter
+  url: security/monetate-trust-center.yml
+- type: Lifecycle
+  url: lifecycle/monetate-lifecycle.yml
+- type: Authentication
+  url: authentication/monetate-authentication.yml
+- type: Conventions
+  url: conventions/monetate-conventions.yml
+- type: ErrorCatalog
+  url: errors/monetate-problem-types.yml
+- type: RateLimits
+  url: rate-limits/monetate-rate-limits.yml
+- type: Conformance
+  url: conformance/monetate-conformance.yml
+- type: DataModel
+  url: data-model/monetate-data-model.yml
+- type: DomainSecurity
+  url: security/monetate-domain-security.yml
+- type: WellKnown
+  url: well-known/monetate-well-known.yml
+- type: LLMsTxt
+  url: llms/monetate-llms.txt
+- type: Packages
+  url: packages/monetate-packages.yml
+- type: SDKs
+  url: packages/monetate-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
-common:
-- type: Website
-  url: https://monetate.com/
 x-vouched-by:
 - Persado
 - mParticle
 x-vouch-count: 2
+x-enrichment:
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 38
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Four provider-authored specifications (Engine, Data, Metadata, Auth) were recovered from the Archbee
+    document store behind developer.monetate.com after the docs host returned an HTML shell for
+    /openapi.json, along with a real OAuth-advertised MCP server on monetate.com.
+  evidence:
+  - url: https://developer.monetate.com/metadata-api/list-accounts
+    status: 200
+  - url: https://archbee-doc-uploads.s3.amazonaws.com/ceIfEvQHzQk1IVxoRWUh7/oLnjvvT9Zxt7r2VUH-_Ke-20260515-193937.yaml
+    status: 200
+  - url: https://monetate.com/.well-known/oauth-protected-resource
+    status: 200
+  checked: '2026-08-12'

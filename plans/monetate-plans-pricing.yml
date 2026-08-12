@@ -1,0 +1,31 @@
+generated: '2026-08-12'
+method: searched
+source: https://monetate.com/pricing/
+plan_count: 0
+pricing_model: custom / quote-only
+self_serve: false
+free_tier: false
+trial: false
+note: >-
+  Monetate publishes a pricing page but no prices, no tiers and no packages. The page states: "Every
+  company is unique. That's why we work with you to build a customized pricing plan specific to you and
+  your business." The only path forward is a contact form that collects an email, company details and the
+  features of interest in exchange for a quote. There is no self-service signup anywhere on the site — the
+  closest thing is a demo request at https://monetate.com/demo/ — and the platform login at
+  marketer.monetate.net is for existing customers only. Consequently there are no published quotas,
+  overages or plan-attached limits to record. plan_count: 0 is the finding, not an omission.
+plans: []
+acquisition:
+  quote_request: https://monetate.com/pricing/
+  demo_request: https://monetate.com/demo/
+  contact: https://monetate.com/contact/
+  existing_customer_login: https://marketer.monetate.net/auth/login/
+x-evidence:
+- fetched: '2026-08-12'
+  url: https://monetate.com/pricing/
+  http_status: 200
+  finding: no tiers, no prices — customized quote only
+- fetched: '2026-08-12'
+  url: https://monetate.com/demo/
+  http_status: 200
+  finding: demo request form, not a signup

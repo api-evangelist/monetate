@@ -1,0 +1,50 @@
+generated: '2026-08-12'
+method: searched
+source: https://trust.monetate.com/
+url: https://trust.monetate.com/
+provider: SafeBase
+present: true
+certifications: []
+certification_count: 0
+note: >-
+  A trust center EXISTS and resolves on a Monetate-owned subdomain, but it publishes no completed
+  certification, no attestation, no audit report and no security grade. The page's own copy is the
+  giveaway that it is still a SafeBase default: "We are working towards compliance certifications", "We
+  can provide completed questionnaires upon request", "We are currently working with experts to put
+  together our company policies", and "We are constantly monitoring the security of our website. We will
+  post our grades from public security rating agencies when they become available." No SOC 2, ISO 27001,
+  PCI DSS, HIPAA or FedRAMP is named. No vulnerability disclosure policy or bug bounty is referenced. No
+  subprocessor list or penetration test summary is linked from it. Recorded as TrustCenter present with
+  zero certifications — deliberately NOT wired to a `Compliance` pointer, because the check that pointer
+  feeds asks whether the provider publishes a compliance program, and this provider does not yet.
+sections_present:
+- data privacy
+- endpoint security
+- incident response
+- company policies (in progress)
+- security ratings (placeholder)
+documents_available_on_request: true
+documents_gated_behind: SafeBase access request
+related_public_pages:
+- url: https://monetate.com/sub-processor-statement/
+  http_status: 200
+  type: sub-processor statement
+- url: https://monetate.com/website-privacy-policy/
+  http_status: 200
+  type: privacy policy
+  finding: >-
+    References "the EU-US or Swiss-US Privacy Shield Principles" as the safeguard standard — a framework
+    invalidated by the CJEU in Schrems II (July 2020) and replaced by the EU-US Data Privacy Framework in
+    2023. The privacy policy has not been updated for that change.
+x-evidence:
+- fetched: '2026-08-12'
+  url: https://trust.monetate.com/
+  http_status: 200
+  content_type: text/html
+  finding: SafeBase trust center, JS-rendered, zero named certifications
+- fetched: '2026-08-12'
+  url: https://monetate.com/security/
+  http_status: 404
+- fetched: '2026-08-12'
+  url: https://monetate.com/trust/
+  http_status: 404

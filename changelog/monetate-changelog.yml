@@ -1,0 +1,104 @@
+generated: '2026-08-12'
+method: searched
+source: https://docs.monetate.com/docs/release-notes
+docs:
+- https://docs.monetate.com/docs/release-notes
+- https://docs.monetate.com/docs/2026
+- https://docs.monetate.com/docs/2025
+- https://docs.monetate.com/docs/archives
+- https://developer.monetate.com/sdks/sdk-version-updates
+scheme: dated platform release notes, one page per calendar year, roughly fortnightly cadence
+versioned: false
+note: >-
+  Monetate keeps a genuinely long-running, dated platform changelog — a page per year going back to 2017 —
+  and publishes each release as a bulleted list, unusually including an "Internal Distribution Only" block
+  with the underlying ticket IDs (CD3-, REC-, SDKF-, UU-, DEC3-). It is a product changelog, not an API
+  changelog: API-affecting changes appear only when they happen to be part of a platform release (for
+  example "CD3-3171 Engine API not returning Experience API-created Omni Experiences with Action
+  Conditions added after creation" and "CD3-3214 New schema_type 'catalog_subkey' for inventory feed").
+  TWO PROBLEMS AN INTEGRATOR SHOULD KNOW ABOUT. First, cadence collapsed: 2025 carries 26 entries at a
+  clean fortnightly rhythm from 2 January through 16 December, while the 2026 page carries only four, the
+  newest of which was published roughly six months before this profile was generated. Second, every entry
+  on the page titled "2026 Release Notes" is labelled with the year 2025 — "January 6th, 2025",
+  "February 10th, 2025" — which is a year typo in the provider's own headings (the 2025 page separately
+  and completely covers 2 January to 16 December 2025). The dates below are recorded exactly as the
+  provider prints them; the `year_label_suspect` flag marks the ones that are almost certainly 2026.
+current_version: null
+current_version_note: The platform is not publicly versioned; releases are identified by date only.
+entries:
+- date: '2025-02-10'
+  year_label_suspect: true
+  page: https://docs.monetate.com/docs/2026
+  breaking: false
+  highlights:
+  - Action builder — fixed modal clipping in the top panel; modals now overlay the panel and page.
+  - Analytics — fixed chart tooltips being clipped by the container edge.
+  - New user welcome emails — refreshed branding and content.
+  api_relevant:
+  - 'CD3-3171: Engine API not returning Experience API-created Omni Experiences with Action Conditions
+    added after creation.'
+  - 'CD3-3074: List endpoint for AdLink throws AttributeError.'
+  - 'CD3-3214: New schema_type "catalog_subkey" for inventory feed.'
+- date: '2025-01-27'
+  year_label_suspect: true
+  page: https://docs.monetate.com/docs/2026
+  breaking: false
+  highlights:
+  - Widened the priority field in the experience list to fully display 3- and 4-digit numbers.
+  - Fixed the View Analytics button on the multi-account experience list linking to the wrong account (500
+    error).
+- date: '2025-01-13'
+  year_label_suspect: true
+  page: https://docs.monetate.com/docs/2026
+  breaking: false
+  highlights:
+  - Added dynamic filter support for content recommendations.
+  - Fixed the product recommendations settings page failing to load.
+  api_relevant:
+  - Resolved Engine API errors handling duplicate page event keys.
+- date: '2025-01-06'
+  year_label_suspect: true
+  page: https://docs.monetate.com/docs/2026
+  breaking: false
+  additions:
+  - Launched Content Recommendations.
+  - Custom variable presence matching.
+  - Flight Search target now accepts zero traveler counts.
+  highlights:
+  - Fixed Automated Personalization allocation issues.
+  - Reorganized left navigation help items; login flow improvements.
+- date: '2025-12-16'
+  page: https://docs.monetate.com/docs/2025
+  breaking: false
+  note: Final entry of the complete 2025 year page (26 dated entries, 2 January through 16 December).
+sdk_changelog:
+  url: https://developer.monetate.com/sdks/sdk-version-updates
+  last_updated: '2026-06-03'
+  doc_version: 20
+  entries:
+  - title: Context-based event and contextual data management
+    available_from:
+      android: 1.0.8-A and later
+      react_native: 1.0.4-RN and later
+      react_web: 1.0.2-W and later
+      ios: 2026.04.28 and later
+    breaking: false
+    note: >-
+      "Existing integrations using legacy report method & getActions() method can continue to work but new
+      integrations should use the Context Layer-based approach."
+  - title: Configurable engine endpoint across Android, iOS and React SDKs
+    detail: >-
+      New `engineHostName` field on the Account object allows dynamic endpoint selection, defaulting to
+      engine.monetate.net when not provided. Regional hosts documented — engine-global.monetate.net,
+      engine-us-east-1.monetate.net, engine-us-west-2.monetate.net, engine-eu-west-1.monetate.net.
+    breaking: false
+  - title: Swift Package Manager support for the iOS SDK
+    available_from:
+      ios: 2026.02.03
+    breaking: false
+coverage:
+  entries_recorded: 5
+  window: 2025-01-06 through 2025-12-16 as labelled by the provider
+  archive_depth: 2017
+  cadence_2025: 26 entries (fortnightly)
+  cadence_2026: 4 entries, newest ~6 months stale at time of profiling

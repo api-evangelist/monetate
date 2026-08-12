@@ -1,0 +1,1802 @@
+openapi: 3.0.1
+info:
+  title: Monetate Data API
+  description: |-
+       The Monetate Data API allows you to create and send data across any channel in real time. This data is leveraged by Monetate's real-time decisioning engine to deliver 1:1 experiences across any channel.
+  version: v1
+servers:
+- url: https://api.monetate.net/api/data/v1/{retailerShortname}/production
+security:
+- Token Authentication: []
+tags:
+- name: Schema
+  description: Schema related endpoints.
+- name: Upload
+  description: File upload related endpoints.
+- name: Data
+  description: Data related endpoints.
+- name: Product Catalog
+  description: Product Catalog related endpoints.
+- name: Customer Data Privacy
+  description: Product Catalog related endpoints.
+paths:
+  /schema/:
+    get:
+      tags:
+      - Schema
+      summary: Get Active Schema
+      description: Returns a list of active Schema used by Monetate for experience
+        decisioning.
+      parameters:
+      - name: row_count
+        in: query
+        description: Adds a field called `row_count` which is an Integer that is the
+          number of available rows for targeting (there may be an hour delay between
+          uploading data and this value updating)
+        schema:
+          type: boolean
+      - name: latest_upload
+        in: query
+        description: |-
+          Adds a field called `last_file_upload` with the format:
+          ```
+          "last_file_upload": {
+              "status": "COMPLETE",
+              "upload_time": "2016-03-24T10:56:52.000000Z",
+              "import_start_time": "2017-04-04T18:05:34.000000Z",
+              "import_end_time": "2017-04-04T18:05:35.000000Z",
+              "validation_error": ""
+          }
+          ```
+        schema:
+          type: boolean
+      - name: usable_in_accounts
+        in: query
+        description: |-
+          Adds a field called `usable_in_accounts` which is an object describing the accounts where the dataset can be used for targeting.
+          ```
+          "usable_in_accounts": [
+            {
+                "name": "a-b6206def",
+                "instance": "p",
+                "domain": "fifthlevelfashion.com"
+            },
+            {
+                "name": "a-b6206def",
+                "instance": "p",
+                "domain": "fifthlevelfashion.us"
+            }
+          ]
+          ```
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: A list of Schema definitions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaListResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+    post:
+      tags:
+      - Schema
+      summary: Create a New Schema
+      description: |-
+        To send data to Monetate, you must first create a new Schema.
+
+        ### Schema types
+
+        The API currently accepts the following types of data:
+
+        * **Event**: Any data that contains a timestamp for the purposes of understanding when the specific events or interactions occurred in a time series.
+            * **type**: `event`
+            * **Required fields**: `identifier`, `event_time`
+        * **Entity**: Any non-time series data
+            * **type**: `attribute`
+            * **Required fields**: `identifier`
+        * **Product**: Product catalog data
+            * **type**: `product`
+
+        ### Fields
+
+        A Schema consists of a set of fields defining its structure. You can include up to 40 fields in each Schema.
+
+        #### Field Data Types
+
+        The API supports the following field data types:
+
+        * `STRING`: Non-empty text without leading or trailing whitespace.
+        * `MULTI_STRING`: Comma-separated string. As `STRING`, but allows multiple values separated by commas. See [Product Catalog Specification: Comma Escaping](https://docs.monetate.com/docs/product-catalog-specification#comma-escaping) regarding the necessary escaping rules.
+        * `NUMBER`: An integer or decimal number.
+        * `DATETIME`: A timestamp conforming to the ISO-8601 standard.
+        * `BOOLEAN`: A true or false value.
+
+        #### Field Attributes
+
+        The API allows attributes to be set on certain fields:
+
+        * `data_type`: String attribute. The type of data allowed in this field (see 'Field Data Types').
+        * `required`: Boolean attribute. Defaults to false. Allows certain attributes to be 'required' when submitting records.
+        * `identifier`: Boolean attribute. Field used to identify a customer. Exactly one field may be the identifier.
+        * `unique_key`: Boolean attribute. Unique identifier for the record which can be used to update the record in the future. Only one field may be the unique_key.
+        * `event_time`: Boolean attribute. For events, the time that the event occurred.
+
+        Only identifier and unique key are considered 'required' fields when specified. All other fields are optional and are marked as null if absent.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schema'
+        required: false
+      responses:
+        "201":
+          description: Schema created. Content is the definition of the created Schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaResponse'
+            meta:
+              example:
+                code: 201
+            data:
+              example:
+                name: purchase_event
+                named_identifier: valid_named_identifier
+                type: event
+                fields:
+                  purchase_id:
+                    data_type: STRING
+                    unique_key: true
+                  customer_id:
+                    data_type: STRING
+                    identifier: true
+                  purchase_time:
+                    data_type: DATETIME
+                    event_time: true
+                  product_id:
+                    data_type: STRING
+                  product_category:
+                    data_type: STRING
+                  product_price:
+                    data_type: NUMBER
+        "400":
+          description: "Validation error. \n\nOne or more values being sent was not\
+            \ in the correct format, or a required value was missing."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: schema
+  /schema/{schema-name}/:
+    get:
+      tags:
+      - Schema
+      summary: Get Schema Details
+      description: Returns a list of all data types and schemas.
+      parameters:
+      - name: schema-name
+        in: path
+        description: The name of the Schema.
+        required: true
+        schema:
+          type: string
+      - name: row_count
+        in: query
+        description: Adds a field called `row_count` which is an Integer that is the
+          number of available rows for targeting (there may be an hour delay between
+          uploading data and this value updating)
+        schema:
+          type: boolean
+      - name: latest_upload
+        in: query
+        description: |-
+          Adds a field called `last_file_upload` with the format:
+          ```
+          "last_file_upload": {
+              "status": "COMPLETE",
+              "upload_time": "2016-03-24T10:56:52.000000Z",
+              "import_start_time": "2017-04-04T18:05:34.000000Z",
+              "import_end_time": "2017-04-04T18:05:35.000000Z",
+              "validation_error": ""
+          }
+          ```
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: A single Schema definition.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+    patch:
+      tags:
+      - Schema
+      summary: Update an Existing Schema
+      description: |-
+        Update an existing schema by either adding new columns or updating the Identifier Name.
+
+        The request differs based on whether adding new columns or updating Identifier Name
+        Must only supply either fields or named_identifier (but not both) in the params body.
+        Response will return either fields or named_identifier, depending on which was supplied.
+      parameters:
+      - name: schema-name
+        in: path
+        description: The name of the Schema.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchemaPatch'
+        required: false
+      responses:
+        "200":
+          description: Schema patched. Content is the definition of the modified Schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaPatchResponse'
+            meta:
+              example:
+                code: 200
+            data:
+              example:
+                fields:
+                  existing_field:
+                    data_type: STRING
+                    unique_key: true
+                  new_field:
+                    data_type: STRING
+                named_identifier: valid_named_identifier
+        "400":
+          description: "Validation error. \n\nOne or more values being sent was not\
+            \ in the correct format, or a required value was missing."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: fields
+  /schematype/:
+    get:
+      tags:
+      - Schema
+      summary: List Schema Types
+      description: Gets a list of the available Schema types and their specifications.
+      responses:
+        "200":
+          description: A list of Schema Types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaTypeListResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /schematype/{schema-type}/:
+    get:
+      tags:
+      - Schema
+      summary: Get Schema Type Details
+      description: Gets details for a Schema Type and its specification.
+      parameters:
+      - name: schema-type
+        in: path
+        description: Name of the schema type.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A Schema Type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchemaTypeResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /upload/{schema-name}/:
+    get:
+      tags:
+      - Upload
+      summary: Get Upload History
+      description: |-
+        Returns the most recent uploads for the Schema provided. Can be used for upload history or the view the status of a currently processed upload.
+
+        Uploads will appear once file is completely upload to Monetate. SFTP uploads appear when they are scanned and disappear from the SFTP drop location.
+
+        Uploads are sorted by upload_time in descending order, so the most recent upload will always be first in the list.
+      parameters:
+      - name: schema-name
+        in: path
+        description: The name of the Schema.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A list of file uploads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadListResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /data/example_schema/:
+    get:
+      tags:
+      - Data
+      summary: 'Get Data for example_schema '
+      description: "Get an existing data record within the schema `example_schema`.\n\
+        \nAllows querying of an existing record.  The record ID must be passed as\
+        \ a query parameter, \ne.g. `?id=ABC12345`.  GET requests are intended solely\
+        \ for manual spot-checking of data \nand must not be used in any automated\
+        \ queries, including test suites or health checks. \nAs such, they are strictly\
+        \ rate-limited.  A maximum of 1 GET request per second is permitted."
+      responses:
+        "200":
+          description: The requested record was found in the schema.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/example_schemaDataResponse'
+        "400":
+          description: "Validation error. \n\nOne or more values being sent was not\
+            \ in the correct format, or a required value was missing."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "429":
+          description: |-
+            Too many requests.
+
+            The user has sent too many requests in a given amount of time to a rate-limited endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: data
+    post:
+      tags:
+      - Data
+      summary: 'Post Data for example_schema '
+      description: |-
+        Creates new data records within the schema `example_schema`.
+
+        If your request contains a unique key that matches a record already received by Monetate, the record is updated with the latest data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/example_schemaDataRequest'
+        required: false
+      responses:
+        "201":
+          description: Data was posted for the schema and will be made available for
+            targetting.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/example_schemaDataResponse'
+        "400":
+          description: "Validation error. \n\nOne or more values being sent was not\
+            \ in the correct format, or a required value was missing."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: data
+  /defaultcatalog/:
+    get:
+      tags:
+      - Product Catalog
+      summary: List Account Defaults
+      description: List all account default catalogs for retailer
+      responses:
+        "200":
+          description: A list of default account catalogs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogListResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+    post:
+      tags:
+      - Product Catalog
+      summary: Set Account Default
+      description: Set a default catalog for an account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultAccountCatalog'
+        required: false
+      responses:
+        "201":
+          description: The defaulted product catalog and account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogCreatedResponse'
+            meta:
+              example:
+                code: 201
+            data:
+              example:
+                account: "123"
+                schema: "456"
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: defaultaccountcatalog
+  /bulk-defaultcatalog/:
+    post:
+      tags:
+      - Product Catalog
+      summary: Bulk Set Account Defaults
+      description: Set default catalogs for accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultAccountCatalogBulk'
+        required: false
+      responses:
+        "201":
+          description: A list of the defaulted product catalogs and accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogBulkCreatedResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "404":
+          description: |-
+            Not found.
+
+            The resource you are trying to fetch does not exist, or has been deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: defaultaccountcatalogbulk
+components:
+  schemas:
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: "A URL to the next group of items, if any."
+        previous:
+          type: string
+          description: "A URL to the previous group of items, if any."
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    Schema:
+      required:
+      - fields
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          pattern: "^[A-Za-z][A-Za-z0-9_]*$"
+          type: string
+          description: |-
+            The name of the Schema.
+
+            Schema names must begin with a letter and contain only letters, numbers, hyphens, and the underscore character.
+
+            Maximum length of 64 characters.
+        type:
+          type: string
+          description: The type of this schema.
+          enum:
+          - agil_one
+          - attribute
+          - behavioral_trigger
+          - custom_list
+          - customer_data_privacy
+          - email_metadata
+          - event
+          - inventory
+          - product
+          - product_recommendation
+          - purchase
+        fields:
+          minProperties: 1
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields that define the structure of this Schema.
+        created_date:
+          type: string
+          description: The time the schema was created.
+          format: date-time
+          readOnly: true
+        id:
+          type: integer
+          description: Monetate internal identifier for this schema.
+          readOnly: true
+        named_identifier:
+          type: string
+          description: |2-
+
+            Identifier Name to associate with the schema.
+
+            Identifier Name must be set for the schema to be used.
+      description: |-
+        Representation of a Schema object.  A schema must have a name, and at least one field.
+
+        Schemata for your account must have unique names.  If you are trying to re-create a Schema that already exists, please delete the old one first.
+
+        Within a Schema, fields must have unique names.
+
+        Exactly one field must be designated as the `identifier`.  This field will be used to link to a Person ID for testing and targeting.
+
+        Optionally, one field may be designated as a `unique_key`.  If a Schema defines a unique key, then only one record can exist in your data for a given value of the unique key.  Successive data updates with the same unique key value will replace earlier data updates.  If no unique key is defined, then all data updates will be considered new data and will never replace earlier data.
+      example:
+        name: purchase_event
+        named_identifier: valid_named_identifier
+        type: event
+        fields:
+          purchase_id:
+            data_type: STRING
+            unique_key: true
+          customer_id:
+            data_type: STRING
+            identifier: true
+          purchase_time:
+            data_type: DATETIME
+            event_time: true
+          product_id:
+            data_type: STRING
+          product_category:
+            data_type: STRING
+          product_price:
+            data_type: NUMBER
+    SchemaResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Schema'
+    SchemaPatch:
+      required:
+      - fields
+      type: object
+      properties:
+        fields:
+          minProperties: 1
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields that define the structure of this Schema.
+      description: |2-
+
+        Within a Schema, fields must have unique names.
+
+        Columns passed in the fields property are added to the schema.
+      example:
+        name: catalog
+        type: event
+        fields:
+          new_field:
+            data_type: STRING
+    SchemaNamedIdentifierPatch:
+      required:
+      - named_identifier
+      type: object
+      properties:
+        named_identifier:
+          pattern: ^\w+$
+          type: string
+          description: |2-
+
+            Identifier Name to associate with the schema.
+
+            Identifier Name must be set for the schema to be used.
+      description: |2-
+
+        Identifier Name to associate with the schema.
+
+        Identifier Name must be set for the schema to be used.
+      example:
+        named_identifier: valid_named_identifier
+    SchemaPatchResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaPatch'
+    SchemaListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/Schema'
+    SchemaType:
+      required:
+      - fields
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          pattern: "^[A-Za-z][A-Za-z0-9_]*$"
+          type: string
+          description: The name of the Schema Type.
+        fields:
+          minProperties: 0
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields part of the Schema Type specification.
+      description: Representation of the type of Schema that can be created.
+      example:
+        name: product
+        fields:
+          id:
+            data_type: STRING
+            identifier: true
+            unique_key: true
+            event_time: false
+            required: true
+          title:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          description:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          link:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          image_link:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          additional_image_link:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          mobile_link:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          availability:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          availability_date:
+            data_type: DATETIME
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          expiration_date:
+            data_type: DATETIME
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          price:
+            data_type: NUMBER
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          sale_price:
+            data_type: NUMBER
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          sale_price_effective_date_begin:
+            data_type: DATETIME
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          sale_price_effective_date_end:
+            data_type: DATETIME
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          loyalty_points:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          product_type:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: true
+          brand:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          mpn:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          condition:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          adult:
+            data_type: BOOLEAN
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          multipack:
+            data_type: NUMBER
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          is_bundle:
+            data_type: BOOLEAN
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          energy_efficiency_class:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          age_group:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          color:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          gender:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          material:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          pattern:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          quantity:
+            data_type: NUMBER
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          size:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          size_type:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          item_group_id:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          promotion_id:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping_label:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping_weight:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping_length:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping_height:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          shipping_width:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+          tax:
+            data_type: STRING
+            identifier: false
+            unique_key: false
+            event_time: false
+            required: false
+    SchemaTypeResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaType'
+    SchemaTypeListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/SchemaType'
+    Field:
+      required:
+      - data_type
+      type: object
+      properties:
+        data_type:
+          type: string
+          description: |-
+            The data type for this field.
+
+            Monetate supports five data types: STRING, MULTI_STRING, NUMBER, DATETIME, and BOOLEAN.
+          enum:
+          - STRING
+          - MULTI_STRING
+          - BOOLEAN
+          - DATETIME
+          - NUMBER
+          - GOOGLE_PRODUCT_CATEGORY
+        identifier:
+          type: boolean
+          description: |-
+            Indicates that this field can be linked to a Person ID for testing and targeting.
+
+            The name of this schema.
+
+            Schema names must begin with a letter and contain only letters, numbers, hyphens, and the underscore character.
+
+            `data_type` must be a STRING.
+
+            There must be exactly one Field designated as an identifier in your schema.
+        unique_key:
+          type: boolean
+          description: |-
+            Indicates that this field is a unique key.
+
+            `data_type` must be a STRING.
+
+            Optionally, one field may be designated as a unique key in your schema.
+        event_time:
+          type: boolean
+          description: |-
+            Indicates that this field represents the event time, the time which the event occurred.
+
+            Must be data_type DATETIME.
+
+            For schema's with type==event, there must be exactly 1 field marked as the event time.
+      description: Representation of the properties of a Field within a Schema. Only
+        appears within a Schema object's `fields` property.
+    FileUpload:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the file upload.
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETE
+          - VALIDATION_ERROR
+          - SYSTEM_ERROR
+          - SKIPPED
+          - TIMEOUT_ERROR
+          - MAX_LOAD_ATTEMPTS_REACHED
+        upload_time:
+          type: string
+          description: The time the file was uploaded to Monetate.
+          format: date-time
+          readOnly: true
+        import_start_time:
+          type: string
+          description: The time Monetate began importing (validating) the file.
+          format: date-time
+          readOnly: true
+        import_end_time:
+          type: string
+          description: The time Monetate completed importing (validating) the file.
+          format: date-time
+          readOnly: true
+        validation_errors:
+          type: array
+          description: "The validation error, if any that occurred. Populated when\
+            \ status is VALIDATION_ERROR."
+          readOnly: true
+          items:
+            type: string
+        validation_warnings:
+          type: array
+          description: "The validation warnings, if any occurred. Status may still\
+            \ be COMPLETE."
+          readOnly: true
+          items:
+            type: string
+      description: A file upload attempt for a Schema.
+      example:
+        status: COMPLETE
+        upload_date: 2016-09-30T12:10:45.000145Z
+        import_start_time: 2016-09-30T12:10:45.000145Z
+        import_end_time: 2016-09-30T12:10:45.000145Z
+        validation_errors: ""
+    FileUploadListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/FileUpload'
+    example_schemaData:
+      required:
+      - schema_rows
+      type: object
+      properties:
+        schema_rows:
+          minItems: 0
+          type: array
+          items:
+            required:
+            - example_field1
+            type: object
+            properties:
+              example_field1:
+                type: string
+              example_field2:
+                type: string
+                format: date-time
+              example_field3:
+                type: boolean
+              example_field4:
+                type: number
+              example_field5:
+                type: string
+      description: Representation of the `fields` for this Schema.
+      example:
+        schema_rows:
+        - example_field1: example string
+          example_field2: 2016-09-30T12:10:45.000145Z
+          example_field3: true
+          example_field4: 10.5
+          example_field5: "example,secondexample"
+    example_schemaDataResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/example_schemaData'
+    example_schemaDataRequest:
+      description: Representation of the `fields` for this Schema.
+      allOf:
+      - $ref: '#/components/schemas/example_schemaData'
+      - type: object
+        properties:
+          _sent_time:
+            type: string
+            description: The time the request was sent
+            format: date-time
+    CustomerDataPrivacy:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: |
+            One of PENDING, FOUND, NOT_FOUND.
+          readOnly: true
+        description:
+          type: string
+          description: |
+            Human-readable description of the 'status' field.
+          readOnly: true
+      description: A representation of a CustomerDataPrivacy status.
+      example:
+        status: PENDING
+        description: The customer_id A3001 is pending deletion.
+    CustomerDataPrivacyListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/CustomerDataPrivacy'
+    DefaultAccountCatalog:
+      required:
+      - account
+      - schema
+      type: object
+      properties:
+        account:
+          type: string
+          description: Account ID
+        schema:
+          type: string
+          description: Schema ID
+        schema_name:
+          type: string
+          description: Schema Name
+          readOnly: true
+        account_domain:
+          type: string
+          description: Account Domain
+          readOnly: true
+        account_name:
+          type: string
+          description: Account Name
+          readOnly: true
+      description: An Account ID and a Schema ID to connect together to be a default
+        product catalog
+      example:
+        account: "123"
+        schema: "456"
+    DefaultAccountCatalogBulk:
+      required:
+      - account
+      - schema
+      type: object
+      properties:
+        account:
+          type: string
+          description: Account ID
+        schema:
+          type: string
+          description: Schema ID
+        schema_name:
+          type: string
+          description: Schema Name
+          readOnly: true
+        account_domain:
+          type: string
+          description: Account Domain
+          readOnly: true
+        account_name:
+          type: string
+          description: Account Name
+          readOnly: true
+      description: A List of Account IDs and Schema IDs to connect together to be
+        default product catalogs
+      example:
+        defaultaccountcatalogs:
+        - account: "123"
+          schema: "456"
+        - account: "234"
+          schema: "567"
+    DefaultAccountCatalogListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/DefaultAccountCatalog'
+    DefaultAccountCatalogCreatedResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/DefaultAccountCatalog'
+    DefaultAccountCatalogBulkCreatedResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/DefaultAccountCatalog'
+  responses:
+    "400-Validation-Error":
+      description: "Validation error. \n\nOne or more values being sent was not in\
+        \ the correct format, or a required value was missing."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "401-Unauthorized":
+      description: "Unauthorized. \n\nThe request did not include a token, or the\
+        \ token provided was invalid. Please ensure that your token is correct and\
+        \ that the Authorization header is properly formatted."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "403-Forbidden":
+      description: |-
+        Forbidden.
+
+        The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "404-Not-Found":
+      description: |-
+        Not found.
+
+        The resource you are trying to fetch does not exist, or has been deleted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "429-Too-Many-Requests":
+      description: |-
+        Too many requests.
+
+        The user has sent too many requests in a given amount of time to a rate-limited endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "500-Server-Error":
+      description: |-
+        Unknown error.
+
+        Please try again or contact your account manager for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "200-Schema-List":
+      description: A list of Schema definitions.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaListResponse'
+    "200-Schema":
+      description: A single Schema definition.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaResponse'
+    "200-SchemaType-List":
+      description: A list of Schema Types.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaTypeListResponse'
+    "200-SchemaType":
+      description: A Schema Type.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaTypeResponse'
+    "201-Schema-Created":
+      description: Schema created. Content is the definition of the created Schema.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaResponse'
+        meta:
+          example:
+            code: 201
+        data:
+          example:
+            name: purchase_event
+            named_identifier: valid_named_identifier
+            type: event
+            fields:
+              purchase_id:
+                data_type: STRING
+                unique_key: true
+              customer_id:
+                data_type: STRING
+                identifier: true
+              purchase_time:
+                data_type: DATETIME
+                event_time: true
+              product_id:
+                data_type: STRING
+              product_category:
+                data_type: STRING
+              product_price:
+                data_type: NUMBER
+    "200-Schema-Patched":
+      description: Schema patched. Content is the definition of the modified Schema.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SchemaPatchResponse'
+        meta:
+          example:
+            code: 200
+        data:
+          example:
+            fields:
+              existing_field:
+                data_type: STRING
+                unique_key: true
+              new_field:
+                data_type: STRING
+            named_identifier: valid_named_identifier
+    "200-FileUpload-List":
+      description: A list of file uploads.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FileUploadListResponse'
+    "200-DefaultAccountCatalog-List":
+      description: A list of default account catalogs
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultAccountCatalogListResponse'
+    "201-DefaultAccountCatalog-Created":
+      description: The defaulted product catalog and account
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultAccountCatalogCreatedResponse'
+        meta:
+          example:
+            code: 201
+        data:
+          example:
+            account: "123"
+            schema: "456"
+    "201-DefaultAccountCatalog-Bulk-Created":
+      description: A list of the defaulted product catalogs and accounts
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultAccountCatalogBulkCreatedResponse'
+    "204-Data-Deleted":
+      description: Schema deleted. No content.
+      content: {}
+    "200-CustomerDataPrivacy-List":
+      description: A status report for a specific customer_id.
+      content: {}
+  parameters:
+    schema-name:
+      name: schema-name
+      in: path
+      description: The name of the Schema.
+      required: true
+      schema:
+        type: string
+    schema-type:
+      name: schema-type
+      in: path
+      description: Name of the schema type.
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    Token Authentication:
+      type: apiKey
+      description: |-
+        The Monetate Data API uses Token Authentication, so requests to the Data API must include a valid, active authentication token. Include an `Authorization` header with the value `Token [token_string]` with every request. See [Auth API](https://developer.monetate.com/auth-api) for information on obtaining the *token_string*.
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"

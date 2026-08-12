@@ -1,0 +1,49 @@
+generated: '2026-08-12'
+method: searched
+source: https://developer.monetate.com/data-api/get-data-for-exampleschema
+docs:
+- https://developer.monetate.com/data-api
+- https://developer.monetate.com/engine-api
+limit_count: 0
+note: >-
+  Monetate publishes NO numeric rate limits and NO rate-limit response headers. The only evidence that any
+  throttling exists is a single declared 429 response — "Too many requests. The user has sent too many
+  requests in a given amount of time to a rate-limited endpoint." — on GET /data/{schema_name}/ in the
+  Data API spec. That is the entire published surface: the phrase "a rate-limited endpoint" confirms
+  limits are enforced, while naming neither the window, the ceiling, the scope, nor a Retry-After. The
+  Engine API — the high-volume, per-page-view endpoint where an agent most needs a budget — declares only
+  200 and 400 and says nothing about throttling at all. Searched the Engine API, Data API, Metadata API
+  and Auth API documentation spaces plus the Monetate knowledge base; no limits page exists.
+  A limit_count of 0 here is a real finding about the provider, not an unchecked field.
+limits: []
+response_headers:
+  documented: []
+  observed: []
+  note: >-
+    No X-RateLimit-*, no RateLimit-* (RFC 9239 draft), no Retry-After documented on any operation. Live
+    observation was not possible: api.monetate.net and engine.monetate.net both return HTTP 503 to
+    unauthenticated requests, so no header set could be read from a real response.
+exhaustion:
+  status_code: 429
+  body: >-
+    Standard Monetate envelope — {"meta": {"code": 429, "errors": [...]}, "data": {}} — with untyped
+    error items.
+  retry_after: not documented
+known_quotas:
+- surface: Metadata API list endpoints
+  parameter: page_size
+  value: 1000
+  type: page-size ceiling, not a rate limit
+  source: https://developer.monetate.com/metadata-api/get-interpretable-values-with-the-metadata-api
+  note: >-
+    "1000 is the maximum allowed in one request." This caps response size per call; it is the only
+    published numeric ceiling of any kind on the Monetate APIs.
+x-evidence:
+- fetched: '2026-08-12'
+  url: https://developer.monetate.com/data-api/get-data-for-exampleschema
+  http_status: 200
+  finding: 429 response declared, no numeric limit and no headers
+- fetched: '2026-08-12'
+  url: https://api.monetate.net/
+  http_status: 503
+  finding: anonymous requests are refused, so live headers could not be observed

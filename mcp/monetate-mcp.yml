@@ -1,0 +1,57 @@
+generated: '2026-08-12'
+method: probed
+status: published
+source: https://monetate.com/.well-known/oauth-protected-resource
+note: >-
+  Monetate publishes a real, discoverable MCP server — but on the monetate.com WordPress marketing site,
+  not on the product API. It is served by the AI Engine WordPress plugin (resource_documentation points at
+  https://meowapps.com/ai-engine/), and it is advertised correctly: RFC 8414 authorization-server metadata
+  and RFC 9728 protected-resource metadata both resolve at the site root. An anonymous
+  JSON-RPC tools/list POST returns HTTP 401 with
+  `WWW-Authenticate: Bearer realm="MCP", resource_metadata="https://monetate.com/wp-json/mcp/v1/.well-known/oauth-protected-resource"`,
+  so the live tool list and its inputSchemas require an authenticated OAuth session. NO tool list is
+  recorded here because none could be read — nothing has been guessed or derived. There is no MCP server
+  for the Engine, Data, Metadata or Auth APIs.
+server:
+  name: monetate-website-mcp
+  transport: http
+  url: https://monetate.com/wp-json/mcp/v1/http
+  implementation: AI Engine (WordPress plugin)
+  implementation_docs: https://meowapps.com/ai-engine/
+authorization:
+  gated: true
+  scheme: OAuth 2.1 authorization code + PKCE
+  issuer: https://monetate.com/wp-json/mcp/v1
+  authorization_endpoint: https://monetate.com/wp-json/mcp/v1/oauth/authorize
+  token_endpoint: https://monetate.com/wp-json/mcp/v1/oauth/token
+  registration_endpoint: https://monetate.com/wp-json/mcp/v1/oauth/register
+  revocation_endpoint: https://monetate.com/wp-json/mcp/v1/oauth/revoke
+  dynamic_client_registration: true
+  grant_types:
+  - authorization_code
+  - refresh_token
+  code_challenge_methods:
+  - S256
+  scopes:
+  - mcp
+  bearer_methods:
+  - header
+tools: []
+tools_note: >-
+  Auth-gated. tools/list returned 401 to an anonymous caller; no llms.txt on any Monetate host publishes a
+  tool list either, so not even names/descriptions are available without credentials.
+x-evidence:
+- fetched: '2026-08-12'
+  url: https://monetate.com/.well-known/oauth-authorization-server
+  http_status: 200
+  content_type: application/json
+- fetched: '2026-08-12'
+  url: https://monetate.com/.well-known/oauth-protected-resource
+  http_status: 200
+  content_type: application/json
+- fetched: '2026-08-12'
+  url: https://monetate.com/wp-json/mcp/v1/http
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 401
+  www_authenticate: Bearer realm="MCP", resource_metadata="https://monetate.com/wp-json/mcp/v1/.well-known/oauth-protected-resource"

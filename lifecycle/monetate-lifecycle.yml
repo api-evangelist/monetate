@@ -1,0 +1,105 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://docs.monetate.com/docs/release-notes, https://monetate.statuspage.io,
+  https://developer.monetate.com/sdks/sdk-version-updates, plus the four published OpenAPI/Swagger documents
+versioning:
+  scheme: major version in the URL path
+  current:
+  - api: Engine API
+    version: v1
+    base: https://engine.monetate.net/api/engine/v1
+    spec_version: 1.0.0 (Swagger 2.0 info.version)
+  - api: Data API
+    version: v1
+    base: https://api.monetate.net/api/data/v1/{retailerShortname}/production
+  - api: Metadata API
+    version: v1
+    base: https://api.monetate.net/api/metadata/v1/{retailerShortname}/production
+  - api: Auth API
+    version: v0
+    base: https://api.monetate.net/api/auth/v0
+    note: >-
+      Still on v0 while every API that depends on it is v1 — the token-minting endpoint that all
+      authenticated access flows through carries the least stable version marker in the estate.
+  environment_in_path: true
+  environment_note: >-
+    The Data and Metadata base paths embed both the tenant and the environment —
+    `/{retailerShortname}/production`. Switching environments means rewriting the base URL, not swapping a
+    header or a key.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no notice period, no RFC 8594 Sunset/Deprecation headers, and no `deprecated:
+    true` flag on any operation or field in any of the four published specs. Deprecations ARE happening —
+    they are just announced in prose inside a docs page and never surfaced to a machine.
+  observed_deprecations:
+  - surface: Engine API events
+    items:
+    - monetate:record:EndcapImpressions
+    - monetate:record:EndcapClicks
+    replacement:
+    - monetate:record:RecImpressions
+    - monetate:record:RecClicks
+    source: https://developer.monetate.com/engine-api/recs-actions
+    machine_readable: false
+  - surface: SDK Account object fields
+    items:
+    - account
+    - domain
+    - instance
+    replacement: >-
+      Superseded by the Context-layer approach and the `name`/`shortname`/`engineHostName` fields on the
+      Account object.
+    source: https://developer.monetate.com/sdks/objects
+    machine_readable: false
+  - surface: SDK reporting methods
+    items:
+    - legacy report()
+    - legacy getActions()
+    note: >-
+      "Existing integrations using legacy report method & getActions() method can continue to work but new
+      integrations should use the Context Layer-based approach." Soft deprecation with no removal date.
+    source: https://developer.monetate.com/sdks/sdk-version-updates
+    machine_readable: false
+status_page:
+  url: https://monetate.statuspage.io
+  provider: Atlassian Statuspage
+  machine_readable_api: https://monetate.statuspage.io/api/v2/status.json
+  observed:
+    fetched: '2026-08-12'
+    http_status: 200
+    page_id: j0zxtm9p65sq
+    indicator: none
+    description: All Systems Operational
+    page_updated_at: '2025-11-13T20:21:03.278Z'
+  note: >-
+    A real Statuspage with the standard v2 JSON API (status, components, incidents, scheduled maintenance,
+    summary). The page's own `updated_at` of 2025-11-13 indicates no component/incident change in the nine
+    months before this probe.
+sla:
+  published: false
+  note: No public SLA, uptime commitment or support-response target. Consistent with quote-only enterprise
+    pricing — terms are contractual, not published.
+changelog:
+  platform:
+    url: https://docs.monetate.com/docs/release-notes
+    by_year:
+    - https://docs.monetate.com/docs/2026
+    - https://docs.monetate.com/docs/2025
+    - https://docs.monetate.com/docs/2024
+    archives: https://docs.monetate.com/docs/archives
+  sdk:
+    url: https://developer.monetate.com/sdks/sdk-version-updates
+    last_updated: '2026-06-03'
+  detail: changelog/monetate-changelog.yml
+support_lifecycle:
+  contact: https://monetate.com/contact/
+  knowledge_base: https://docs.monetate.com/docs
+  customer_portal: https://support.monetate.com/
+  customer_portal_note: >-
+    support.monetate.com 302s to a HubSpot membership login (`/_hcms/mem/login`), so the ticketing portal
+    is customer-only. The knowledge base at docs.monetate.com is public.

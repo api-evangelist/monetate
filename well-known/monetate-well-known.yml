@@ -1,0 +1,141 @@
+generated: '2026-08-12'
+method: probed
+source: live GET of /.well-known/* on every apis.yml host and every OpenAPI servers[] host
+note: >-
+  Two real documents are served, both from the monetate.com marketing site and both describing the same
+  thing: a Model Context Protocol server published by the AI Engine WordPress plugin. RFC 8414 OAuth
+  authorization-server metadata and RFC 9728 OAuth protected-resource metadata both return valid JSON.
+  No security.txt, no OpenID Connect discovery, no api-catalog and no agent card were found on any host.
+  The two API hosts (api.monetate.net, engine.monetate.net) answer 503 to unauthenticated GETs on every
+  path including the root, so their /.well-known/ surface could not be read at all.
+hosts:
+- host: https://monetate.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: monetate-oauth-authorization-server.json
+    content_type: application/json
+    spec: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: monetate-oauth-protected-resource.json
+    content_type: application/json
+    spec: RFC 9728
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+- host: https://developer.monetate.com
+  note: >-
+    Archbee-hosted Next.js docs site. Every /.well-known/* path returns a genuine 404 (the SPA does NOT
+    catch-all with a 200), but unrelated paths such as /openapi.json return HTTP 200 with an HTML
+    "Not found" shell — treated as a miss, not a document.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://docs.monetate.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://support.monetate.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://marketer.monetate.net
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.monetate.net
+  note: >-
+    Every path, including /, returns HTTP 503 to an unauthenticated client. The API is real (it is the
+    documented base for the Data, Metadata and Auth APIs) but its /.well-known/ surface is unreadable
+    without credentials.
+  documents:
+  - path: /
+    status: 503
+  - path: /.well-known/security.txt
+    status: 503
+  - path: /.well-known/openid-configuration
+    status: 503
+  - path: /.well-known/oauth-authorization-server
+    status: 503
+  - path: /.well-known/api-catalog
+    status: 503
+  - path: /.well-known/agent-card.json
+    status: 503
+  - path: /.well-known/agent.json
+    status: 503
+- host: https://engine.monetate.net
+  note: Same 503-to-anonymous behaviour as api.monetate.net.
+  documents:
+  - path: /
+    status: 503
+  - path: /.well-known/security.txt
+    status: 503
+  - path: /.well-known/openid-configuration
+    status: 503
+  - path: /.well-known/oauth-authorization-server
+    status: 503
+  - path: /.well-known/api-catalog
+    status: 503
+  - path: /.well-known/agent-card.json
+    status: 503
+  - path: /.well-known/agent.json
+    status: 503
+summary:
+  hosts_probed: 7
+  documents_found: 2
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: true
+  oauth_protected_resource: true
+  api_catalog: false
+  agent_card: false

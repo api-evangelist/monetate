@@ -1,0 +1,74 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Monetate Metadata API
+  version: 1.0.0
+extends: monetate-metadata-api-openapi.yml
+x-generated: '2026-08-12'
+x-method: generated
+x-source: openapi/monetate-metadata-api-openapi.yml
+x-note: Enhancements API Evangelist applies on top of the harvested Monetate Metadata API specification.
+  The original is never mutated; openapi/_original/ holds the verbatim harvest. This specification declares
+  no operationId on 10 of its operations, so the overlay supplies one per operation, derived deterministically
+  from the published summary.
+actions:
+- target: $.info
+  description: Record the API Evangelist provenance and the repo artifacts derived from this specification.
+  update:
+    x-apievangelist-source: https://developer.monetate.com/metadata-api
+    x-apievangelist-artifacts:
+      authentication: authentication/monetate-authentication.yml
+      conventions: conventions/monetate-conventions.yml
+      errors: errors/monetate-problem-types.yml
+      lifecycle: lifecycle/monetate-lifecycle.yml
+      rate_limits: rate-limits/monetate-rate-limits.yml
+      data_model: data-model/monetate-data-model.yml
+- target: $.paths['/metadata/customtarget'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/customtarget,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listCustomTargets
+- target: $.paths['/metadata/customtarget/{customtarget-id}'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/customtarget/{customtarget-id},
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getCustomTargetDetails
+- target: $.paths['/metadata/pageevent'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/pageevent,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listPageEvents
+- target: $.paths['/metadata/pageevent/{pageevent-id}'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/pageevent/{pageevent-id},
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getPageEventDetails
+- target: $.paths['/metadata/variant'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/variant,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listExperienceDetails
+- target: $.paths['/metadata/variant/{variant-id}'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/variant/{variant-id},
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getExperienceDetails
+- target: $.paths['/metadata/experience-summary'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/experience-summary,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listExperienceSummaries
+- target: $.paths['/metadata/experience-summary/{experience-summary-id}'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/experience-summary/{experience-summary-id},
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getExperienceSummaryDetails
+- target: $.paths['/metadata/account'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/account,
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: listAccounts
+- target: $.paths['/metadata/account/{account-id}'].get
+  description: Add a stable operationId. The published specification declares none for GET /metadata/account/{account-id},
+    which leaves every generated client and every agent tool without a stable handle.
+  update:
+    operationId: getAccount

@@ -1,0 +1,80 @@
+generated: '2026-08-12'
+method: generated
+source: >-
+  openapi/monetate-engine-api-openapi.yml, openapi/monetate-auth-api-openapi.yml,
+  openapi/monetate-data-api-openapi.yml, openapi/monetate-metadata-api-openapi.yml,
+  conventions/monetate-conventions.yml, errors/monetate-problem-types.yml,
+  rate-limits/monetate-rate-limits.yml
+note: >-
+  Packaged Agent Skills for the four marquee Monetate flows, one per published API. Every operation
+  referenced exists in a published Monetate specification. Because the Data, Metadata and Auth specs
+  declare NO operationIds, each skill names operations by method+path and cites the operationId supplied
+  by the matching overlay in overlays/ — the overlay is the only place a stable handle exists.
+  Monetate publishes no AGENTS.md and no skills of its own; searched developer.monetate.com,
+  docs.monetate.com and github.com/monetate before generating these.
+skills:
+- name: monetate-mint-api-token
+  file: monetate-mint-api-token.md
+  api: Monetate Auth API
+  summary: >-
+    Sign an RS256/RS384/RS512 JWT, exchange it at GET /api/auth/v0/refresh/ for a bearer token with a
+    600–43200 second TTL, and use it as `Authorization: Token <token>` — including the JWT-vs-Token header
+    trap and why a 403 is permanent.
+  operations:
+  - GET /refresh/
+  prerequisite_for:
+  - monetate-load-customer-data
+  - monetate-resolve-experience-metadata
+- name: monetate-request-decisions
+  file: monetate-request-decisions.md
+  api: Monetate Engine API
+  summary: >-
+    POST a batch of monetate:context:*, monetate:decision:* and monetate:record:* events to
+    /decide/{retailerShortname}, branch on the returned actionType, and report impressions back. Covers
+    identity bootstrapping via monetateId and why record events must never be blind-retried.
+  operations:
+  - POST /decide/{retailerShortname}
+  unauthenticated: true
+- name: monetate-load-customer-data
+  file: monetate-load-customer-data.md
+  api: Monetate Data API
+  summary: >-
+    Declare a Schema from a SchemaType, satisfy the exactly-one-STRING-identifier-field rule, POST rows,
+    poll upload history for COMPLETE, read data back (the one 429-bearing operation in the estate), and
+    set default product catalogs singly or in bulk.
+  operations:
+  - GET /schematype/
+  - GET /schematype/{schema-type}/
+  - GET /schema/
+  - POST /schema/
+  - GET /schema/{schema-name}/
+  - PATCH /schema/{schema-name}/
+  - POST /data/{schema-name}/
+  - GET /data/{schema-name}/
+  - GET /upload/{schema-name}/
+  - GET /defaultcatalog/
+  - POST /defaultcatalog/
+  - POST /bulk-defaultcatalog/
+- name: monetate-resolve-experience-metadata
+  file: monetate-resolve-experience-metadata.md
+  api: Monetate Metadata API
+  summary: >-
+    Bulk-fetch accounts, variants, experience summaries, page events and custom targets at page_size=1000
+    and join locally to turn the integer ids in session-stream and decision data into names — including
+    handling 404s for deleted experiences that old exports still reference.
+  operations:
+  - GET /metadata/account
+  - GET /metadata/account/{account-id}
+  - GET /metadata/variant
+  - GET /metadata/variant/{variant-id}
+  - GET /metadata/experience-summary
+  - GET /metadata/experience-summary/{experience-summary-id}
+  - GET /metadata/pageevent
+  - GET /metadata/pageevent/{pageevent-id}
+  - GET /metadata/customtarget
+  - GET /metadata/customtarget/{customtarget-id}
+coverage:
+  skills: 4
+  apis_covered: 4
+  operations_referenced: 24
+  operations_published: 24

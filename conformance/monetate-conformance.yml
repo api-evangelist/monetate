@@ -1,0 +1,122 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/*.yml, conventions/monetate-conventions.yml, errors/monetate-problem-types.yml,
+  well-known/monetate-well-known.yml, plus a search of monetate.com, trust.monetate.com,
+  docs.monetate.com and developer.monetate.com for compliance claims
+note: >-
+  Assertions below are about cross-cutting standards Monetate's PUBLIC surface does or does not conform to.
+  No security certification of any kind is claimed by the company on any public page — see the
+  `compliance_certifications` block — so no `Compliance` pointer is emitted in apis.yml.
+standards:
+- id: openapi
+  conforms: true
+  evidence: >-
+    Three published OpenAPI 3.0.1 documents (Data API, Metadata API, Auth API) and one Swagger 2.0
+    document (Engine API). All four parse. Harvested from the Archbee doc-upload store behind
+    developer.monetate.com; the provider does not serve them from a stable public URL of its own.
+- id: swagger2
+  conforms: true
+  evidence: >-
+    The Engine API — the flagship, highest-volume Monetate API — is still described in Swagger 2.0
+    (`swagger: "2.0"`, `host`/`basePath`/`schemes`), a specification superseded in 2017. Its file was last
+    revised 2025-09-23.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No OAuth 2.0 anywhere in the product APIs. The only OAuth surface Monetate publishes is RFC 8414
+    metadata for the WordPress MCP server on the marketing site (see mcp/monetate-mcp.yml), which is not
+    part of the product.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every Monetate host probed.
+- id: jwt
+  conforms: true
+  evidence: >-
+    RFC 7519 JSON Web Tokens are the bootstrap credential for the Auth API — RS256/RS384/RS512 signed,
+    with `iat` and `username` claims, verified against a public key uploaded in the platform UI. The spec
+    declares it as `type: apiKey` rather than `type: http, scheme: bearer, bearerFormat: JWT`, so the
+    conformance is real but not machine-discoverable.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are returned as application/json in a custom `{meta:{code,errors[],warnings[]},data:{}}`
+    envelope. No application/problem+json, no `type`/`title`/`status`/`detail`/`instance` members.
+- id: rfc8594
+  conforms: false
+  evidence: >-
+    No Sunset or Deprecation headers, no deprecation policy. Deprecations are announced in docs prose only
+    (see lifecycle/monetate-lifecycle.yml).
+- id: rfc9116
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on monetate.com, developer.monetate.com,
+    docs.monetate.com, support.monetate.com and marketer.monetate.net.
+- id: rfc8414
+  conforms: true
+  evidence: >-
+    https://monetate.com/.well-known/oauth-authorization-server returns valid authorization-server
+    metadata (200, application/json). Scoped to the WordPress MCP server, not the product APIs.
+- id: rfc9728
+  conforms: true
+  evidence: >-
+    https://monetate.com/.well-known/oauth-protected-resource returns valid protected-resource metadata
+    (200, application/json).
+- id: mcp
+  conforms: partial
+  evidence: >-
+    A hosted MCP endpoint exists at https://monetate.com/wp-json/mcp/v1/http with correct OAuth discovery,
+    but tools/list is auth-gated (401) so protocol conformance beyond the discovery layer is unverifiable.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json both 404 on every host probed. No agent card
+    is published, so no AgentCard artifact was authored.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Page-number pagination with `page_size` (max 1000) and server-supplied `meta.next` / `meta.previous`
+    URLs across the Data and Metadata APIs. Consistent, though the `page` parameter used in the provider's
+    own code sample is not declared in the spec.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header and no idempotency semantics documented on any write operation across four
+    APIs.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document and no webhook surface. Monetate's event model runs the other direction — clients
+    PUSH events into the Engine API and the Data API; Monetate does not call back out. Session-level data
+    is retrieved by pulling stream files from download.monetate.net, not by subscription.
+  applicable: false
+- id: graphql
+  conforms: false
+  evidence: No /graphql surface documented or discoverable.
+- id: json_schema
+  conforms: partial
+  evidence: >-
+    Schemas are expressed as OpenAPI 3.0.1 Schema Objects (JSON Schema Draft 00 wire format), not as
+    standalone JSON Schema documents. The Data API additionally exposes a user-defined SCHEMA concept of
+    its own (`/schema/`, `/schematype/`) which is a Monetate-proprietary field-definition format, not JSON
+    Schema.
+compliance_certifications:
+  published: false
+  trust_center: https://trust.monetate.com/
+  trust_center_provider: SafeBase
+  named_certifications: []
+  evidence: >-
+    trust.monetate.com resolves and returns 200, but the trust center carries no completed attestation.
+    Its own text reads "We are working towards compliance certifications", "We are currently working with
+    experts to put together our company policies", and "We will post our grades from public security
+    rating agencies when they become available". No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim
+    appears there or anywhere else on monetate.com. The only regulatory language found on the site is a
+    reference to the EU-US and Swiss-US Privacy Shield Principles in the website privacy policy — a
+    framework invalidated by Schrems II in 2020 and superseded by the EU-US Data Privacy Framework — plus
+    a sub-processor statement at https://monetate.com/sub-processor-statement/.
+  detail: security/monetate-trust-center.yml
+summary:
+  asserted: 18
+  conforms: 7
+  partial: 2
+  does_not_conform: 8
+  not_applicable: 1

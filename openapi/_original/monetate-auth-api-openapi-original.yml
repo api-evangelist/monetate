@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+  title: Monetate Auth API
+  description: |-
+    The Monetate Auth API allows you to manage tokens on a per—user key basis.
+
+    Using this API, you can request a token with a fixed expiration. It's returned in a successful (200) response in the 'token' key-value pair in the 'data' object.
+    
+    The 'data' object also contains information about the token's expiration. The value of 'expires_in' is the number of seconds until the token expires, which always matches the value of 'ttl' that you passed in the request. The value of 'expires_at' is the timestamp in seconds since epoch for when the token expires.
+
+    This token is associated with a public key you uploaded to Monetate and may be revoked by deactivating said key.
+  version: v1
+servers:
+- url: https://api.monetate.net/api/auth/v0
+security:
+- JWTAuthentication: []
+tags:
+- name: Token
+  description: API methods for manipulating tokens.
+paths:
+  /refresh/:
+    get:
+      tags:
+      - Token
+      summary: Refresh a Token
+      description: |-
+        Request to refresh a token for use in token authentication.
+
+        This endpoint has no request body, but requires authentication using a signed JWT. For example, in Python using the PyJWT library:
+
+            import jwt
+            import requests
+            import time
+
+            private_key = "== SECRET RSA KEY =="
+
+            payload = jwt.encode({
+                'username': 'api-xxx-yourname',
+                'iat': time.time()
+            }, private_key, algorithm='RS256')
+
+            authorization = "JWT {}".format(payload)
+            requests.get(refresh_url, headers={'Authorization': authorization})
+
+        The JWT should contain the username associated with the key and the creation time. The private key must be associated with an uploaded, active public key. The JWT must be encoded with one of the following algorithms:
+
+        * `RS256`
+        * `RS384`
+        * `RS512`
+
+        Issuing this request provides a token which is valid until the indicated expiration time. The default time until expiration (of 1 hour) can be manually set by passing a `ttl` query parameter with the request. Valid values are in the inclusive range of 15 minutes to 12 hours.
+
+        Issuing this request does not cause any previously issued tokens to expire, they will continue to function.
+
+        To revoke a token prior to expiration, you must deactivate the public key associated with the token.
+      parameters:
+      - name: ttl
+        in: query
+        description: The number of seconds until the requested token expires.
+        schema:
+          maximum: 43200
+          minimum: 600
+          type: integer
+          default: 3600
+      responses:
+        "200":
+          description: The token was successfully generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefreshResponse'
+        "401":
+          description: "Unauthorized. \n\nThe request did not include a token, or\
+            \ the token provided was invalid. Please ensure that your token is correct\
+            \ and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "403":
+          description: |-
+            Forbidden.
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "500":
+          description: |-
+            Unknown error.
+
+            Please try again or contact your account manager for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        previous:
+          type: string
+          description: "A URL to the previous group of items, if any."
+        next:
+          type: string
+          description: "A URL to the next group of items, if any."
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    TokenRefresh:
+      type: object
+      properties:
+        issued_at:
+          type: number
+          description: "The timestamp, in seconds since epoch, when the token was\
+            \ issued."
+          example: 1481650253.342885
+        token:
+          type: string
+          description: The token to pass to Monetate APIs using token authentication.
+          example: 1.lM45vLVwAc5YUD5dAw.XATBdkXQI3Bf7_043j88ScWrzfkzvWcUGRknzkEK7fU
+        expires_in:
+          type: integer
+          description: "The number seconds until this token expires, always matches\
+            \ the `ttl` you passed when requesting a new token."
+          example: 1000
+        expires_at:
+          type: number
+          description: "The timestamp, in seconds since epoch, when the token will\
+            \ expire."
+          example: 1481650253.342885
+    TokenRefreshResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/TokenRefresh'
+  responses:
+    "400-Validation-Error":
+      description: "Validation error. \n\nOne or more values being sent was not in\
+        \ the correct format, or a required value was missing."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "401-Unauthorized":
+      description: "Unauthorized. \n\nThe request did not include a token, or the\
+        \ token provided was invalid. Please ensure that your token is correct and\
+        \ that the Authorization header is properly formatted."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "403-Forbidden":
+      description: |-
+        Forbidden.
+
+        The request included a token that has been revoked. Please contact your account administrator to generate a new token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "404-Not-Found":
+      description: |-
+        Not found.
+
+        The resource you are trying to fetch does not exist, or has been deleted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "500-Server-Error":
+      description: |-
+        Unknown error.
+
+        Please try again or contact your account manager for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Response'
+    "200-Token-Refresh":
+      description: The token was successfully generated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TokenRefreshResponse'
+  securitySchemes:
+    JWTAuthentication:
+      type: apiKey
+      description: "Requests to this API are signed JWT tokens. For more information\
+        \ on JSON Web Tokens (JWT), see https://jwt.io/introduction/."
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"

@@ -1,0 +1,108 @@
+generated: '2026-08-12'
+method: searched
+source: https://developer.monetate.com/auth-api
+docs:
+- https://developer.monetate.com/auth-api
+- https://developer.monetate.com/auth-api/token
+- https://developer.monetate.com/auth-api/refresh-token
+- https://developer.monetate.com/metadata-api/get-interpretable-values-with-the-metadata-api
+- openapi/monetate-auth-api-openapi.yml
+- openapi/monetate-data-api-openapi.yml
+- openapi/monetate-metadata-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  scopes: false
+  note: >-
+    Two different Authorization header schemes are in play and the specs do not make that obvious. A
+    caller first signs a JWT with an RSA private key and sends `Authorization: JWT <jwt>` to the Auth API;
+    the Auth API returns an opaque bearer token, which is then sent as `Authorization: Token <token>` to
+    the Data API and Metadata API. The Engine API is different again — it is unauthenticated at the
+    transport level and identifies the caller by the retailer shortname in the path plus the account
+    fields in the request body.
+schemes:
+- name: JWTAuthentication
+  api: Monetate Auth API
+  type: apiKey
+  in: header
+  parameter: Authorization
+  value_format: JWT <signed_jwt>
+  description: >-
+    A signed JSON Web Token proves possession of a private key whose public half was uploaded in the
+    Monetate platform (Settings > Sites > API Keys tab). The JWT payload must carry an `iat` claim (Unix
+    timestamp of the request; 60 seconds of clock skew allowed) and a `username` claim matching the API
+    username generated on that API Keys tab.
+  algorithms:
+  - RS256
+  - RS384
+  - RS512
+  credential_provisioning: >-
+    Self-service inside the Monetate platform UI — generate an API key/username on the API Keys tab of the
+    Sites page under Settings, and upload the matching RSA public key. Requires an existing Monetate
+    account; there is no public signup.
+  revocation: Deactivate the public key in the UI; every token issued against it stops working (403).
+  source: openapi/monetate-auth-api-openapi.yml
+- name: TokenAuthentication
+  api: Monetate Metadata API
+  type: apiKey
+  in: header
+  parameter: Authorization
+  value_format: Token <token_string>
+  description: >-
+    Opaque bearer token obtained from GET /api/auth/v0/refresh/. Sent on every Metadata API request.
+  source: openapi/monetate-metadata-api-openapi.yml
+- name: Token Authentication
+  api: Monetate Data API
+  type: apiKey
+  in: header
+  parameter: Authorization
+  value_format: Token <token_string>
+  description: >-
+    Same opaque bearer token as the Metadata API. Note the securityScheme key in the Data API spec
+    contains a space ("Token Authentication") while the Metadata API spec uses "TokenAuthentication" —
+    the same mechanism named two ways across two published specs.
+  source: openapi/monetate-data-api-openapi.yml
+token_flow:
+  step_1:
+    request: GET https://api.monetate.net/api/auth/v0/refresh/?ttl=3600
+    headers:
+      Authorization: JWT <signed_jwt>
+    query:
+      ttl:
+        description: Requested token lifetime in seconds.
+        default: 3600
+        minimum: 600
+        maximum: 43200
+  step_2:
+    response_body_path: data.token
+    also_returns:
+    - data.expires_in
+    - data.expires_at
+    note: >-
+      `expires_in` always equals the requested `ttl`; `expires_at` is seconds since epoch, so a client can
+      pre-emptively refresh rather than waiting for a 401.
+  step_3:
+    request: Any Data API or Metadata API call
+    headers:
+      Authorization: Token <token_string>
+unauthenticated_surfaces:
+- api: Monetate Engine API
+  endpoint: POST https://engine.monetate.net/api/engine/v1/decide/{retailerShortname}
+  note: >-
+    The published Swagger 2.0 document declares no securityDefinitions and no security requirement. The
+    caller is identified by the retailer shortname path parameter and the channel/instance/domain values
+    in the request body. This is deliberate — the endpoint is designed to be called from a browser or a
+    mobile app where no secret can be held — but it means the Engine API's access model is not described
+    in machine-readable form anywhere.
+gaps:
+- >-
+  The Auth API spec declares JWTAuthentication as `type: apiKey` rather than `type: http, scheme: bearer,
+  bearerFormat: JWT`, so tooling cannot tell it is a JWT from the spec alone.
+- No `security` block is applied per-operation in the Engine API spec.
+- No OAuth 2.0, no OpenID Connect, no scopes anywhere in the product APIs. (The only OAuth surface Monetate
+  publishes is on the WordPress marketing site's MCP server — see mcp/monetate-mcp.yml.)

@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Monetate Engine API
+  version: 1.0.0
+extends: monetate-engine-api-openapi.yml
+x-generated: '2026-08-12'
+x-method: generated
+x-source: openapi/monetate-engine-api-openapi.yml
+x-note: 'Enhancements API Evangelist applies on top of the harvested Monetate Engine API specification.
+  The original is never mutated; openapi/_original/ holds the verbatim harvest. This specification already
+  declares operationIds, so the overlay only records provenance. NOTE: this document is Swagger 2.0, not
+  OpenAPI 3.x; the overlay targets its paths object all the same.'
+actions:
+- target: $.info
+  description: Record the API Evangelist provenance and the repo artifacts derived from this specification.
+  update:
+    x-apievangelist-source: https://developer.monetate.com/engine-api
+    x-apievangelist-artifacts:
+      authentication: authentication/monetate-authentication.yml
+      conventions: conventions/monetate-conventions.yml
+      errors: errors/monetate-problem-types.yml
+      lifecycle: lifecycle/monetate-lifecycle.yml
+      rate_limits: rate-limits/monetate-rate-limits.yml
+      data_model: data-model/monetate-data-model.yml

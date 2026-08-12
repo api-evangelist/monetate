@@ -1,0 +1,1781 @@
+swagger: "2.0"
+info:
+  description: |
+      The Monetate Engine API allows clients to request decisions (in terms of actions) when an event occurs.
+  version: "1.0.0"
+  title: Monetate Engine API
+  termsOfService: http://monetate.com/terms/
+  contact:
+    name: api@monetate.com
+host: engine.monetate.net
+basePath: /api/engine/v1
+schemes:
+  - https
+
+# ---------------------------------------------------
+# Endpoints
+# ---------------------------------------------------
+
+paths:
+  /decide/{retailerShortname}:
+    post:
+      tags:
+        - Decision
+      summary: Request Decisions
+      description: |
+        Monetate Decision API
+      operationId: decide
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: retailerShortname
+          in: path
+          description: Shortname of the retailer.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The request containing the events requiring decisioning.
+          required: true
+          schema:
+            $ref: "#/definitions/HttpRequestBody"
+      responses:
+        "200":
+          description: The request was succesful and the payload will include valid actions.
+          schema:
+            $ref: "#/definitions/HttpResponseBody"
+        "400":
+          description: Invalid request.
+
+              The request was either malformated (did not follow this specification), or the data sent was invalid.
+          schema:
+            $ref: "#/definitions/HttpResponseBody"
+
+definitions:
+
+
+# ---------------------------------------------------
+# Events
+# ---------------------------------------------------
+
+  Event:
+    type: object
+    required:
+      - eventType
+    properties:
+      eventType:
+        type: string
+        description: A value that identifies the type of event.
+    discriminator: eventType
+    description: |
+      Parent class for all events, which dictates required fields.
+    example: |
+        {
+            "eventType": "Event"
+        }
+
+  monetate:decision:ServerSideRequest:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+        - requestId
+        properties:
+          account:
+            type: string
+            description: The account ID. Deprecated. Use HttpRequestBody channel.
+          domain:
+            type: string
+            description: The account domain (e.g., fifthlevelfashion.com). Deprecated. Use HttpRequestBody channel.
+          instance:
+            type: string
+            description: The type of instance (e.g., p for production). Deprecated. Use HttpRequestBody channel.
+          requestId:
+             type: string
+             description: A user-defined requestId that will be associated with the decision request.
+    description: |
+      This is a server-side request for decisioning.
+
+      Deprecated. Use [monetate:decision:DecisionRequest](https://developer.monetate.com/engine-api/monetate-decision-decisionrequest).
+    example: |
+      {
+         "eventType": "monetate:decision:ServerSideRequest",
+         "requestId": "12345"
+      }
+
+  monetate:decision:DecisionRequest:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - requestId
+        properties:
+          account:
+            type: string
+            description: The account ID. Deprecated. Use HttpRequestBody channel.
+          domain:
+            type: string
+            description: The account domain (e.g., fifthlevelfashion.com). Deprecated. Use HttpRequestBody channel.
+          instance:
+            type: string
+            description: The type of instance (e.g., p for production). Deprecated. Use HttpRequestBody channel.
+          requestId:
+             type: string
+             description: A user-defined requestId that will be associated with the decision request.
+          manageImpressions:
+            type: boolean
+            description: Deprecated. Use action-level managed impressions instead.
+          includeReporting:
+            type: boolean
+            description: If includeReporting is set to true, each action returned in the response will include
+                         an impressionReporting attribute, which contains reporting information about the
+                         experience and variant associated with the action.
+          filters:
+            description: Deprecated. Use "slots" instead.
+            type: array
+            items:
+              type: string
+          slots:
+            description: Slot names to filter against. Only matching actions will be evaluated.
+            type: array
+            items:
+              type: string
+          actionTypes:
+            description: Action types to filter against. Only matching actions will be evaluated.
+            type: array
+            items:
+              type: string
+    description: |
+      Used to make a request for decisioning.
+    example: |
+      {
+         "eventType": "monetate:decision:DecisionRequest",
+         "requestId": "12345",
+      }
+
+  monetate:decision:PersonalizationFlagRequest:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - requestId
+        properties:
+          requestId:
+             type: string
+             description: A user-defined requestId that will be associated with the personalization flag request.
+          account:
+            type: string
+            description: The account ID. Deprecated. Use HttpRequestBody channel.
+          domain:
+            type: string
+            description: The account domain (e.g., fifthlevelfashion.com). Deprecated. Use HttpRequestBody channel.
+          instance:
+            type: string
+            description: The type of instance (e.g., p for production). Deprecated. Use HttpRequestBody channel.
+          actionTypes:
+            description: Action types to filter against. Only matching actions will be evaluated.
+            type: array
+            items:
+              type: string
+    description: |
+      Used to make a request for personalization flags.
+    example: |
+      {
+         "eventType": "monetate:decision:PersonalizationFlagRequest",
+         "requestId": "12345"
+      }
+
+  monetate:record:PageEvents:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - pageEvents
+        properties:
+          pageEvents:
+            description: An array of page events.
+            type: array
+            items:
+              type: string
+    description: |
+      Used to record when one or more page events have occurred.
+      Each string in the array should be a key that was defined in the Monetate UI when the page event was created.
+    example: |
+      {
+         "eventType": "monetate:record:PageEvents",
+         "pageEvents": ["myEvent"]
+      }
+
+  monetate:record:Impressions:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - impressionIds
+        properties:
+          impressionIds:
+            description: A list of impression identifier strings.
+            type: array
+            items:
+              type: string
+    description:
+      Used to record impressions. Each impressionId is a token that is
+      associated with an action from an earlier request.
+    example: |
+      {
+         "eventType": "monetate:record:Impressions",
+         "impressionIds": [
+            "3.MS4xLjE1MTQ4MDg5MDAuMDAwMDAw"
+         ]
+      }
+
+  EndcapEvent:
+    type: object
+    properties:
+      actionId:
+        description: The action ID associated with the endcap event.
+        type: string
+      products:
+        type: array
+        description: The list of products and product-specific details.
+        items:
+          $ref: '#/definitions/EndcapProduct'
+    required:
+        - actionId
+        - products
+    description: |
+      Represents products and actionId interacted with.
+    example: |
+      {
+         "actionId": "1234567",
+         "products": [
+           {
+             "productId": "product72",
+             "sku": "product72-large-green",
+             "slotIndex": 0,
+             "recsetId": 4589,
+           }
+         ]
+      }
+
+  monetate:record:EndcapClicks:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - endcapClicks
+        properties:
+          endcapClicks:
+            type: array
+            description: Array of endcap product clicks to be recorded.
+            items:
+              $ref: '#/definitions/EndcapEvent'
+    description:
+      Used to record endcap clicks. A click is recorded for each product sent.
+      
+      Deprecated. Use [monetate:record:RecClicks](https://developer.monetate.com/engine-api/monetate-record-RecClicks).
+    example: |
+      {
+        "eventType": "monetate:record:EndcapClicks",
+        "endcapClicks": [
+          {
+            "actionId": "1234567",
+            "products": [
+              {
+                "productId": "product72",
+                "sku": "product72-large-green",
+                "slotIndex": 0,
+                "recsetId": 4589,
+              }
+            ]
+          }
+        ]
+      }
+
+  monetate:record:EndcapImpressions:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - endcapImpressions
+        properties:
+          endcapImpressions:
+            type: array
+            description: Array of endcap product impressions to be recorded.
+            items:
+              $ref: '#/definitions/EndcapEvent'
+    description:
+      Used to record endcap impressions. An impression is recorded for each product sent.
+      
+      Deprecated. Use [monetate:record:RecImpressions](https://developer.monetate.com/engine-api/monetate-record-recimpressions).
+    example: |
+      {
+        "eventType": "monetate:record:EndcapImpressions",
+        "endcapImpressions": [
+          {
+            "actionId": "1234567",
+            "products": [
+              {
+                "productId": "product72",
+                "sku": "product72-large-green",
+                "slotIndex": 0,
+                "recsetId": 4589,
+              },
+              {
+                "productId": "product43",
+                "sku": "product43-medium-striped"
+                "slotIndex": 1,
+                "recsetId": 4588,
+              },
+              {
+                "productId": "product57"
+                "slotIndex": 2,
+                "recsetId": 4589,
+              }
+            ]
+          }
+        ]
+      }
+
+  monetate:record:RecClicks:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - recClicks
+        properties:
+          recClicks:
+            type: array
+            description: Array of rec tokens to be recorded.
+            items:
+              type: string
+    description:
+      Used to record rec clicks. A click is recorded for each token sent.
+    example: |
+      {
+        "eventType": "monetate:record:RecClicks",
+        "recClicks": ["rt.1.xxx", "rt.1.yyy"]
+      }
+
+  monetate:record:RecImpressions:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - recImpressions
+        properties:
+          recImpressions:
+            type: array
+            description: Array of rec tokens to be recorded.
+            items:
+              type: string
+    description:
+      Used to record rec impressions. An impression is recorded for each token sent.
+    example: |
+      {
+        "eventType": "monetate:record:RecImpressions",
+        "recImpressions": ["rt.1.xxx", "rt.1.yyy"]
+      }
+
+  monetate:context:CustomVariables:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - customVariables
+        properties:
+          customVariables:
+            description: An array of custom variables.
+            type: array
+            items:
+              $ref: "#/definitions/CustomVariables"
+    description: |
+      Used to pass in values of custom variables, which can be used for targeting.
+    example: |
+      {
+         "eventType": "monetate:context:CustomVariables",
+         "customVariables": [{
+            "variable": "favoriteTeam",
+            "value": "Blue Hens"
+         }]
+      }
+
+  CustomVariables:
+    type: object
+    required:
+      - variable
+      - value
+    properties:
+      variable:
+        type: string
+        description: The name of the custom variable.
+      value:
+        # nullable: true
+        description: The value of the custom variable.
+    description: |
+      A custom variable and its value. Value can be any type, including null.
+    example: |
+      {
+         "variable": "genderIfKnown",
+         "value": null
+      }
+
+  monetate:context:UserAgent:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - userAgent
+        properties:
+          userAgent:
+             type: string
+             description: The user-agent header value.
+    description: |
+      This is the user-agent header from the client originating the request.
+    example: |
+      {
+         "eventType": "monetate:context:UserAgent",
+         "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en) AppleWebKit/522.11 (KHTML, like Gecko) Safari/3.0.2"
+      }
+
+  monetate:context:Language:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - language
+        properties:
+          language:
+             type: string
+             description: A language tag, in the format used in the Accept-Language HTTP header.
+    description: |
+      The visitor's language preference, if known. Used for experience targeting.
+    example: |
+      {
+         "eventType": "monetate:context:Language",
+         "language": "en-US"
+      }
+
+  monetate:context:IpAddress:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - ipAddress
+        properties:
+          ipAddress:
+             type: string
+             description: The IP address.
+    description: |
+      This is the IP address of the visitor.
+    example: |
+      {
+         "eventType": "monetate:context:IpAddress",
+         "ipAddress": "198.51.100.0"
+      }
+
+  monetate:context:PageView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        properties:
+          pageType:
+            type: string
+            description: The type of page viewed (e.g., "index" or "home" or "pdp").
+          path:
+            type: string
+            description: |
+              The path portion of the URL for the page viewed.
+              Must be included if "url" property is not included.
+          url:
+            type: string
+            description: |
+              The complete URL for the page viewed.
+              Must be included if "path" property is not included.
+          categories:
+              description: |
+                Categories to filter against.
+                Only matching actions will be evaluated.
+              type: array
+              items:
+                  type: string
+          breadcrumbs:
+              description: |
+                Breadcrumbs to filter against.
+                Only matching actions will be evaluated.
+              type: array
+              items:
+                  type: string
+    description: |
+      Used to communicate a page view.
+    example: |
+      {
+         "eventType": "monetate:context:PageView",
+         "url": "http://www.monetate.com/index.html",
+         "pageType": "home",
+         "categories": ["category"],
+         "breadcrumbs": ["breadcrumb"]
+      }
+
+  monetate:context:Cart:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - cartLines
+        properties:
+          cartLines:
+            description: The cart lines that comprise the cart. Unlike the
+                         monetate:context:AddToCart event, which adds items
+                         to an existing cart, this 
+                         cart in its entirety.
+            type: array
+            items:
+              $ref: "#/definitions/CartLine"
+    description: |
+      Used to communicate the contents of the cart. Must include line items.
+    example: |
+      {
+         "eventType": "monetate:context:Cart",
+         "cartLines": [{
+           "sku": "SKU1",
+           "pid": "PID1",
+           "quantity": 2,
+           "currency": "USD",
+           "value": "24.00"
+          }]
+      }
+
+  monetate:context:AddToCart:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - cartLines
+        properties:
+          cartLines:
+            description: The cart lines that should be added to the cart.
+                         Unlike the monetate:context:Cart event, which
+                         represent the current cart in its entirety, this
+                         event only adds items to an existing cart.
+            type: array
+            items:
+              $ref: "#/definitions/CartLine"
+    description: |
+      Used to communicate the contents of the cart. Must include line items.
+    example: |
+      {
+         "eventType": "monetate:context:AddToCart",
+         "cartLines": [{
+           "sku": "SKU1",
+           "pid": "PID1",
+           "quantity": 2,
+           "currency": "USD",
+           "value": "24.00"
+          }]
+      }
+
+  CartLine:
+    type: object
+    required:
+      - sku
+      - pid
+      - quantity
+      - currency
+      - value
+    properties:
+      sku:
+        type: string
+        description: The unique identifier for the product.
+      pid:
+        type: string
+        description: The parent identifier for a related set of SKUs.
+      quantity:
+        type: integer
+        description: The number of products matching this SKU that are in the cart.
+      currency:
+        type: string
+        description: The currency of the item value.
+      value:
+        type: string
+        description: The total value of the items.
+        pattern: '^(\d{1,9})?(\.\d{1,2})?$'
+    description: |
+      Represents an item in a cart.
+    example: |
+     {
+         "sku": "SKU1",
+         "pid": "PID1"
+         "quantity": 2,
+         "currency": "USD",
+         "value": "24.00"
+      }
+
+  monetate:context:Purchase:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - purchaseId
+          - purchaseLines
+        properties:
+          account:
+            type: string
+            description: The account ID. Deprecated. Use HttpRequestBody channel.
+          domain:
+            type: string
+            description: The account domain (e.g., fifthlevelfashion.com). Deprecated. Use HttpRequestBody channel.
+          instance:
+            type: string
+            description: The type of instance (e.g., p for production). Deprecated. Use HttpRequestBody channel.
+          purchaseId:
+            type: string
+            description: Unique identifier for the purchase.
+          purchaseLines:
+            description: The purchase lines defining the contents of the purchase.
+            type: array
+            items:
+              $ref: "#/definitions/PurchaseLine"
+    description: |
+      Used to communicate a purchase. Must include line items.
+    example: |
+      {
+         "eventType": "monetate:context:Purchase",
+         "purchaseId": "1b2c3d",
+         "purchaseLines": [{
+           "sku": "SKU1",
+           "pid": "PID1"
+           "quantity": 2,
+           "currency": "USD",
+           "value": "24.00"
+          }]
+      }
+
+  PurchaseLine:
+    type: object
+    required:
+      - sku
+      - pid
+      - quantity
+      - currency
+      - value
+    properties:
+      sku:
+        type: string
+        description: The unique identifier for the product.
+      pid:
+        type: string
+        description: The parent identifier for a related set of SKUs.
+      quantity:
+        type: integer
+        description: The number of items purchased.
+      currency:
+        type: string
+        description: The currency of the purchase value.
+      value:
+        type: string
+        description: The total value of the items.
+        pattern: '^(\d{1,9})?(\.\d{1,2})?$'
+    description: |
+      Represents an item in a purchase.
+    example: |
+     {
+         "sku": "SKU1",
+         "pid": "PID1"
+         "quantity": 2,
+         "currency": "USD",
+         "value": "24.00"
+      }
+
+  monetate:context:Metadata:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - metadata
+        properties:
+          metadata:
+            type: object
+            description: Arbitrary additional custom data to be sent for action.
+    description: |
+      Used to communicate additional metadata that might be needed for actioning.
+    example: |
+      {
+         "eventType": "monetate:context:Metadata",
+         "metadata": {
+            "language": "en-GB"
+         }
+      }
+
+  monetate:context:ProductView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - products
+        properties:
+          products:
+            type: array
+            description: The list of products viewed on a product detail page.
+            items:
+              type: string
+    description: |
+      Used to communicate product views.
+
+      Deprecated. Use [monetate:context:ProductDetailView](https://developer.monetate.com/engine-api/monetate-context-productdetailview).
+    example: |
+      {
+         "eventType": "monetate:context:ProductView",
+         "products": ["product72", "product43", "product42"]
+      }
+
+  monetate:context:ProductDetailView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - products
+        properties:
+          products:
+            type: array
+            description: The list of products and product-specific details being viewed.
+            items:
+              $ref: '#/definitions/Product'
+    description: |
+      Used to communicate product views.
+    example: |
+      {
+        "eventType": "monetate:context:ProductDetailView",
+        "products": [
+          {
+            "productId": "product72",
+            "sku": "product72-large-green",
+          },
+          {
+            "productId": "product43",
+            "sku": "product43-medium-striped"
+          },
+          {
+            "productId": "product57"
+          }
+        ]
+      }
+
+  monetate:context:ContentView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - items
+        properties:
+          items:
+            type: array
+            description: The list of contents viewed.
+            items:
+              $ref: '#/definitions/Content'
+    description: |
+      Used to communicate content views.
+    example: |
+      {
+         "eventType": "monetate:context:ContentView",
+         "items": [
+          {
+            "contentType": "article",
+            "id": "content72",
+            "itemGroupId": "content72"
+          },
+          {
+            "contentType": "video",
+            "id": "content43",
+            "itemGroupId": "content43"
+          }
+        ]
+      }
+
+  Product:
+    type: object
+    properties:
+      productId:
+        type: string
+        description: The product ID.
+      sku:
+        type: string
+        description: The unique identifier for the product.
+    required:
+      - productId
+    description: |
+      Represents an item.
+    example: |
+      {
+        "productId": "product72",
+        "sku": "product72-large-green",
+      }
+
+  Content:
+    type: object
+    properties:
+      contentType:
+        type: string
+        description: A value that identifies the type of content.
+      id:
+        type: string
+        description: The unique identifier for the content item.
+      itemGroupId:
+        type: string
+        description: An optional identifier that links different versions of the same content.
+    required:
+      - contentType
+      - id
+    description: |
+      Represents an item.
+    example: |
+      {
+        "contentType": "content11-image",
+        "id": "content11",
+        "itemGroupId": "content11"
+      }
+
+  EndcapProduct:
+    type: object
+    properties:
+      productId:
+        type: string
+        description: The product ID.
+      sku:
+        type: string
+        description: The unique identifier for the product.
+      slotIndex:
+        type: integer
+        description: The index of the recommendation in the list of recommended products.
+      recsetId:
+        type: integer
+        description: The ID of the recommendation set that recommended this item.
+    required:
+      - productId
+    description: |
+      Represents an item that was recommended. The slotIndex/recsetId are used for reporting and for improving models.
+    example: |
+        {
+          "productId": "product72",
+          "sku": "product72-large-green",
+          "slotIndex": 0,
+          "recsetId": 4589,
+        }
+
+  monetate:context:ProductThumbnailView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - products
+        properties:
+          products:
+            type: array
+            description: The list of products thumbnails viewed on a product listing page.
+            items:
+              type: string
+    description: |
+      Used to communicate product thumbnail views.
+    example: |
+      {
+         "eventType": "monetate:context:ProductThumbnailView",
+         "products": ["product72", "product43", "product42"]
+      }
+
+  monetate:context:ProductThumbnailSkuView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - productSkus
+        properties:
+          productSkus:
+            type: array
+            description: The list of SKU-specific details being viewed.
+            items:
+              type: string
+    description: |
+      Used to communicate product SKU thumbnail views.
+    example: |
+      {
+        "eventType": "monetate:context:ProductThumbnailSkuView",
+        "productSkus": ["product72_a", "product43_b", "product42_c"]
+      }
+
+  monetate:context:SearchView:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        properties:
+          searchTerm:
+            type: string
+            description: |
+              What the user searched for. This can be something such as "black shoes", a category such as "clothing", or a product ID such as "123abc". Defaults to an empty string.
+          searchType:
+            type: string
+            description: |
+              The type of search. Should be "site" for normal textual site searches. Should be "category" when searching by
+              category (e.g., category links on home page). Defaults to "site".
+          searchTermType:
+            type: string
+            description: |
+              The type for the search term. Should be "text" for searches by category and normal site searches. Should be "product_id" when searching by product ID. Defaults to "text".
+          searchActionId:
+            type: string
+            description: |
+              The ID of the action, if this search was provided by a Monetate search action. Defaults to "0". Should only be
+              passed if search is being provided by Monetate.
+              
+              NOTE: In the future, search results may be provided by the track API. In such a case, this parameter should become unnecessary.
+    description: |
+      Used to communicate search events from the client's own search functionality for Monetate to record and use for the [**On-site search terms**](https://docs.monetate.com/docs/configure-on-site-search-terms-target) WHO target. Use the [Personalized Search API](https://developer.monetate.com/personalized-search) for Monetate's search feature.
+    example: |
+      {
+          "eventType": "monetate:context:SearchView",
+          "searchTerm":"foo",
+          "searchType":"site",
+          "searchTermType":"text",
+          "searchActionId":"1"
+      }
+
+  monetate:context:Referrer:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - referrer
+        properties:
+          referrer:
+             type: string
+             description: The referring URL.
+    description: |
+      This is the referring URL of the visitor.
+    example: |
+      {
+         "eventType": "monetate:context:Referrer",
+         "referrer": "http://www.example.com"
+      }
+
+  monetate:context:Coordinates:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - latitude
+          - longitude
+        properties:
+          latitude:
+             type: string
+             description: Device latitude.
+          longitude:
+             type: string
+             description: Device longitude.
+    description: |
+      This is the latitude and longitude provide by the device.
+    example: |
+      {
+         "eventType": "monetate:context:Coordinates",
+         "latitude": "49.566667",
+         "longitude": "10.883333"
+
+  monetate:context:ScreenSize:
+    allOf:
+      - $ref: '#/definitions/Event'
+      - type: object
+        required:
+          - height
+          - width
+        properties:
+          height:
+             type: integer
+             description: Screen height in pixels.
+          width:
+             type: integer
+             description: Screen width in pixels.
+    description: |
+      This visitor's screen size, height, and width in pixels.
+    example: |
+      {
+         "eventType": "monetate:context:ScreenSize",
+         "height": 762,
+         "width": 1024
+      }
+
+# ---------------------------------------------------
+# Actions
+# ---------------------------------------------------
+  Action:
+    type: object
+    required:
+      - actionType
+    properties:
+      actionType:
+        type: string
+        description: The value that identifies the type of action.
+      impressionId:
+        type: string
+        description: A token to be used for recording managed impressions.
+      impressionReporting:
+        description: This array identifies the experience and variant associated with the action.
+                     It's included for each action if the "includeReporting" option
+                     is set to true on the DecisionRequest event.
+        type: array
+        items:
+          $ref: "#/definitions/ImpressionReporting"
+    discriminator: actionType
+    description: |
+      Parent class for all actions, which dictates required field.
+    example: |
+        {
+            "actionType": "Action"
+        }
+
+  ImpressionReporting:
+    type: object
+    required:
+      - experience_id
+      - experience_label
+      - experience_name
+      - variant_label
+      - is_control
+      - control_allocation
+      - experience_type
+      - has_targets
+      - tags
+    properties:
+      experience_id:
+        type: integer
+        description: The unique identifier for the experience associated with the action.
+      experience_label:
+        type: string
+        description: A static reporting label, set at experience activation, based on experience name.
+      experience_name:
+        type: string
+        description: The title of the experience associated with the action.
+      variant_label:
+        type: string
+        description: The name of the variant associated with the action.
+      is_control:
+        type: boolean
+        description: Whether the user was assigned to a control group for this action.
+      control_allocation:
+        # nullable: true
+        description: A value from 0.0 to 1.0 representing the percentage of traffic allocated to the control group.
+      experience_type:
+        type: string
+        description: The type of experience (e.g., "100% Experience" or "Majority Fit").
+      has_targets:
+        type: boolean
+        description: Indicates whether there are any WHO targets associated with the experience.
+      tags:
+        type: array
+        items:
+            type: string
+        description: An array containing the tag names associated to the experience.
+    description: |
+      Identifies the experience and variant associated with the action.
+    example: |
+      {
+         "experience_id": 1,
+         "experience_label": "Homepage Hero Replacement"
+         "variant_label": "New Arrivals",
+         "is_control": False,
+         "control_allocation": 0.50,
+         "experience_type": "Standard Test",
+         "has_targets": False,
+         "tags": ["Default"]
+      }
+
+  monetate:action:OpenAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - data
+        # NB: properties:
+    description: |
+      This action passes opaque data back to the client.
+    example: |
+      {
+        "data": "opaque data",
+        "actionType": "monetate:action:OpenAction"
+      }
+
+
+  monetate:action:NoAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+    description: |
+      When includeReporting=true, this action is passed down to indicate that the user was assigned to the control condition of an Automated Personalization experience or Dynamic Testing experience.
+    example: |
+      {
+        "actionType": "monetate:action:NoAction"
+      }
+
+  monetate:action:DataCollection:
+    allOf:
+      - $ref: '#/definitions/Action'
+    description: |
+      Used for A/A tests and other data-collection scenarios for which no visible action should be shown to the user.
+    example: |
+      {
+        "actionType": "monetate:action:DataCollection"
+      }
+
+  monetate:action:CmsAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - data
+          - endpoint
+        properties:
+          data:
+            type: object
+            description: The CMS content.
+          endpoint:
+            type: string
+            description: The CMS endpoint that was queried.
+          cache_headers:
+            type: object
+            description: |
+              Headers returned from CMS endpoint to Monetate's caching server.
+    description: |
+      This action fetches data from a CMS, transforms it, and returns the transformed data.
+    example: |
+      {
+        "data": {
+          "cms": "tranformed data"
+        },
+        "endpoint": "http://www.example.com/cms/homepage"
+        "cache_headers": {
+            "X-Cache-Status": HIT"
+        },
+        "actionType": "monetate:action:CmsAction"
+      }
+
+  monetate:action:ContentstackCMSAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - data
+          - endpoint
+        # NB: properties:
+    description: |
+      This action fetches data from Contentstack CMS, transforms it, and returns the transformed data.
+    example: |
+      {
+        "data": {
+          "cms": "tranformed data"
+        },
+        "endpoint": "https://API_ENDPOINT/content_types/example/entries/blt064f4bff60920c76?environment=test"
+        "actionType": "monetate:action:ContentstackCMSAction"
+      }
+
+  monetate:action:ContentstackRedirect:
+     allOf:
+       - $ref: '#/definitions/Action'
+       - type: object
+         required:
+           - data
+           - endpoint
+         # NB: properties:
+     description: |
+       This action redirects a request to Contentstack CMS, fetches data from Contentstack CMS based on the new URL, and returns
+     example: |
+       {
+         "data": {
+           "cms": "tranformed data"
+         },
+         "endpoint": "https://API_ENDPOINT/content_types/example/entries/blt064f4bff60920c76?environment=test"
+         "actionType": "monetate:action:ContentstackRedirect"
+       }
+
+  monetate:action:ApiAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+      # NB: - type: object
+        # NB: required:
+        # NB: properties:
+    description: |
+      This action fetches data from an endpoint, transforms it, and returns the transformed data.
+    example: |
+      {
+        "data": "tranformed data",
+        "actionType": "monetate:action:ApiAction"
+      }
+
+  monetate:action:GlobalApiAction:
+    allOf:
+      - $ref: '#/definitions/Action'
+      # NB: - type: object
+        # NB: required:
+        # NB: properties:
+    description: |
+      This action fetches data from an endpoint, transforms it, and returns the transformed data. This works similarly to the [apiAction response](https://developer.monetate.com/engine-api/monetate-action-apiaction) but will return additional context in the "json" field.
+
+      The json field holds context on the match conditions in the experience (for example, a product ID list).
+    example: |
+      {
+        "data": "tranformed data",
+        "json": {"foo": "bar"},
+        "actionType": "monetate:action:GlobalApiAction"
+      }
+
+  monetate:action:SocialProofDataV2:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        # NB: required:
+        properties:
+            socialProofData:
+                $ref: "#/definitions/SocialProofData"
+            component:
+                type: string
+                description: |
+                    The region or component with which this action is associated (for example, CSS selector, component name, component ID).
+            message:
+                description: |
+                    The HTML to be inserted.
+                    The message data will be presented exactly as configured in the action. You will need to substitute product counts and other data using the information in the `socialProofData` property. Monetate suggests using a template variable placeholder in your message, such as `{{count}}`.
+                $ref: "#/definitions/SocialProofMessage"
+    description: |
+        Returns Social Proof data in Omnichannel integrations.
+    example: |
+        {
+           "actionType":"monetate:action:SocialProofDataV2",
+           "socialProofData":{
+              "proofType":"cart",
+              "lookbackMinutes":180,
+              "products":[
+                 {
+                    "productId":"pid1",
+                    "count":10
+                 },
+                 {
+                    "productId":"pid2",
+                    "count":20
+                 }
+              ]
+           },
+           "component":".product-detail",
+           "message":{
+              "type": "html"
+              "href":"https:/sb.monetate.net/img/1/12345678.html",
+              "data":"<div>foo</div>"
+           }
+        }
+
+  monetate:action:OmnichannelHtml:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - html
+        properties:
+          html:
+            type: string
+            description: The markup to be inserted.
+          selector:
+            type: string
+            description: The selector specifying the insertion point.
+    description: |
+      This is the action to insert HTML.
+    example: |
+      {
+        "html": "<q>carpe diem</q>",
+        "selector": "div.main",
+        "actionType": "monetate:action:OmnichannelHtml"
+      }
+
+  monetate:action:DynamicHtml:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - values
+        properties:
+          html:
+            type: string
+            description: |
+              The HTML template as an inline string, including placeholders for dynamic values. This `html` property is returned when the HTML template size is smaller than 1 KB. When the `html` property is present, the `html_ref` property will not be present.
+          html_ref:
+            type: string
+            description: |
+              A reference to a URL where the HTML template can be accessed as JSONP.
+              The `html_ref` property is returned when the HTML template size is 1 KB or larger. This facilitates caching of larger payloads.
+              When an `html_ref` property is present, the `html` property will not be present.
+          values:
+            type: object
+            description: The dynamic values that can be used to fill the HTML template.
+    description: |
+      This action returns an HTML template configured with placeholder values,
+      along with the relevant values for the user, determined at request time.
+    example: |
+      {
+        "actionType": "monetate:action:DynamicHtml",
+        "html": "<p>Your city is {{ city }} and your country is {{ country }}.</p>",
+        "values": {
+          "city": "New York",
+          "country": "United States"
+        }
+      },
+      {
+        "actionType": "monetate:action:DynamicHtml",
+        "html_ref": "https://example.invalid/img/1/p/12345/67890.htm/callback",
+        "values": {
+          "city": "New York",
+          "country": "United States"
+        }
+      }
+
+  monetate:action:OmnichannelJson:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - json
+        properties:
+          component:
+            description: The component the action is associated with.
+          json:
+            type: object
+            description: The JSON to be returned.
+    description: |
+      This is the action to insert JSON.
+    example: |
+      {
+        "actionType": "monetate:action:OmnichannelJson"
+        "component": "HomepageHero",
+        "json": {"replacementImage": "example.jpg"},
+      }
+
+  monetate:action:OmnichannelRedirect:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - url
+        properties:
+          url:
+            type: string
+            description: The URL to which the visitor should be redirected.
+    description: |
+      Allows Omnichannel full-page redirects.
+    example: |
+      {
+        "actionType": "monetate:action:OmnichannelRedirect",
+        "url": "http://www.example.com/redirect/path/index.html",
+      }
+
+  monetate:action:OmnichannelRecommendation:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - items
+        properties:
+          items:
+            type: array
+            items:
+              type: object
+            description: The list of products.
+    description: |
+      Allows Omnichannel recommendations.
+    example: |
+      {
+        "actionType": "monetate:action:OmnichannelRecommendation",
+        "items": [
+            {
+                "id": "sku1",
+                "title": "Shoes",
+                "description": "example description",
+                "link": "http://www.example.com/1/",
+                "imageLink": "http://www.example.com/1/image",
+                "price": 10.5,
+                "itemGroupId": "productId1",
+                "productType": "Clothing",
+                "salePrice": "5",
+            },
+            {
+                "id": "sku2",
+                "title": "Pants",
+                "description": "example description",
+                "link": "http://www.example.com/2/",
+                "imageLink": "http://www.example.com/2/image",
+                "price": 200.0,
+                "itemGroupId": "productId2",
+                "productType": "Clothing",
+                "salePrice": "10",
+            }
+        ]
+      }
+
+  monetate:action:OmniChannelImageBadging:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - image_content
+          - pids
+        properties:
+          image_content:
+            type: object
+            description: Contains badging image-related data.
+          pids:
+            type: array
+            items:
+              type: string
+            description: An array containing product IDs of the products that should be badged.
+          positioning_hint:
+            type: string
+            description: Position of badging image on the product. This is an optional parameter and will return 'null' if not configured.
+          application_data:
+            type: object
+            description: The JSON to be returned. This is an optional parameter and will return 'null' if not configured.
+    description: |
+      Allows Omnichannel image badging.
+    example: |
+      {
+        "actionType": "monetate:action:OmniChannelImageBadging",
+        "image_content": {
+          "version": 2,
+          "clickzones": [],
+          "contentId": 785040,
+          "top": 0,
+          "title": "",
+          "href": "",
+          "iwidth": 90,
+          "alt": "",
+          "iheight": 90,
+          "ref": "https://sb.monetate.net/img/1/1190/4919641.png",
+          "left": 180
+        },
+        "pids": [
+          "SleepBag_001",
+          "HikePants_012"
+        ],
+        "positioning_hint": "top-left",
+        "application_data": {
+          "color": "#FFFFFF",
+          "fontSize": 10,
+          "style": "bold",
+          "badge": "Save 15% with 'SAVE15'",
+          "background-color": "#2A519E"
+        }
+      }
+
+  monetate:action:ResponsysTriggeredEmail:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - campaignName
+        properties:
+          campaignName:
+            type: string
+            description: The Responsys campaign name for the campaign to trigger.
+          customerId:
+            type: string
+            description: A value usable as a customer identifier in Responsys.
+    description: |
+      Kicks off a Responsys triggered email to the customer. Customer ID in Responsys should match Customer ID configured in Monetate.
+    example: |
+      {
+        "campaignName": "Abandoned Cart Campaign",
+        "customerId": "custom_identifier"
+      }
+
+  monetate:action:ResponsysTriggeredCustomEvent:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - customEventName
+        properties:
+          customEventName:
+            type: string
+            description: The custom event in Responsys to trigger.
+          folderName:
+            type: string
+            description: The parent folder for the distribution list.
+          listName:
+            type: string
+            description: The distribution list.
+          customerId:
+            type: string
+            description: The customer ID to trigger the event for.
+    description: |
+      Triggers a Responsys custom event for the consumer. This is used to initiate custom programs in Responsys. Customer ID in Responsys should match Customer ID configured in Monetate.
+    example: |
+      {
+        "customEventName": "AbandonedCartEvent",
+        "folderName": "Monetate",
+        "listName": "Monetate List",
+        "customerId": "custom_identifier"
+      }
+
+  monetate:action:VariantSelector:
+    allOf:
+      - $ref: '#/definitions/Action'
+      - type: object
+        required:
+          - variantInfo
+        properties:
+          variantInfo:
+            $ref: "#/definitions/VariantInfo"
+            description: Identifies the variant to display.
+    description: |
+      Returns identifying information for content that should be selected to be displayed on the page.
+    example: |
+      {
+        "actionType": "monetate:action:VariantSelector",
+        "variantInfo":
+        {
+          "experienceId": 100,
+          "variantId": 200,
+          "variantGroup": 1
+        }
+      }
+
+  VariantInfo:
+    type: object
+    required:
+      - experienceId
+      - variantId
+      - variantGroup
+    properties:
+      experienceId:
+        type: integer
+        description: The unique identifier for the experience associated with the action.
+      variantId:
+        type: integer
+        description: The unique identifier for the variant associated with the action.
+      variantGroup:
+        type: integer
+        description: The test group for the variant associated with the action.
+    description: |
+      Identifies the experience and variant associated with the action.
+    example: |
+      {
+        "experienceId": 100,
+        "variantId": 200,
+        "variantGroup": 1
+      }
+
+# ---------------------------------------------------
+# Wrappers & Containers
+# ---------------------------------------------------
+  HttpRequestBody:
+    type: object
+    required:
+      - events
+    properties:
+      deviceId:
+        description: A persistent device identifier accepted in place of a monetateId (e.g., iOS identifierForVendor).
+        type: string
+      customerId:
+        description: An identifer specific to a customer, regardless of the device they are on.
+        type: string
+      events:
+        description: An array of events to process.
+        type: array
+        items:
+          $ref: "#/definitions/Event"
+      monetateId:
+        description: A persistent device identifier accepted in place of deviceId. This identifier is generated by Monetate in response to a request containing neither deviceId nor monetateId, or generated and stored in the mt.v cookie on a domain using a Monetate JavaScript integration.
+        type: string
+      preview:
+        description: A token to access actions for a specific variant of an experience, even if the experience is not actively running. The token is generated by clicking the PREVIEW button on the Experience Editor page in Monetate's UI, which will redirect to the client site, appending the token to the URL as ?preview=token, for use in the request.
+        type: string
+      channel:
+        description: A string that identifies the account, domain, and instance associated with the request.
+        type: string
+      sdkVersion:
+        description: A string that identifies the Monetate SDK used to generate the request.
+        type: string
+    description: |
+      A JSON request body to process.
+    example: |
+        {
+            "deviceId": "device id",
+            "monetateId": "monetate id",
+            "preview": "preview token",
+            "customerId": "customer id",
+            "events": [
+                {
+                    "eventType": "Event"
+                }
+            ]
+        }
+
+  HttpResponseBody:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        description: The data portion of the response.
+        $ref: "#/definitions/ResponseData"
+      meta:
+        description: The metadata portion of the response.
+        $ref: "#/definitions/Meta"
+    description: |
+      Top-level object definition for the entire HTTP response.
+    example: |
+        {
+            "meta": {
+                "code": 200,
+                "errors": [],
+                "warnings": [],
+                "monetateId": "monetate id"
+            },
+            "data": {
+                "responses": [
+                    {
+                        "requestId": "12345",
+                        "actions": [
+                            {
+                                "actionType": "Action"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+  ResponseData:
+    type: object
+    properties:
+      responses:
+        description: The array of all responses.
+        type: array
+        items:
+          $ref: "#/definitions/Response"
+    description: |
+      Container array for all responses.
+    example: |
+        {
+            "responses": [
+                {
+                    "requestId": "12345",
+                    "actions": [
+                        {
+                            "actionType": "Action"
+                        }
+                    ]
+                }
+            ]
+        }
+
+  Meta:
+    type: object
+    properties:
+      code:
+        type: integer
+        description: The HTTP status code associated with the response.
+      errors:
+        description: An array of objects describing any errors that occurred.
+        type: array
+        items:
+          type: object
+      monetateId:
+        description: A unique device identifer generated by Monetate when neither deviceId nor monetateId are supplied in request, for persisting to device and sending in future requests. Any events received in request are associated with this monetateId.
+        type: string
+      warnings:
+        type: array
+        items:
+          type: object
+    description: |
+      Container for all metadata for the responses, inclusive of errors and warnings.
+    example: |
+        {
+            "code": 200,
+            "errors": [],
+            "warnings": [],
+            "monetateId": "monetate id"
+        }
+
+  Response:
+    type: object
+    required:
+      - requestId
+      - actions
+    properties:
+      requestId:
+        type: string
+        description: The request identifier tying the response back to an event.
+      actions:
+        type: array
+        description: The array of actions.
+        items:
+          $ref: "#/definitions/Action"
+    description: |
+      A single response, which will include a requestId to link it back to the event,
+      and an array of actions.
+    example: |
+        {
+            "requestId": "12345",
+            "actions": [
+                {
+                    "actionType": "Action"
+                }
+            ]
+        }
+
+  SocialProofData:
+    type: object
+    # nullable: true
+    required:
+      - productId
+      - count
+    properties:
+        proofType:
+            type: string
+            description: The type of Social Proof data.
+        lookbackMinutes:
+            type: integer
+            description: The number of minutes used for the lookback period.
+        products:
+            type: array
+            description: The array of products.
+            items:
+                $ref: "#/definitions/SocialProofItem"
+
+  SocialProofItem:
+    type: object
+    required:
+        - productId
+        - count
+    properties:
+        productId:
+            type: string
+            description: The product ID.
+        count:
+            type: integer
+            description: The product's count.
+    description: |
+        Message data is returned inline only if it's smaller than 1024 bytes. If the content size exceeds that threshold, then it must be retrieved from the CDN URI.
+
+  SocialProofMessage:
+    type: object
+    # nullable: true
+    required:
+        - type
+        - href
+    properties:
+        type:
+            type: string
+            description: |
+                The filetype for the message data. This is usually `html`. Since all CDN content is deduplicated by SHA hash, the file extension in the CDN URI may not match this type, especially when the message data is empty.
+        href:
+            type: string
+            description: |
+                Kibo CDN URI to a file containing the message data. This attribute is always present, even if the content is smaller than 1024 bytes.
+        data:
+            type: string
+            description: |
+                The message data. This attribute is only present if the data is smaller than 1024 bytes.

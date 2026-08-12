@@ -1,0 +1,115 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/monetate-data-api-openapi.yml, openapi/monetate-metadata-api-openapi.yml,
+  openapi/monetate-auth-api-openapi.yml, openapi/monetate-engine-api-openapi.yml
+format: custom
+media_type: application/json
+rfc9457: false
+note: >-
+  Monetate does NOT use RFC 9457 problem+json. Every api.monetate.net response — success or failure —
+  uses the same `{"meta": {...}, "data": {...}}` envelope, with the HTTP status repeated in `meta.code`
+  and failures listed in `meta.errors[]` (and non-fatal problems in `meta.warnings[]`). The array items
+  are declared as untyped objects (`additionalProperties: true`), so the SHAPE of an individual error —
+  whether it has a code, a field pointer, a message — is not described anywhere in the published contract.
+  That is the single biggest error-semantics gap here: an agent can see that an error occurred and what
+  the HTTP status was, but cannot parse the error programmatically from the spec alone. There is also no
+  provider error-code reference page; the descriptions below are the entire published error vocabulary.
+envelope:
+  fatal: meta.errors[]
+  non_fatal: meta.warnings[]
+  status_echo: meta.code
+  item_schema: untyped object (additionalProperties true)
+problem_types:
+- status: 400
+  title: Validation error
+  detail: One or more values being sent was not in the correct format, or a required value was missing.
+  remediation: >-
+    Compare the request body against the operation's requestBody schema. Applies to writes only.
+  apis:
+  - Data API
+  operations:
+  - POST /schema/
+  - PATCH /schema/{schema-name}/
+  - GET /data/example_schema/
+  - POST /data/example_schema/
+- status: 400
+  title: Invalid request
+  detail: >-
+    The request was either malformated (did not follow this specification), or the data sent was invalid.
+  remediation: Validate the event batch against the Engine API HttpRequestBody definition before sending.
+  apis:
+  - Engine API
+  operations:
+  - decide
+  note: >-
+    The Engine API's ONLY declared failure response. No 401/403/404/429/500 is documented for
+    POST /decide/{retailerShortname}, which means an agent has no published behaviour to expect on a bad
+    retailer shortname, a throttled caller, or an engine outage.
+- status: 401
+  title: Unauthorized
+  detail: >-
+    The request did not include a token, or the token provided was invalid. Please ensure that your token
+    is correct and that the Authorization header is properly formatted.
+  remediation: >-
+    Re-mint a token via GET /api/auth/v0/refresh/ with a freshly signed JWT, then retry with
+    `Authorization: Token <token_string>`. Check for the two-scheme trap — the Auth API wants
+    `Authorization: JWT <jwt>`, everything else wants `Authorization: Token <token>`.
+  apis:
+  - Data API
+  - Metadata API
+  - Auth API
+  retryable: true
+  after: re-authentication
+- status: 403
+  title: Forbidden
+  detail: >-
+    The request included a token that has been revoked. Please contact your account administrator to
+    generate a new token.
+  remediation: >-
+    Not retryable by the client. The API key's public key has been deactivated in the Monetate platform
+    (Settings > Sites > API Keys); a human has to re-enable or re-issue it.
+  apis:
+  - Data API
+  - Metadata API
+  - Auth API
+  retryable: false
+- status: 404
+  title: Not found
+  detail: The resource you are trying to fetch does not exist, or has been deleted.
+  remediation: Verify the resource identifier and the retailer shortname in the base path.
+  apis:
+  - Data API
+  - Metadata API
+  retryable: false
+- status: 429
+  title: Too many requests
+  detail: The user has sent too many requests in a given amount of time to a rate-limited endpoint.
+  remediation: >-
+    Back off and retry. No Retry-After header and no published limit — see
+    rate-limits/monetate-rate-limits.yml. Declared on exactly one operation in the whole catalogue of
+    published Monetate specs.
+  apis:
+  - Data API
+  operations:
+  - GET /data/example_schema/
+  retryable: true
+- status: 500
+  title: Unknown error
+  detail: Please try again or contact your account manager for more information.
+  remediation: Retry with backoff; escalate to the Monetate account manager if persistent.
+  apis:
+  - Data API
+  - Metadata API
+  - Auth API
+  retryable: true
+coverage:
+  problem_types: 7
+  distinct_status_codes: 6
+  apis_covered: 4
+  operations_with_4xx: 24
+gaps:
+- No machine-readable error item schema — meta.errors[] items are untyped objects.
+- No error code registry, no stable string identifiers, no field-level pointers.
+- No documented Retry-After on 429.
+- The Engine API declares only 200 and 400; auth, throttling and server-error behaviour are undocumented.

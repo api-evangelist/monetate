@@ -1,0 +1,243 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  openapi/monetate-data-api-openapi.yml, openapi/monetate-metadata-api-openapi.yml,
+  openapi/monetate-engine-api-openapi.yml
+note: >-
+  Derived from `$ref` links and id-reference fields in the published specs. Monetate's model has an unusual
+  shape: the Data API's central entity is a USER-DEFINED SCHEMA, so the data model is partly meta —
+  customers declare their own entities (`Schema` + `Field`) and then POST rows against them. The
+  `example_schema` paths in the published spec are a placeholder standing in for whatever schemas a given
+  retailer has created; a real tenant's paths are `/data/{their_schema_name}/`. Identifiers are integers
+  across the Metadata API and opaque strings in the Data API; no id-prefix convention is used anywhere.
+entities:
+- name: Account
+  api: Metadata API
+  identifier: id (integer)
+  fields:
+  - id
+  - type
+  - kind
+  - archived
+  - account_domain
+  - name
+  description: >-
+    A Monetate account. `type` is the instance (production, development), `kind` is the vertical (retail,
+    travel). The retailer shortname in every Data/Metadata base path resolves to an account.
+- name: Variant
+  aka: Experience
+  api: Metadata API
+  identifier: id (integer)
+  fields:
+  - id
+  - account_domain
+  - experience_id
+  - experience_name
+  description: >-
+    A single experience variant. This is the entity whose id appears in Engine API decision responses and
+    in session-stream exports, which is why the Metadata API exists at all — to resolve those ids to names.
+- name: Experience-Summary
+  api: Metadata API
+  identifier: id (integer)
+  fields:
+  - id
+  - account_domain
+  - experience_name
+  - experience_type
+  description: Rolled-up view of an experience, one row per experience rather than per variant.
+- name: PageEvent
+  api: Metadata API
+  identifier: id (integer)
+  fields:
+  - id
+  - title
+  description: >-
+    A named page event configured in the platform. Session data carries `page_event_ids`, which are these
+    ids.
+- name: CustomTarget
+  api: Metadata API
+  identifier: id (integer)
+  fields:
+  - id
+  - title
+  - description
+  - is_identifier
+  description: A customer-defined targeting attribute.
+- name: SchemaType
+  api: Data API
+  identifier: name (string, ^[A-Za-z][A-Za-z0-9_]*$, max 64)
+  enum_values:
+  - agil_one
+  - attribute
+  - behavioral_trigger
+  - custom_list
+  - customer_data_privacy
+  - email_metadata
+  - event
+  - inventory
+  - product
+  - product_recommendation
+  - purchase
+  description: >-
+    The catalogue of schema shapes Monetate supports. A SchemaType is a template of Fields that a Schema
+    instantiates.
+- name: Schema
+  api: Data API
+  identifier: name (string, ^[A-Za-z][A-Za-z0-9_]*$, max 64)
+  required:
+  - name
+  - fields
+  fields:
+  - name
+  - type
+  - fields
+  - created_date
+  description: >-
+    A user-defined dataset. Exactly one Field must be designated `identifier: true` so rows can be linked
+    to a Person ID for targeting.
+- name: Field
+  api: Data API
+  identifier: map key within Schema.fields
+  required:
+  - data_type
+  data_types:
+  - STRING
+  - MULTI_STRING
+  - BOOLEAN
+  - DATETIME
+  - NUMBER
+  - GOOGLE_PRODUCT_CATEGORY
+  flags:
+  - identifier
+  - unique_key
+  - event_time
+  - required
+  description: >-
+    A column definition. Note the spec's prose says "Monetate supports five data types" while the enum
+    lists six — GOOGLE_PRODUCT_CATEGORY is in the contract but not in the sentence describing it.
+- name: FileUpload
+  api: Data API
+  identifier: implicit (per schema-name upload history)
+  fields:
+  - status
+  - upload_time
+  - import_start_time
+  - import_end_time
+  status_enum:
+  - PENDING
+  - PROCESSING
+  - COMPLETE
+  - VALIDATION_ERROR
+  - SYSTEM_ERROR
+  - SKIPPED
+  - TIMEOUT_ERROR
+  - MAX_LOAD_ATTEMPTS_REACHED
+  description: One ingest attempt against a Schema; the audit trail for bulk data loads.
+- name: SchemaData
+  api: Data API
+  identifier: the Schema's identifier Field
+  fields:
+  - schema_rows[]
+  description: >-
+    The rows themselves, POSTed as `{"schema_rows": [...]}`. The row object's properties are exactly the
+    Schema's Fields, so this entity's shape is per-tenant and cannot be fully described in a shared spec.
+- name: DefaultAccountCatalog
+  api: Data API
+  identifier: composite (account + schema)
+  required:
+  - account
+  - schema
+  fields:
+  - account
+  - schema
+  - schema_name
+  - account_domain
+  - account_name
+  description: The join that designates one product Schema as an Account's default catalog.
+- name: CustomerDataPrivacy
+  api: Data API
+  identifier: customer_id
+  fields:
+  - status
+  - description
+  status_enum:
+  - PENDING
+  - FOUND
+  - NOT_FOUND
+  description: >-
+    Right-to-erasure request state for one customer id. Note the spec declares `status` as `type: integer`
+    while its own description and example give string values (PENDING/FOUND/NOT_FOUND) — a type error in
+    the published contract.
+relationships:
+- from: Account
+  to: Variant
+  type: has_many
+  via: Variant.account_domain
+- from: Account
+  to: Experience-Summary
+  type: has_many
+  via: Experience-Summary.account_domain
+- from: Experience-Summary
+  to: Variant
+  type: has_many
+  via: Variant.experience_id
+- from: Variant
+  to: Experience-Summary
+  type: belongs_to
+  via: Variant.experience_id
+- from: SchemaType
+  to: Schema
+  type: has_many
+  via: Schema.type
+- from: Schema
+  to: Field
+  type: has_many
+  via: Schema.fields (map of name -> Field)
+- from: Schema
+  to: FileUpload
+  type: has_many
+  via: path /upload/{schema-name}/
+- from: Schema
+  to: SchemaData
+  type: has_many
+  via: path /data/{schema-name}/
+- from: Account
+  to: DefaultAccountCatalog
+  type: has_many
+  via: DefaultAccountCatalog.account
+- from: Schema
+  to: DefaultAccountCatalog
+  type: has_many
+  via: DefaultAccountCatalog.schema
+- from: Account
+  to: PageEvent
+  type: has_many
+  via: account scoping in the base path
+- from: Account
+  to: CustomTarget
+  type: has_many
+  via: account scoping in the base path
+- from: Variant
+  to: PageEvent
+  type: references
+  via: session-stream page_event_ids
+  note: >-
+    Not a spec-declared $ref — this join is documented only in the Metadata API walkthrough, which shows
+    session data carrying `page_event_ids` that resolve against GET /metadata/pageevent.
+envelope_types:
+  note: >-
+    Every API also defines wrapper schemas (Response, ResponseMeta, ResponsePagination,
+    ResponseMetaPagination, ResponseAnyData, and one `<Entity>Response` / `<Entity>ListResponse` pair per
+    entity). These are transport, not domain, and are excluded from entities[] above.
+  count: 25
+id_conventions:
+  prefixes: none
+  metadata_api: integer surrogate keys
+  data_api: string names for Schema/SchemaType; string ids for account/schema in DefaultAccountCatalog
+  engine_api: >-
+    Identity is carried as monetateId / deviceId / customerId on the User object rather than as a resource
+    id — the Engine API is event-shaped, not resource-shaped, and defines no addressable entities.
+coverage:
+  entities: 12
+  relationships: 13
+  apis_covered: 3
