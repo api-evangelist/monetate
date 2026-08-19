@@ -1,0 +1,3885 @@
+{
+  "item": [
+    {
+      "id": "d2917f7d-6abe-4664-b698-57aa43f35636",
+      "name": "Schema",
+      "description": {
+        "content": "Schema related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "09f41949-0312-41b3-b27a-5798882e521b",
+          "name": "Get Active Schema",
+          "request": {
+            "name": "Get Active Schema",
+            "description": {
+              "content": "Returns a list of active Schema used by Monetate for experience decisioning.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schema",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "row_count",
+                  "value": "<boolean>",
+                  "description": "Adds a field called `row_count` which is an Integer that is the number of available rows for targeting (there may be an hour delay between uploading data and this value updating)"
+                },
+                {
+                  "disabled": false,
+                  "key": "latest_upload",
+                  "value": "<boolean>",
+                  "description": "Adds a field called `last_file_upload` with the format:\n```\n\"last_file_upload\": {\n    \"status\": \"COMPLETE\",\n    \"upload_time\": \"2016-03-24T10:56:52.000000Z\",\n    \"import_start_time\": \"2017-04-04T18:05:34.000000Z\",\n    \"import_end_time\": \"2017-04-04T18:05:35.000000Z\",\n    \"validation_error\": \"\"\n}\n```"
+                },
+                {
+                  "disabled": false,
+                  "key": "usable_in_accounts",
+                  "value": "<boolean>",
+                  "description": "Adds a field called `usable_in_accounts` which is an object describing the accounts where the dataset can be used for targeting.\n```\n\"usable_in_accounts\": [\n  {\n      \"name\": \"a-b6206def\",\n      \"instance\": \"p\",\n      \"domain\": \"fifthlevelfashion.com\"\n  },\n  {\n      \"name\": \"a-b6206def\",\n      \"instance\": \"p\",\n      \"domain\": \"fifthlevelfashion.us\"\n  }\n]\n```"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e843b402-af97-4bc5-aa49-07e749ffc09a",
+              "name": "A list of Schema definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "usable_in_accounts",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"purchase_event\",\n      \"named_identifier\": \"valid_named_identifier\",\n      \"type\": \"event\",\n      \"fields\": {\n        \"purchase_id\": {\n          \"data_type\": \"STRING\",\n          \"unique_key\": true\n        },\n        \"customer_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": true\n        },\n        \"purchase_time\": {\n          \"data_type\": \"DATETIME\",\n          \"event_time\": true\n        },\n        \"product_id\": {\n          \"data_type\": \"STRING\"\n        },\n        \"product_category\": {\n          \"data_type\": \"STRING\"\n        },\n        \"product_price\": {\n          \"data_type\": \"NUMBER\"\n        }\n      }\n    },\n    {\n      \"name\": \"purchase_event\",\n      \"named_identifier\": \"valid_named_identifier\",\n      \"type\": \"event\",\n      \"fields\": {\n        \"purchase_id\": {\n          \"data_type\": \"STRING\",\n          \"unique_key\": true\n        },\n        \"customer_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": true\n        },\n        \"purchase_time\": {\n          \"data_type\": \"DATETIME\",\n          \"event_time\": true\n        },\n        \"product_id\": {\n          \"data_type\": \"STRING\"\n        },\n        \"product_category\": {\n          \"data_type\": \"STRING\"\n        },\n        \"product_price\": {\n          \"data_type\": \"NUMBER\"\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0533c3e-393e-463a-ad17-5d47bd0ba342",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "usable_in_accounts",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96de7f47-e51f-4a1b-858a-41fc475c8bfe",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "usable_in_accounts",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bda8e2c4-10d8-4ac0-b3c8-a0c56965baa2",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "usable_in_accounts",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1791c777-2d9b-417e-810f-4a3a48c7a594",
+          "name": "Create a New Schema",
+          "request": {
+            "name": "Create a New Schema",
+            "description": {
+              "content": "To send data to Monetate, you must first create a new Schema.\n\n### Schema types\n\nThe API currently accepts the following types of data:\n\n* **Event**: Any data that contains a timestamp for the purposes of understanding when the specific events or interactions occurred in a time series.\n    * **type**: `event`\n    * **Required fields**: `identifier`, `event_time`\n* **Entity**: Any non-time series data\n    * **type**: `attribute`\n    * **Required fields**: `identifier`\n* **Product**: Product catalog data\n    * **type**: `product`\n\n### Fields\n\nA Schema consists of a set of fields defining its structure. You can include up to 40 fields in each Schema.\n\n#### Field Data Types\n\nThe API supports the following field data types:\n\n* `STRING`: Non-empty text without leading or trailing whitespace.\n* `MULTI_STRING`: Comma-separated string. As `STRING`, but allows multiple values separated by commas. See [Product Catalog Specification: Comma Escaping](https://docs.monetate.com/docs/product-catalog-specification#comma-escaping) regarding the necessary escaping rules.\n* `NUMBER`: An integer or decimal number.\n* `DATETIME`: A timestamp conforming to the ISO-8601 standard.\n* `BOOLEAN`: A true or false value.\n\n#### Field Attributes\n\nThe API allows attributes to be set on certain fields:\n\n* `data_type`: String attribute. The type of data allowed in this field (see 'Field Data Types').\n* `required`: Boolean attribute. Defaults to false. Allows certain attributes to be 'required' when submitting records.\n* `identifier`: Boolean attribute. Field used to identify a customer. Exactly one field may be the identifier.\n* `unique_key`: Boolean attribute. Unique identifier for the record which can be used to update the record in the future. Only one field may be the unique_key.\n* `event_time`: Boolean attribute. For events, the time that the event occurred.\n\nOnly identifier and unique key are considered 'required' fields when specified. All other fields are optional and are marked as null if absent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schema",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fields\": {\n    \"key_0\": {\n      \"data_type\": \"<string>\",\n      \"identifier\": \"<boolean>\",\n      \"unique_key\": \"<boolean>\",\n      \"event_time\": \"<boolean>\"\n    },\n    \"key_1\": {\n      \"data_type\": \"<string>\",\n      \"identifier\": \"<boolean>\",\n      \"unique_key\": \"<boolean>\",\n      \"event_time\": \"<boolean>\"\n    },\n    \"key_2\": {\n      \"data_type\": \"<string>\",\n      \"identifier\": \"<boolean>\",\n      \"unique_key\": \"<boolean>\",\n      \"event_time\": \"<boolean>\"\n    }\n  },\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"named_identifier\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96a0e7c6-fcdf-430c-853b-4ba2ba338cd5",
+              "name": "Schema created. Content is the definition of the created Schema.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"purchase_event\",\n  \"named_identifier\": \"valid_named_identifier\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"purchase_id\": {\n      \"data_type\": \"STRING\",\n      \"unique_key\": true\n    },\n    \"customer_id\": {\n      \"data_type\": \"STRING\",\n      \"identifier\": true\n    },\n    \"purchase_time\": {\n      \"data_type\": \"DATETIME\",\n      \"event_time\": true\n    },\n    \"product_id\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_category\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_price\": {\n      \"data_type\": \"NUMBER\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"purchase_event\",\n    \"named_identifier\": \"valid_named_identifier\",\n    \"type\": \"event\",\n    \"fields\": {\n      \"purchase_id\": {\n        \"data_type\": \"STRING\",\n        \"unique_key\": true\n      },\n      \"customer_id\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": true\n      },\n      \"purchase_time\": {\n        \"data_type\": \"DATETIME\",\n        \"event_time\": true\n      },\n      \"product_id\": {\n        \"data_type\": \"STRING\"\n      },\n      \"product_category\": {\n        \"data_type\": \"STRING\"\n      },\n      \"product_price\": {\n        \"data_type\": \"NUMBER\"\n      }\n    }\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25588e72-bd8a-42bb-bc86-c771b2613453",
+              "name": "Validation error. \n\nOne or more values being sent was not in the correct format, or a required value was missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"purchase_event\",\n  \"named_identifier\": \"valid_named_identifier\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"purchase_id\": {\n      \"data_type\": \"STRING\",\n      \"unique_key\": true\n    },\n    \"customer_id\": {\n      \"data_type\": \"STRING\",\n      \"identifier\": true\n    },\n    \"purchase_time\": {\n      \"data_type\": \"DATETIME\",\n      \"event_time\": true\n    },\n    \"product_id\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_category\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_price\": {\n      \"data_type\": \"NUMBER\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21ca1014-e812-4c9c-97bc-ab82aa14fbe3",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"purchase_event\",\n  \"named_identifier\": \"valid_named_identifier\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"purchase_id\": {\n      \"data_type\": \"STRING\",\n      \"unique_key\": true\n    },\n    \"customer_id\": {\n      \"data_type\": \"STRING\",\n      \"identifier\": true\n    },\n    \"purchase_time\": {\n      \"data_type\": \"DATETIME\",\n      \"event_time\": true\n    },\n    \"product_id\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_category\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_price\": {\n      \"data_type\": \"NUMBER\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f43bfe2-4977-43e6-8454-56d27bfc3e31",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"purchase_event\",\n  \"named_identifier\": \"valid_named_identifier\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"purchase_id\": {\n      \"data_type\": \"STRING\",\n      \"unique_key\": true\n    },\n    \"customer_id\": {\n      \"data_type\": \"STRING\",\n      \"identifier\": true\n    },\n    \"purchase_time\": {\n      \"data_type\": \"DATETIME\",\n      \"event_time\": true\n    },\n    \"product_id\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_category\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_price\": {\n      \"data_type\": \"NUMBER\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f522729-5850-4c8c-a64b-81c30e3471d9",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"purchase_event\",\n  \"named_identifier\": \"valid_named_identifier\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"purchase_id\": {\n      \"data_type\": \"STRING\",\n      \"unique_key\": true\n    },\n    \"customer_id\": {\n      \"data_type\": \"STRING\",\n      \"identifier\": true\n    },\n    \"purchase_time\": {\n      \"data_type\": \"DATETIME\",\n      \"event_time\": true\n    },\n    \"product_id\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_category\": {\n      \"data_type\": \"STRING\"\n    },\n    \"product_price\": {\n      \"data_type\": \"NUMBER\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e6b9b05-c863-45b9-b6f6-6032886f359c",
+          "name": "Get Schema Details",
+          "request": {
+            "name": "Get Schema Details",
+            "description": {
+              "content": "Returns a list of all data types and schemas.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schema",
+                ":schema-name",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "row_count",
+                  "value": "<boolean>",
+                  "description": "Adds a field called `row_count` which is an Integer that is the number of available rows for targeting (there may be an hour delay between uploading data and this value updating)"
+                },
+                {
+                  "disabled": false,
+                  "key": "latest_upload",
+                  "value": "<boolean>",
+                  "description": "Adds a field called `last_file_upload` with the format:\n```\n\"last_file_upload\": {\n    \"status\": \"COMPLETE\",\n    \"upload_time\": \"2016-03-24T10:56:52.000000Z\",\n    \"import_start_time\": \"2017-04-04T18:05:34.000000Z\",\n    \"import_end_time\": \"2017-04-04T18:05:35.000000Z\",\n    \"validation_error\": \"\"\n}\n```"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "schema-name",
+                  "description": "(Required) The name of the Schema."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "788a94f1-9742-4a14-a91b-653a9deb76b1",
+              "name": "A single Schema definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"purchase_event\",\n    \"named_identifier\": \"valid_named_identifier\",\n    \"type\": \"event\",\n    \"fields\": {\n      \"purchase_id\": {\n        \"data_type\": \"STRING\",\n        \"unique_key\": true\n      },\n      \"customer_id\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": true\n      },\n      \"purchase_time\": {\n        \"data_type\": \"DATETIME\",\n        \"event_time\": true\n      },\n      \"product_id\": {\n        \"data_type\": \"STRING\"\n      },\n      \"product_category\": {\n        \"data_type\": \"STRING\"\n      },\n      \"product_price\": {\n        \"data_type\": \"NUMBER\"\n      }\n    }\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2cffb72-6777-4e45-a101-ea2f1a78774b",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b088d382-0618-4b51-8b3b-90f9bdf1a7e5",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18b4b76d-c45a-4832-8b62-a28c0b8a2649",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "944395f1-8b4c-462f-9a11-72a60f8bc0e8",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "row_count",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "latest_upload",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a832eb98-c3d1-4ba2-9e80-0365966414fb",
+          "name": "Update an Existing Schema",
+          "request": {
+            "name": "Update an Existing Schema",
+            "description": {
+              "content": "Update an existing schema by either adding new columns or updating the Identifier Name.\n\nThe request differs based on whether adding new columns or updating Identifier Name\nMust only supply either fields or named_identifier (but not both) in the params body.\nResponse will return either fields or named_identifier, depending on which was supplied.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schema",
+                ":schema-name",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "schema-name",
+                  "description": "(Required) The name of the Schema."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fields\": {\n    \"key_0\": {\n      \"data_type\": \"<string>\",\n      \"identifier\": \"<boolean>\",\n      \"unique_key\": \"<boolean>\",\n      \"event_time\": \"<boolean>\"\n    },\n    \"key_1\": {\n      \"data_type\": \"<string>\",\n      \"identifier\": \"<boolean>\",\n      \"unique_key\": \"<boolean>\",\n      \"event_time\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4b6b18df-7a21-4fa6-9256-36cd0f9ecffa",
+              "name": "Schema patched. Content is the definition of the modified Schema.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"catalog\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"new_field\": {\n      \"data_type\": \"STRING\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"catalog\",\n    \"type\": \"event\",\n    \"fields\": {\n      \"new_field\": {\n        \"data_type\": \"STRING\"\n      }\n    }\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5dbeed77-a1dd-4b81-b3f5-6df47e9892e6",
+              "name": "Validation error. \n\nOne or more values being sent was not in the correct format, or a required value was missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"catalog\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"new_field\": {\n      \"data_type\": \"STRING\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9000416-e708-413a-b127-ceefea27d428",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"catalog\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"new_field\": {\n      \"data_type\": \"STRING\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b4a9bef-10a9-4a5d-9dd1-ada7223837b6",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"catalog\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"new_field\": {\n      \"data_type\": \"STRING\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1f7eb75-6a9e-4c3c-a96d-8a872f3741ce",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schema",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"catalog\",\n  \"type\": \"event\",\n  \"fields\": {\n    \"new_field\": {\n      \"data_type\": \"STRING\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36889160-c74a-4b0a-a2e3-ec878256f6d6",
+          "name": "List Schema Types",
+          "request": {
+            "name": "List Schema Types",
+            "description": {
+              "content": "Gets a list of the available Schema types and their specifications.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schematype",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "97c14490-3226-4688-ba37-865e3c38b0ca",
+              "name": "A list of Schema Types.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"product\",\n      \"fields\": {\n        \"id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": true,\n          \"unique_key\": true,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"title\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"description\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"image_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"additional_image_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"mobile_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"availability\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"availability_date\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"expiration_date\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"price\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"sale_price\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"sale_price_effective_date_begin\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"sale_price_effective_date_end\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"loyalty_points\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"product_type\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"brand\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"mpn\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"condition\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"adult\": {\n          \"data_type\": \"BOOLEAN\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"multipack\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"is_bundle\": {\n          \"data_type\": \"BOOLEAN\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"energy_efficiency_class\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"age_group\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"color\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"gender\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"material\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"pattern\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"quantity\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"size\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"size_type\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"item_group_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"promotion_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_label\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_weight\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_length\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_height\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_width\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"tax\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        }\n      }\n    },\n    {\n      \"name\": \"product\",\n      \"fields\": {\n        \"id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": true,\n          \"unique_key\": true,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"title\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"description\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"image_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"additional_image_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"mobile_link\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"availability\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"availability_date\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"expiration_date\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"price\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"sale_price\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"sale_price_effective_date_begin\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"sale_price_effective_date_end\": {\n          \"data_type\": \"DATETIME\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"loyalty_points\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"product_type\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": true\n        },\n        \"brand\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"mpn\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"condition\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"adult\": {\n          \"data_type\": \"BOOLEAN\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"multipack\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"is_bundle\": {\n          \"data_type\": \"BOOLEAN\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"energy_efficiency_class\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"age_group\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"color\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"gender\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"material\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"pattern\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"quantity\": {\n          \"data_type\": \"NUMBER\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"size\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"size_type\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"item_group_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"promotion_id\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_label\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_weight\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_length\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_height\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"shipping_width\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        },\n        \"tax\": {\n          \"data_type\": \"STRING\",\n          \"identifier\": false,\n          \"unique_key\": false,\n          \"event_time\": false,\n          \"required\": false\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a263206-1711-4295-9970-2253f2da586c",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3968a309-1461-4a14-8392-9a870b9c097c",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff10661a-9f95-4ce2-bf55-4ee489fe43c9",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34390685-3467-4528-b395-0b64c0650f82",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "29cf4df3-f28a-4ef3-a10b-91b31e12359b",
+          "name": "Get Schema Type Details",
+          "request": {
+            "name": "Get Schema Type Details",
+            "description": {
+              "content": "Gets details for a Schema Type and its specification.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "schematype",
+                ":schema-type",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "schema-type",
+                  "description": "(Required) Name of the schema type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "31e4b0c5-01f7-455d-ac8e-89722d4dce23",
+              "name": "A Schema Type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ":schema-type",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-type",
+                      "description": "(Required) Name of the schema type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"product\",\n    \"fields\": {\n      \"id\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": true,\n        \"unique_key\": true,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"title\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"description\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"link\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"image_link\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"additional_image_link\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"mobile_link\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"availability\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"availability_date\": {\n        \"data_type\": \"DATETIME\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"expiration_date\": {\n        \"data_type\": \"DATETIME\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"price\": {\n        \"data_type\": \"NUMBER\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"sale_price\": {\n        \"data_type\": \"NUMBER\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"sale_price_effective_date_begin\": {\n        \"data_type\": \"DATETIME\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"sale_price_effective_date_end\": {\n        \"data_type\": \"DATETIME\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"loyalty_points\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"product_type\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": true\n      },\n      \"brand\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"mpn\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"condition\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"adult\": {\n        \"data_type\": \"BOOLEAN\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"multipack\": {\n        \"data_type\": \"NUMBER\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"is_bundle\": {\n        \"data_type\": \"BOOLEAN\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"energy_efficiency_class\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"age_group\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"color\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"gender\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"material\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"pattern\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"quantity\": {\n        \"data_type\": \"NUMBER\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"size\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"size_type\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"item_group_id\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"promotion_id\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping_label\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping_weight\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping_length\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping_height\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"shipping_width\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      },\n      \"tax\": {\n        \"data_type\": \"STRING\",\n        \"identifier\": false,\n        \"unique_key\": false,\n        \"event_time\": false,\n        \"required\": false\n      }\n    }\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7490f82d-b8cd-4046-8448-74e0a4414e60",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ":schema-type",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-type",
+                      "description": "(Required) Name of the schema type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d48a2a76-7ca2-4d82-8526-75ea5acef05d",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ":schema-type",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-type",
+                      "description": "(Required) Name of the schema type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a034eb9-4231-4c1f-b541-4a7a9d121168",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ":schema-type",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-type",
+                      "description": "(Required) Name of the schema type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a448ef2d-f102-4bf8-8735-02e278b88a5e",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "schematype",
+                    ":schema-type",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-type",
+                      "description": "(Required) Name of the schema type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "7c07ead9-4af0-4e26-a48d-4be6e0ebb763",
+      "name": "Upload",
+      "description": {
+        "content": "File upload related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a120b7bc-74b7-412b-904e-b26b00b2c559",
+          "name": "Get Upload History",
+          "request": {
+            "name": "Get Upload History",
+            "description": {
+              "content": "Returns the most recent uploads for the Schema provided. Can be used for upload history or the view the status of a currently processed upload.\n\nUploads will appear once file is completely upload to Monetate. SFTP uploads appear when they are scanned and disappear from the SFTP drop location.\n\nUploads are sorted by upload_time in descending order, so the most recent upload will always be first in the list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "upload",
+                ":schema-name",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "schema-name",
+                  "description": "(Required) The name of the Schema."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11dfade5-749a-4cde-b68d-815ce4775730",
+              "name": "A list of file uploads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"status\": \"COMPLETE\",\n      \"upload_time\": \"1992-02-19T21:17:59.294Z\",\n      \"import_start_time\": \"1965-10-20T13:00:37.510Z\",\n      \"import_end_time\": \"1959-04-17T18:00:55.854Z\",\n      \"validation_errors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"validation_warnings\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"status\": \"MAX_LOAD_ATTEMPTS_REACHED\",\n      \"upload_time\": \"1992-12-13T15:59:20.303Z\",\n      \"import_start_time\": \"1949-05-16T02:47:50.481Z\",\n      \"import_end_time\": \"2007-11-13T17:47:53.391Z\",\n      \"validation_errors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"validation_warnings\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7240d255-899a-49fc-b168-5a1eabf49f2d",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "125fe806-106c-4eee-b4c8-f36eb5959a4c",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21db43b9-67dd-408d-9b66-a26a9f25646a",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d30a94d1-2675-4c25-b9cf-8780e1f03f5f",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    ":schema-name",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "schema-name",
+                      "description": "(Required) The name of the Schema."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8864108c-57e8-423a-bd47-ba7111c39a2e",
+      "name": "Data",
+      "description": {
+        "content": "Data related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "90b469a5-f484-451f-a515-38f554cd7afc",
+          "name": "Get Data for example_schema ",
+          "request": {
+            "name": "Get Data for example_schema ",
+            "description": {
+              "content": "Get an existing data record within the schema `example_schema`.\n\nAllows querying of an existing record.  The record ID must be passed as a query parameter, \ne.g. `?id=ABC12345`.  GET requests are intended solely for manual spot-checking of data \nand must not be used in any automated queries, including test suites or health checks. \nAs such, they are strictly rate-limited.  A maximum of 1 GET request per second is permitted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "data",
+                "example_schema",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a15e3b6-73b2-45f8-87af-0a561d5501b5",
+              "name": "The requested record was found in the schema.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"schema_rows\": [\n      {\n        \"example_field1\": \"example string\",\n        \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n        \"example_field3\": true,\n        \"example_field4\": 10.5,\n        \"example_field5\": \"example,secondexample\"\n      }\n    ]\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1cc6676f-d036-4322-b7cd-ff1388003c79",
+              "name": "Validation error. \n\nOne or more values being sent was not in the correct format, or a required value was missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19f01b2f-edc3-4b9c-a4d1-2c40fd9616e4",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e22163db-90fe-47c4-a608-713770683488",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2643bbd-0d6a-4848-9392-163d0495e0a6",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b72b67f5-0289-4083-9bff-d5ca76707d2e",
+              "name": "Too many requests.\n\nThe user has sent too many requests in a given amount of time to a rate-limited endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3030bec-6294-4516-97e9-79937d6592a9",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e719ce32-ee07-4544-8e4d-4007b4be9675",
+          "name": "Post Data for example_schema ",
+          "request": {
+            "name": "Post Data for example_schema ",
+            "description": {
+              "content": "Creates new data records within the schema `example_schema`.\n\nIf your request contains a unique key that matches a record already received by Monetate, the record is updated with the latest data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "data",
+                "example_schema",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"<string>\",\n      \"example_field2\": \"<dateTime>\",\n      \"example_field3\": \"<boolean>\",\n      \"example_field4\": \"<number>\",\n      \"example_field5\": \"<string>\"\n    },\n    {\n      \"example_field1\": \"<string>\",\n      \"example_field2\": \"<dateTime>\",\n      \"example_field3\": \"<boolean>\",\n      \"example_field4\": \"<number>\",\n      \"example_field5\": \"<string>\"\n    }\n  ],\n  \"_sent_time\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d79297ad-40bf-4eb9-90b5-24746a3a8118",
+              "name": "Data was posted for the schema and will be made available for targetting.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"schema_rows\": [\n      {\n        \"example_field1\": \"example string\",\n        \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n        \"example_field3\": true,\n        \"example_field4\": 10.5,\n        \"example_field5\": \"example,secondexample\"\n      }\n    ]\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10e3fe61-8b2c-46ed-a629-3f2116d9c49f",
+              "name": "Validation error. \n\nOne or more values being sent was not in the correct format, or a required value was missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dce7f04e-9676-4849-9a02-b00b0c66ff7a",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97231adc-fa82-43c4-8004-106df8f53223",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8040c421-336a-4e62-8bef-60c873da095d",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88b56508-b92d-4724-9a46-a55a23cf84e6",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data",
+                    "example_schema",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schema_rows\": [\n    {\n      \"example_field1\": \"example string\",\n      \"example_field2\": \"2016-09-30T12:10:45.000145Z\",\n      \"example_field3\": true,\n      \"example_field4\": 10.5,\n      \"example_field5\": \"example,secondexample\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "fa72d992-d961-456f-8974-eec87aa3ee91",
+      "name": "Product Catalog",
+      "description": {
+        "content": "Product Catalog related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "448513fe-244a-4cf9-9d6c-d16e965c0639",
+          "name": "List Account Defaults",
+          "request": {
+            "name": "List Account Defaults",
+            "description": {
+              "content": "List all account default catalogs for retailer",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "defaultcatalog",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "458f667f-f176-4e64-80f1-b2ff8fe56709",
+              "name": "A list of default account catalogs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"account\": \"123\",\n      \"schema\": \"456\"\n    },\n    {\n      \"account\": \"123\",\n      \"schema\": \"456\"\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c5fa69e-8ceb-4162-af8d-71306d3854b9",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fbdd05c-a36c-4c43-939b-bc6fec5e9bf9",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20e407df-f5ee-4f41-b074-134348882d01",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5befd1e5-f91e-4c74-9416-baa11dde6bed",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a02c989-ab8f-4ada-9227-883cb7b132a6",
+          "name": "Set Account Default",
+          "request": {
+            "name": "Set Account Default",
+            "description": {
+              "content": "Set a default catalog for an account",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "defaultcatalog",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb22624d-6c8c-4185-8b88-9626d658e4c6",
+              "name": "The defaulted product catalog and account",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"123\",\n  \"schema\": \"456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"account\": \"123\",\n    \"schema\": \"456\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad6586f9-c305-46da-9499-9519be7e478c",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"123\",\n  \"schema\": \"456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70744440-1b4d-4125-98ff-9c3859476ba4",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"123\",\n  \"schema\": \"456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fd1fffc9-8017-46c4-8d12-8f0a20834f1f",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"123\",\n  \"schema\": \"456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7c07d83-cbe6-44de-aaf6-44982c182e29",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"123\",\n  \"schema\": \"456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7b6559b-2668-4b7c-9a37-fb568ccda94a",
+          "name": "Bulk Set Account Defaults",
+          "request": {
+            "name": "Bulk Set Account Defaults",
+            "description": {
+              "content": "Set default catalogs for accounts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk-defaultcatalog",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "542e290f-9873-4476-a7fc-58337056dc85",
+              "name": "A list of the defaulted product catalogs and accounts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"account\": \"123\",\n    \"schema\": \"456\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a38fce13-307f-493e-85aa-655293b1802d",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54262d3e-f4c8-438f-9236-870e2314f03a",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0beb23dc-5761-43a9-af2a-63842c125eae",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f983d05-23b6-446c-8b27-4727428b2452",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-defaultcatalog",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"<string>\",\n  \"schema\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5308.618595928298,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 8784\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2219ecdc-9302-4d89-8136-e0b13ffde840",
+      "name": "Customer Data Privacy",
+      "description": {
+        "content": "Product Catalog related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.monetate.net/api/data/v1/{{retailerShortname}}/production",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "09ea5cbf-2777-4db4-8111-2f739c629699",
+    "name": "Monetate Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Monetate Data API allows you to create and send data across any channel in real time. This data is leveraged by Monetate's real-time decisioning engine to deliver 1:1 experiences across any channel.",
+      "type": "text/plain"
+    }
+  }
+}

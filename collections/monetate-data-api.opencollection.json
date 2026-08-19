@@ -1,0 +1,266 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Monetate Data API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schema",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Active Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schema/",
+            "params": [
+              {
+                "name": "row_count",
+                "value": "",
+                "type": "query",
+                "description": "Adds a field called `row_count` which is an Integer that is the number of available rows for targeting (there may be an hour delay between uploading data and this value updating)"
+              },
+              {
+                "name": "latest_upload",
+                "value": "",
+                "type": "query",
+                "description": "Adds a field called `last_file_upload` with the format:\n```\n\"last_file_upload\": {\n    \"status\": \"COMPLETE\",\n    \"upload_time\": \"2016-03-24T10:56:52.000000Z\",\n    \"import_start_time\": \"2017-04-04T18:05:34.000000Z\",\n    \"import_end_time\": \"2017-04-04T18:05:35.000000Z\",\n    \"validation_error\": \"\"\n}\n```"
+              },
+              {
+                "name": "usable_in_accounts",
+                "value": "",
+                "type": "query",
+                "description": "Adds a field called `usable_in_accounts` which is an object describing the accounts where the dataset can be used for targeting.\n```\n\"usable_in_accounts\": [\n  {\n      \"name\": \"a-b6206def\",\n      \"instance\": \"p\",\n      \"domain\": \"fifthlevelfashion.com\"\n  },\n  {\n      \"name\": \"a-b6206def\",\n      \"instance\": \"p\",\n      \"domain\": \"fifthlevelfashion.us\"\n  }\n]\n```"
+              }
+            ]
+          },
+          "docs": "Returns a list of active Schema used by Monetate for experience decisioning."
+        },
+        {
+          "info": {
+            "name": "Create a New Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schema/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To send data to Monetate, you must first create a new Schema.\n\n### Schema types\n\nThe API currently accepts the following types of data:\n\n* **Event**: Any data that contains a timestamp for the purposes of understanding when the specific events or interactions occurred in a time series.\n    * **type**: `event`\n    * **Required fields**: `identifier`, `event_time`\n* **Entity**: Any non-time series data\n    * **type**: `attribute`\n    * **Required fields**: `identifier`\n* **Product**: Product catal"
+        },
+        {
+          "info": {
+            "name": "Get Schema Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schema/:schema-name/",
+            "params": [
+              {
+                "name": "schema-name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Schema."
+              },
+              {
+                "name": "row_count",
+                "value": "",
+                "type": "query",
+                "description": "Adds a field called `row_count` which is an Integer that is the number of available rows for targeting (there may be an hour delay between uploading data and this value updating)"
+              },
+              {
+                "name": "latest_upload",
+                "value": "",
+                "type": "query",
+                "description": "Adds a field called `last_file_upload` with the format:\n```\n\"last_file_upload\": {\n    \"status\": \"COMPLETE\",\n    \"upload_time\": \"2016-03-24T10:56:52.000000Z\",\n    \"import_start_time\": \"2017-04-04T18:05:34.000000Z\",\n    \"import_end_time\": \"2017-04-04T18:05:35.000000Z\",\n    \"validation_error\": \"\"\n}\n```"
+              }
+            ]
+          },
+          "docs": "Returns a list of all data types and schemas."
+        },
+        {
+          "info": {
+            "name": "Update an Existing Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schema/:schema-name/",
+            "params": [
+              {
+                "name": "schema-name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Schema."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing schema by either adding new columns or updating the Identifier Name.\n\nThe request differs based on whether adding new columns or updating Identifier Name\nMust only supply either fields or named_identifier (but not both) in the params body.\nResponse will return either fields or named_identifier, depending on which was supplied."
+        },
+        {
+          "info": {
+            "name": "List Schema Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schematype/"
+          },
+          "docs": "Gets a list of the available Schema types and their specifications."
+        },
+        {
+          "info": {
+            "name": "Get Schema Type Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/schematype/:schema-type/",
+            "params": [
+              {
+                "name": "schema-type",
+                "value": "",
+                "type": "path",
+                "description": "Name of the schema type."
+              }
+            ]
+          },
+          "docs": "Gets details for a Schema Type and its specification."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Upload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Upload History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/upload/:schema-name/",
+            "params": [
+              {
+                "name": "schema-name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Schema."
+              }
+            ]
+          },
+          "docs": "Returns the most recent uploads for the Schema provided. Can be used for upload history or the view the status of a currently processed upload.\n\nUploads will appear once file is completely upload to Monetate. SFTP uploads appear when they are scanned and disappear from the SFTP drop location.\n\nUploads are sorted by upload_time in descending order, so the most recent upload will always be first in the list."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Data for example_schema ",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/data/example_schema/"
+          },
+          "docs": "Get an existing data record within the schema `example_schema`.\n\nAllows querying of an existing record.  The record ID must be passed as a query parameter, \ne.g. `?id=ABC12345`.  GET requests are intended solely for manual spot-checking of data \nand must not be used in any automated queries, including test suites or health checks. \nAs such, they are strictly rate-limited.  A maximum of 1 GET request per second is permitted."
+        },
+        {
+          "info": {
+            "name": "Post Data for example_schema ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/data/example_schema/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new data records within the schema `example_schema`.\n\nIf your request contains a unique key that matches a record already received by Monetate, the record is updated with the latest data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Product Catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Account Defaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/defaultcatalog/"
+          },
+          "docs": "List all account default catalogs for retailer"
+        },
+        {
+          "info": {
+            "name": "Set Account Default",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/defaultcatalog/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set a default catalog for an account"
+        },
+        {
+          "info": {
+            "name": "Bulk Set Account Defaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.monetate.net/api/data/v1/{retailerShortname}/production/bulk-defaultcatalog/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set default catalogs for accounts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

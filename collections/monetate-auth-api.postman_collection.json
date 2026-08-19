@@ -1,0 +1,288 @@
+{
+  "item": [
+    {
+      "id": "a1ada515-60cf-4d3f-bafa-7adad89a5d06",
+      "name": "Token",
+      "description": {
+        "content": "API methods for manipulating tokens.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc9fbd92-0b1f-4df7-8511-a6c59971d196",
+          "name": "Refresh a Token",
+          "request": {
+            "name": "Refresh a Token",
+            "description": {
+              "content": "Request to refresh a token for use in token authentication.\n\nThis endpoint has no request body, but requires authentication using a signed JWT. For example, in Python using the PyJWT library:\n\n    import jwt\n    import requests\n    import time\n\n    private_key = \"== SECRET RSA KEY ==\"\n\n    payload = jwt.encode({\n        'username': 'api-xxx-yourname',\n        'iat': time.time()\n    }, private_key, algorithm='RS256')\n\n    authorization = \"JWT {}\".format(payload)\n    requests.get(refresh_url, headers={'Authorization': authorization})\n\nThe JWT should contain the username associated with the key and the creation time. The private key must be associated with an uploaded, active public key. The JWT must be encoded with one of the following algorithms:\n\n* `RS256`\n* `RS384`\n* `RS512`\n\nIssuing this request provides a token which is valid until the indicated expiration time. The default time until expiration (of 1 hour) can be manually set by passing a `ttl` query parameter with the request. Valid values are in the inclusive range of 15 minutes to 12 hours.\n\nIssuing this request does not cause any previously issued tokens to expire, they will continue to function.\n\nTo revoke a token prior to expiration, you must deactivate the public key associated with the token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "refresh",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ttl",
+                  "value": "3600",
+                  "description": "The number of seconds until the requested token expires."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "30ced2f6-3801-4955-873f-693fe017fe1a",
+              "name": "The token was successfully generated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ttl",
+                      "value": "3600"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"issued_at\": 1481650253.342885,\n    \"token\": \"1.lM45vLVwAc5YUD5dAw.XATBdkXQI3Bf7_043j88ScWrzfkzvWcUGRknzkEK7fU\",\n    \"expires_in\": 1000,\n    \"expires_at\": 1481650253.342885\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a66c7e3-9b99-4be3-a24d-2cb92a9b22dc",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ttl",
+                      "value": "3600"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": false\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a35a4cd-5027-4694-94f2-486334424f69",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ttl",
+                      "value": "3600"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": false\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "229dc563-2b0d-4f2f-9b2a-e3289a0ec861",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ttl",
+                      "value": "3600"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": false\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.monetate.net/api/auth/v0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bb6b12ce-815a-4017-8acd-90ad1df9875b",
+    "name": "Monetate Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Monetate Auth API allows you to manage tokens on a per—user key basis.\n\nUsing this API, you can request a token with a fixed expiration. It's returned in a successful (200) response in the 'token' key-value pair in the 'data' object.\n\nThe 'data' object also contains information about the token's expiration. The value of 'expires_in' is the number of seconds until the token expires, which always matches the value of 'ttl' that you passed in the request. The value of 'expires_at' is the timestamp in seconds since epoch for when the token expires.\n\nThis token is associated with a public key you uploaded to Monetate and may be revoked by deactivating said key.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -2,16 +2,14 @@ generated: '2026-08-12'
 method: probed
 status: published
 source: https://monetate.com/.well-known/oauth-protected-resource
-note: >-
-  Monetate publishes a real, discoverable MCP server — but on the monetate.com WordPress marketing site,
-  not on the product API. It is served by the AI Engine WordPress plugin (resource_documentation points at
-  https://meowapps.com/ai-engine/), and it is advertised correctly: RFC 8414 authorization-server metadata
-  and RFC 9728 protected-resource metadata both resolve at the site root. An anonymous
-  JSON-RPC tools/list POST returns HTTP 401 with
-  `WWW-Authenticate: Bearer realm="MCP", resource_metadata="https://monetate.com/wp-json/mcp/v1/.well-known/oauth-protected-resource"`,
-  so the live tool list and its inputSchemas require an authenticated OAuth session. NO tool list is
-  recorded here because none could be read — nothing has been guessed or derived. There is no MCP server
-  for the Engine, Data, Metadata or Auth APIs.
+note: 'Monetate publishes a real, discoverable MCP server — but on the monetate.com WordPress marketing
+  site, not on the product API. It is served by the AI Engine WordPress plugin (resource_documentation
+  points at https://meowapps.com/ai-engine/), and it is advertised correctly: RFC 8414 authorization-server
+  metadata and RFC 9728 protected-resource metadata both resolve at the site root. An anonymous JSON-RPC
+  tools/list POST returns HTTP 401 with `WWW-Authenticate: Bearer realm="MCP", resource_metadata="https://monetate.com/wp-json/mcp/v1/.well-known/oauth-protected-resource"`,
+  so the live tool list and its inputSchemas require an authenticated OAuth session. NO tool list is recorded
+  here because none could be read — nothing has been guessed or derived. There is no MCP server for the
+  Engine, Data, Metadata or Auth APIs.'
 server:
   name: monetate-website-mcp
   transport: http
@@ -37,9 +35,8 @@ authorization:
   bearer_methods:
   - header
 tools: []
-tools_note: >-
-  Auth-gated. tools/list returned 401 to an anonymous caller; no llms.txt on any Monetate host publishes a
-  tool list either, so not even names/descriptions are available without credentials.
+tools_note: Auth-gated. tools/list returned 401 to an anonymous caller; no llms.txt on any Monetate host
+  publishes a tool list either, so not even names/descriptions are available without credentials.
 x-evidence:
 - fetched: '2026-08-12'
   url: https://monetate.com/.well-known/oauth-authorization-server
@@ -55,3 +52,10 @@ x-evidence:
   body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
   http_status: 401
   www_authenticate: Bearer realm="MCP", resource_metadata="https://monetate.com/wp-json/mcp/v1/.well-known/oauth-protected-resource"
+deployment:
+  mode: remote
+  endpoint: https://monetate.com/wp-json/mcp/v1/http
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

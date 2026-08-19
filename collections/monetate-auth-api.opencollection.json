@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Monetate Auth API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Refresh a Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/auth/v0/refresh/",
+            "params": [
+              {
+                "name": "ttl",
+                "value": "",
+                "type": "query",
+                "description": "The number of seconds until the requested token expires."
+              }
+            ]
+          },
+          "docs": "Request to refresh a token for use in token authentication.\n\nThis endpoint has no request body, but requires authentication using a signed JWT. For example, in Python using the PyJWT library:\n\n    import jwt\n    import requests\n    import time\n\n    private_key = \"== SECRET RSA KEY ==\"\n\n    payload = jwt.encode({\n        'username': 'api-xxx-yourname',\n        'iat': time.time()\n    }, private_key, algorithm='RS256')\n\n    authorization = \"JWT {}\".format(payload)\n    requests.get(refresh_url, head"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

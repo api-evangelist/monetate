@@ -1,0 +1,244 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Monetate Metadata API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Custom Targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/customtarget",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Return a list of custom targets."
+        },
+        {
+          "info": {
+            "name": "Get Custom Target Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/customtarget/:customtarget-id",
+            "params": [
+              {
+                "name": "customtarget-id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a custom target."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a single custom target."
+        },
+        {
+          "info": {
+            "name": "List Page Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/pageevent",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Return a list of page events."
+        },
+        {
+          "info": {
+            "name": "Get Page Event Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/pageevent/:pageevent-id",
+            "params": [
+              {
+                "name": "pageevent-id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a page event."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a single page event."
+        },
+        {
+          "info": {
+            "name": "List Experience Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/variant",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Return a list of experience details."
+        },
+        {
+          "info": {
+            "name": "Get Experience Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/variant/:variant-id",
+            "params": [
+              {
+                "name": "variant-id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a variant."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a single experience."
+        },
+        {
+          "info": {
+            "name": "List Experience Summaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/experience-summary",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Returns a list of Experience summaries."
+        },
+        {
+          "info": {
+            "name": "Get Experience Summary Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/experience-summary/:experience-summary-id",
+            "params": [
+              {
+                "name": "experience-summary-id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a experience."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+              }
+            ]
+          },
+          "docs": "Returns detailed summary information about a single experience."
+        },
+        {
+          "info": {
+            "name": "List Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/account"
+          },
+          "docs": "Return a list of accounts."
+        },
+        {
+          "info": {
+            "name": "Get Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.monetate.net/api/metadata/v1/{retailerShortname}/production/metadata/account/:account-id",
+            "params": [
+              {
+                "name": "account-id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a account."
+              }
+            ]
+          },
+          "docs": "Returns information about a single account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

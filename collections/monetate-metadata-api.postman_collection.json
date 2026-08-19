@@ -1,0 +1,3175 @@
+{
+  "item": [
+    {
+      "id": "3630316d-4708-470f-b671-6cb3f32277fb",
+      "name": "Metadata",
+      "description": {
+        "content": "Metadata related endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "294e63ae-1cf8-4532-92da-8d8501c1c424",
+          "name": "List Custom Targets",
+          "request": {
+            "name": "List Custom Targets",
+            "description": {
+              "content": "Return a list of custom targets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "customtarget"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9f7dfe3f-c7dd-433c-b416-46ee69f1353e",
+              "name": "A list of CustomTarget definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 132,\n      \"title\": \"Example CustomTarget Title\",\n      \"is_identifier\": true,\n      \"collects_person_id\": true\n    },\n    {\n      \"id\": 132,\n      \"title\": \"Example CustomTarget Title\",\n      \"is_identifier\": true,\n      \"collects_person_id\": true\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fc475fe-b776-4848-82e3-526aaf8e569f",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e11c016-7c9e-45ad-b8e8-581168af5be3",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4b0708b-ee24-427e-8c16-0570be05aac5",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2122334-c857-44ac-968b-befb6235b752",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3b9745ca-7857-434f-b4f3-ea8bfc2d45b2",
+          "name": "Get Custom Target Details",
+          "request": {
+            "name": "Get Custom Target Details",
+            "description": {
+              "content": "Returns detailed information about a single custom target.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "customtarget",
+                ":customtarget-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "customtarget-id",
+                  "description": "(Required) The identifier of a custom target."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f74a5474-9481-4343-9033-e87cc56f4fb0",
+              "name": "A single CustomTarget definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget",
+                    ":customtarget-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "customtarget-id",
+                      "description": "(Required) The identifier of a custom target."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 132,\n    \"title\": \"Example CustomTarget Title\",\n    \"is_identifier\": true,\n    \"collects_person_id\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b7db50e-07b9-434e-9edf-bb9fb7262501",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget",
+                    ":customtarget-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "customtarget-id",
+                      "description": "(Required) The identifier of a custom target."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16ffa6d3-5dfd-4c5e-832b-ed17f78c6b6a",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget",
+                    ":customtarget-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "customtarget-id",
+                      "description": "(Required) The identifier of a custom target."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4e438c8-94eb-4a62-abc0-896dfd509198",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget",
+                    ":customtarget-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "customtarget-id",
+                      "description": "(Required) The identifier of a custom target."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa534fb8-8590-4c07-bc8d-0f7ff1a2bfe9",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "customtarget",
+                    ":customtarget-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "customtarget-id",
+                      "description": "(Required) The identifier of a custom target."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c769f12e-fb20-4762-8120-a1031fbc0950",
+          "name": "List Page Events",
+          "request": {
+            "name": "List Page Events",
+            "description": {
+              "content": "Return a list of page events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "pageevent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ddeb0909-3a48-421a-873d-bc63379ddd48",
+              "name": "A list of PageEvent definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 132,\n      \"title\": \"Example PageEvent Title\"\n    },\n    {\n      \"id\": 132,\n      \"title\": \"Example PageEvent Title\"\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38f75f53-3d18-4c82-8504-e640dbdddeb1",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f495ecb4-2a46-4207-b6ac-a20e28e6ee97",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4d8d17a-65ec-4bd0-9f4d-e0c3a738af55",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19d5e8b7-92b2-49f9-868d-53c6878eadcf",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "93513ef1-69e8-46d7-984f-3bf6668affc2",
+          "name": "Get Page Event Details",
+          "request": {
+            "name": "Get Page Event Details",
+            "description": {
+              "content": "Returns detailed information about a single page event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "pageevent",
+                ":pageevent-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "pageevent-id",
+                  "description": "(Required) The identifier of a page event."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0dad414-214c-4f2c-b69f-ae96a8e0b345",
+              "name": "A single PageEvent definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent",
+                    ":pageevent-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "pageevent-id",
+                      "description": "(Required) The identifier of a page event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 132,\n    \"title\": \"Example PageEvent Title\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "416a8eca-d2c4-4faf-8632-f47162e838e9",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent",
+                    ":pageevent-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "pageevent-id",
+                      "description": "(Required) The identifier of a page event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "381f055d-76e1-4b16-89bb-79a078b1a7dd",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent",
+                    ":pageevent-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "pageevent-id",
+                      "description": "(Required) The identifier of a page event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf416a34-cd96-457d-8343-2929f880be03",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent",
+                    ":pageevent-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "pageevent-id",
+                      "description": "(Required) The identifier of a page event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a92d4c4e-8dba-4648-8685-1d72af0ed0f4",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "pageevent",
+                    ":pageevent-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "pageevent-id",
+                      "description": "(Required) The identifier of a page event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a5e51e4-d1ad-4f48-bdef-632b3fe1f275",
+          "name": "List Experience Details",
+          "request": {
+            "name": "List Experience Details",
+            "description": {
+              "content": "Return a list of experience details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "variant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d2153b61-97b8-4a81-a298-ebcf940cb8e9",
+              "name": "A list of Experience definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 123456,\n      \"account_domain\": \"website.com\",\n      \"experience_id\": 1234567,\n      \"experience_name\": \"example experience name\",\n      \"experience_type\": \"experience\",\n      \"split_name\": \"A\",\n      \"preview_token\": \"6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM\",\n      \"integration_type\": \"js-tag\"\n    },\n    {\n      \"id\": 123456,\n      \"account_domain\": \"website.com\",\n      \"experience_id\": 1234567,\n      \"experience_name\": \"example experience name\",\n      \"experience_type\": \"experience\",\n      \"split_name\": \"A\",\n      \"preview_token\": \"6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM\",\n      \"integration_type\": \"js-tag\"\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88915e5f-c3cf-425a-bd82-512dc57e58da",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "512a3d8a-ee53-4e78-8af4-8268c483c7b0",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2228f24-bd0e-476e-ac7d-c8197a05bb2e",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11e64837-ae00-4eff-b528-3a253aa0bb3c",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ec0a9c3-ea4e-4cc1-a479-06720713b8ae",
+          "name": "Get Experience Details",
+          "request": {
+            "name": "Get Experience Details",
+            "description": {
+              "content": "Returns detailed information about a single experience.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "variant",
+                ":variant-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "variant-id",
+                  "description": "(Required) The identifier of a variant."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4141b392-8d67-4245-92d8-9721d60bd6b9",
+              "name": "A single Experience definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant",
+                    ":variant-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "variant-id",
+                      "description": "(Required) The identifier of a variant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 123456,\n    \"account_domain\": \"website.com\",\n    \"experience_id\": 1234567,\n    \"experience_name\": \"example experience name\",\n    \"experience_type\": \"experience\",\n    \"split_name\": \"A\",\n    \"preview_token\": \"6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM\",\n    \"integration_type\": \"js-tag\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "170a7c28-2a9e-4c78-88bd-0bd675b21bce",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant",
+                    ":variant-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "variant-id",
+                      "description": "(Required) The identifier of a variant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9bafa33-64e5-44da-832c-382dcde41a8a",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant",
+                    ":variant-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "variant-id",
+                      "description": "(Required) The identifier of a variant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64e02832-45fb-4c14-b2a5-46b40d18eb45",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant",
+                    ":variant-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "variant-id",
+                      "description": "(Required) The identifier of a variant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f3c61e8-8d5a-48ab-84d5-de6c75f74a9b",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "variant",
+                    ":variant-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "variant-id",
+                      "description": "(Required) The identifier of a variant."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a0138be-67c7-44c6-9789-38aef584a93a",
+          "name": "List Experience Summaries",
+          "request": {
+            "name": "List Experience Summaries",
+            "description": {
+              "content": "Returns a list of Experience summaries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "experience-summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e5fe5633-28f3-42ea-91d3-a2b3716bec06",
+              "name": "A list of Experience summaries.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 123456,\n      \"account_domain\": \"website.com\",\n      \"archived\": false,\n      \"create_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"end_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"experience_name\": \"example experience name\",\n      \"experience_type\": \"experience\",\n      \"start_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"status\": \"active\",\n      \"splits\": [\n        98765,\n        54322\n      ],\n      \"tags\": [\n        \"tag1\",\n        \"tag2\"\n      ],\n      \"goals\": [\n        {\n          \"key\": \"newcustomer\",\n          \"name\": \"New customer acquisition rate\",\n          \"description\": \"Conversion rate for new customers - sessions with purchase for new customers / number of sessions for new customers\"\n        }\n      ],\n      \"variant_splits\": [\n        {\n          \"id\": 98765,\n          \"variant\": \"A\",\n          \"split\": 0.266,\n          \"label\": \"dfgdfg\"\n        },\n        {\n          \"id\": 54322,\n          \"variant\": \"B\",\n          \"split\": 0.267,\n          \"label\": \"\"\n        },\n        {\n          \"variant\": \"Control\",\n          \"is_control\": true,\n          \"split\": 0.2,\n          \"allocations\": [\n            {\n              \"variant\": \"A-Control\",\n              \"split\": 0.0665,\n              \"label\": \"A-Control\",\n              \"split_id\": 98765\n            },\n            {\n              \"variant\": \"B-Control\",\n              \"split\": 0.0668,\n              \"label\": \"B-Control\",\n              \"split_id\": 54322\n            }\n          ]\n        },\n        {\n          \"variant\": \"Holdout\",\n          \"is_holdout\": true,\n          \"split\": 0.2,\n          \"allocations\": [\n            {\n              \"variant\": \"Experiment (Holdout)\",\n              \"split\": 0.1,\n              \"label\": \"Experiment (Holdout)\",\n              \"test_group\": 3,\n              \"split_id\": 2345583\n            },\n            {\n              \"variant\": \"Baseline (Holdout)\",\n              \"split\": 0.1,\n              \"label\": \"Baseline (Holdout)\",\n              \"test_group\": 2,\n              \"split_id\": 2345584\n            }\n          ]\n        }\n      ],\n      \"integration_type\": \"js-tag\"\n    },\n    {\n      \"id\": 123456,\n      \"account_domain\": \"website.com\",\n      \"archived\": false,\n      \"create_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"end_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"experience_name\": \"example experience name\",\n      \"experience_type\": \"experience\",\n      \"start_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n      \"status\": \"active\",\n      \"splits\": [\n        98765,\n        54322\n      ],\n      \"tags\": [\n        \"tag1\",\n        \"tag2\"\n      ],\n      \"goals\": [\n        {\n          \"key\": \"newcustomer\",\n          \"name\": \"New customer acquisition rate\",\n          \"description\": \"Conversion rate for new customers - sessions with purchase for new customers / number of sessions for new customers\"\n        }\n      ],\n      \"variant_splits\": [\n        {\n          \"id\": 98765,\n          \"variant\": \"A\",\n          \"split\": 0.266,\n          \"label\": \"dfgdfg\"\n        },\n        {\n          \"id\": 54322,\n          \"variant\": \"B\",\n          \"split\": 0.267,\n          \"label\": \"\"\n        },\n        {\n          \"variant\": \"Control\",\n          \"is_control\": true,\n          \"split\": 0.2,\n          \"allocations\": [\n            {\n              \"variant\": \"A-Control\",\n              \"split\": 0.0665,\n              \"label\": \"A-Control\",\n              \"split_id\": 98765\n            },\n            {\n              \"variant\": \"B-Control\",\n              \"split\": 0.0668,\n              \"label\": \"B-Control\",\n              \"split_id\": 54322\n            }\n          ]\n        },\n        {\n          \"variant\": \"Holdout\",\n          \"is_holdout\": true,\n          \"split\": 0.2,\n          \"allocations\": [\n            {\n              \"variant\": \"Experiment (Holdout)\",\n              \"split\": 0.1,\n              \"label\": \"Experiment (Holdout)\",\n              \"test_group\": 3,\n              \"split_id\": 2345583\n            },\n            {\n              \"variant\": \"Baseline (Holdout)\",\n              \"split\": 0.1,\n              \"label\": \"Baseline (Holdout)\",\n              \"test_group\": 2,\n              \"split_id\": 2345584\n            }\n          ]\n        }\n      ],\n      \"integration_type\": \"js-tag\"\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e536179-ddcc-4cda-ac95-25daead29667",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe5e040d-2765-456b-8adc-e173a296ba97",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "905ecd2c-28c2-4310-847e-02018cfa9a22",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34dc81a5-77ef-45e8-a887-9ee3c25cb836",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "129c449f-517a-4b5c-8e2c-c044fc3802ee",
+          "name": "Get Experience Summary Details",
+          "request": {
+            "name": "Get Experience Summary Details",
+            "description": {
+              "content": "Returns detailed summary information about a single experience.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "experience-summary",
+                ":experience-summary-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "experience-summary-id",
+                  "description": "(Required) The identifier of a experience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ff10680-d28a-4d13-a8cb-59c58c768861",
+              "name": "A single Experience summary.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary",
+                    ":experience-summary-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "experience-summary-id",
+                      "description": "(Required) The identifier of a experience."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 123456,\n    \"account_domain\": \"website.com\",\n    \"archived\": false,\n    \"create_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n    \"end_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n    \"experience_name\": \"example experience name\",\n    \"experience_type\": \"experience\",\n    \"start_time\": \"YYYY-MM-DDTHH:MM:SS.000000Z\",\n    \"status\": \"active\",\n    \"splits\": [\n      98765,\n      54322\n    ],\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"goals\": [\n      {\n        \"key\": \"newcustomer\",\n        \"name\": \"New customer acquisition rate\",\n        \"description\": \"Conversion rate for new customers - sessions with purchase for new customers / number of sessions for new customers\"\n      }\n    ],\n    \"variant_splits\": [\n      {\n        \"id\": 98765,\n        \"variant\": \"A\",\n        \"split\": 0.266,\n        \"label\": \"dfgdfg\"\n      },\n      {\n        \"id\": 54322,\n        \"variant\": \"B\",\n        \"split\": 0.267,\n        \"label\": \"\"\n      },\n      {\n        \"variant\": \"Control\",\n        \"is_control\": true,\n        \"split\": 0.2,\n        \"allocations\": [\n          {\n            \"variant\": \"A-Control\",\n            \"split\": 0.0665,\n            \"label\": \"A-Control\",\n            \"split_id\": 98765\n          },\n          {\n            \"variant\": \"B-Control\",\n            \"split\": 0.0668,\n            \"label\": \"B-Control\",\n            \"split_id\": 54322\n          }\n        ]\n      },\n      {\n        \"variant\": \"Holdout\",\n        \"is_holdout\": true,\n        \"split\": 0.2,\n        \"allocations\": [\n          {\n            \"variant\": \"Experiment (Holdout)\",\n            \"split\": 0.1,\n            \"label\": \"Experiment (Holdout)\",\n            \"test_group\": 3,\n            \"split_id\": 2345583\n          },\n          {\n            \"variant\": \"Baseline (Holdout)\",\n            \"split\": 0.1,\n            \"label\": \"Baseline (Holdout)\",\n            \"test_group\": 2,\n            \"split_id\": 2345584\n          }\n        ]\n      }\n    ],\n    \"integration_type\": \"js-tag\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cba4ccc-c02b-474a-af46-08a38440e65a",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary",
+                    ":experience-summary-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "experience-summary-id",
+                      "description": "(Required) The identifier of a experience."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa1f0c9e-6f02-4775-b92a-caf1a85c6c2b",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary",
+                    ":experience-summary-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "experience-summary-id",
+                      "description": "(Required) The identifier of a experience."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0097423c-c60a-4a76-8378-b883f45f1cb0",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary",
+                    ":experience-summary-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "experience-summary-id",
+                      "description": "(Required) The identifier of a experience."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be4adfc9-809a-4940-a953-f0de45d194f1",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "experience-summary",
+                    ":experience-summary-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "experience-summary-id",
+                      "description": "(Required) The identifier of a experience."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7c76b4c-b495-4a8d-98eb-ab5b3f547c8b",
+          "name": "List Accounts",
+          "request": {
+            "name": "List Accounts",
+            "description": {
+              "content": "Return a list of accounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "481fc8a9-615a-4654-af11-9e9b86b5387e",
+              "name": "A list of account definitions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 123456,\n      \"type\": \"production\",\n      \"kind\": \"retail\",\n      \"archived\": true,\n      \"channel\": \"a-b6206def/p/demo.website.com\",\n      \"name\": \"demo.website.com\",\n      \"preview_url\": \"http://demo.website.com?__store=one\"\n    },\n    {\n      \"id\": 123456,\n      \"type\": \"production\",\n      \"kind\": \"retail\",\n      \"archived\": true,\n      \"channel\": \"a-b6206def/p/demo.website.com\",\n      \"name\": \"demo.website.com\",\n      \"preview_url\": \"http://demo.website.com?__store=one\"\n    }\n  ],\n  \"meta\": {\n    \"code\": 200,\n    \"count\": 1,\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1c04a72-c4cc-494b-9945-26a37f1bbb51",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26f61398-4389-40ea-8abe-ab04bf1a4a63",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fda5be6-4fcc-4d84-89a8-630aeeb922a2",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd91817d-7985-457c-bc5b-482fdb579171",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0ad2fe49-6ffa-4cfc-8fd4-4618a284c8af",
+          "name": "Get Account",
+          "request": {
+            "name": "Get Account",
+            "description": {
+              "content": "Returns information about a single account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata",
+                "account",
+                ":account-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "account-id",
+                  "description": "(Required) The identifier of a account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "facf6c8e-2d9d-4cd6-be66-ad55bda30bb9",
+              "name": "A single account definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account",
+                    ":account-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account-id",
+                      "description": "(Required) The identifier of a account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 123456,\n    \"type\": \"production\",\n    \"kind\": \"retail\",\n    \"archived\": true,\n    \"channel\": \"a-b6206def/p/demo.website.com\",\n    \"name\": \"demo.website.com\",\n    \"preview_url\": \"http://demo.website.com?__store=one\"\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34c32303-d9b4-46c3-84ca-c6dec1269139",
+              "name": "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account",
+                    ":account-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account-id",
+                      "description": "(Required) The identifier of a account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5de94e42-b1d8-4e76-aea9-fd0951ba651e",
+              "name": "Forbidden.\n\nThe request included a token that has been revoked. Please contact your account administrator to generate a new token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account",
+                    ":account-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account-id",
+                      "description": "(Required) The identifier of a account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab4d7904-856e-4fae-8de2-d04e18cc2d5d",
+              "name": "Not found.\n\nThe resource you are trying to fetch does not exist, or has been deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account",
+                    ":account-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account-id",
+                      "description": "(Required) The identifier of a account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c969f32-fb52-4963-ad1d-a6091ca8457f",
+              "name": "Unknown error.\n\nPlease try again or contact your account manager for more information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata",
+                    "account",
+                    ":account-id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "account-id",
+                      "description": "(Required) The identifier of a account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"meta\": {\n    \"code\": 200\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.monetate.net/api/metadata/v1/{{retailerShortname}}/production",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b6dccf42-b221-4278-bc7d-ef1db9d1b7f6",
+    "name": "Monetate Metadata API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Monetate Metadata API allows you fetch metadata about your Monetate account.",
+      "type": "text/plain"
+    }
+  }
+}
