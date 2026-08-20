@@ -21,6 +21,18 @@ tags:
 - Personalization
 - Experience Optimization
 - A/B Testing
+- E-Commerce
+- Product Recommendations
+- Personalized Search
+- Marketing
+- Customer Data
+- Retail
+- Decision Engine
+tags_raw:
+- Company
+- Personalization
+- Experience Optimization
+- A/B Testing
 - Ecommerce
 - Product Recommendations
 - Personalized Search
@@ -38,6 +50,11 @@ apis:
   humanURL: https://developer.monetate.com/engine-api
   baseURL: https://engine.monetate.net/api/engine/v1
   tags:
+  - Decision Engine
+  - Personalization
+  - A/B Testing
+  - E-Commerce
+  tags_raw:
   - Decision Engine
   - Personalization
   - A/B Testing
@@ -61,6 +78,11 @@ apis:
   humanURL: https://developer.monetate.com/data-api
   baseURL: https://api.monetate.net/api/data/v1/{retailerShortname}/production
   tags:
+  - Customer Data
+  - Product Data
+  - Data Ingestion
+  - E-Commerce
+  tags_raw:
   - Customer Data
   - Product Data
   - Data Ingestion
@@ -124,6 +146,9 @@ apis:
   humanURL: https://monetate.com/.well-known/oauth-protected-resource
   baseURL: https://monetate.com/wp-json/mcp/v1/http
   tags:
+  - MCP
+  - Agents
+  tags_raw:
   - MCP
   - Agent
   properties:
