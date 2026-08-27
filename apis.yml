@@ -41,40 +41,11 @@ tags_raw:
 - Retail
 - Decision Engine
 apis:
-- name: Monetate Engine API
-  description: >-
-    RESTful entry point to the Monetate decision engine. A client POSTs a batch of context events, page events
-    and record events for a session and receives back the actions (experiences) the engine decided to serve —
-    usable from a server, a browser, a mobile app, a single-page app, or non-web channels such as in-store
-    displays, kiosks and SMS. Regional endpoints are available alongside the default host.
-  humanURL: https://developer.monetate.com/engine-api
-  baseURL: https://engine.monetate.net/api/engine/v1
-  tags:
-  - Decision Engine
-  - Personalization
-  - A/B Testing
-  - E-Commerce
-  tags_raw:
-  - Decision Engine
-  - Personalization
-  - A/B Testing
-  - Ecommerce
-  properties:
-  - type: OpenAPI
-    url: openapi/monetate-engine-api-openapi.yml
-  - type: Documentation
-    url: https://developer.monetate.com/engine-api
-  - type: APIReference
-    url: https://developer.monetate.com/engine-api/monetate-engine-api
-  - type: GettingStarted
-    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
-  - type: Overlay
-    url: overlays/monetate-engine-api-overlay.yaml
 - name: Monetate Data API
   description: >-
-    Create and manage data schemas and send customer, product and catalog data into Monetate in real time for use
-    by the decision engine. Covers schema CRUD, schema types, upload history, row-level data POST/GET and default
-    product-catalog assignment (single and bulk), plus customer data-privacy operations.
+    Create and manage data schemas and send customer, product and catalog data into Monetate in real time
+    for use by the decision engine. Covers schema CRUD, schema types, upload history, row-level data POST/GET
+    and default product-catalog assignment (single and bulk), plus customer data-privacy operations.
   humanURL: https://developer.monetate.com/data-api
   baseURL: https://api.monetate.net/api/data/v1/{retailerShortname}/production
   tags:
@@ -101,8 +72,8 @@ apis:
 - name: Monetate Metadata API
   description: >-
     Read-only API returning metadata about a Monetate account so that experience, page-event and custom-target
-    identifiers seen in engine responses and analytics exports can be resolved to human-interpretable names.
-    Covers accounts, experiences (variants), experience summaries, page events and custom targets.
+    identifiers seen in engine responses and analytics exports can be resolved to human-interpretable
+    names. Covers accounts, experiences (variants), experience summaries, page events and custom targets.
   humanURL: https://developer.monetate.com/metadata-api
   baseURL: https://api.monetate.net/api/metadata/v1/{retailerShortname}/production
   tags:
@@ -118,31 +89,12 @@ apis:
     url: https://developer.monetate.com/metadata-api/monetate-metadata-api
   - type: Overlay
     url: overlays/monetate-metadata-api-overlay.yaml
-- name: Monetate Auth API
-  description: >-
-    Issues and refreshes the bearer tokens used by the Data API and Metadata API. A signed JWT user key is
-    exchanged for a token with a caller-specified TTL; the token is then sent as an `Authorization: Token
-    <token_string>` header on every subsequent API call.
-  humanURL: https://developer.monetate.com/auth-api
-  baseURL: https://api.monetate.net/api/auth/v0
-  tags:
-  - Authentication
-  - Tokens
-  properties:
-  - type: OpenAPI
-    url: openapi/monetate-auth-api-openapi.yml
-  - type: Documentation
-    url: https://developer.monetate.com/auth-api
-  - type: Authentication
-    url: authentication/monetate-authentication.yml
-  - type: Overlay
-    url: overlays/monetate-auth-api-overlay.yaml
 - name: Monetate Website MCP Server
   description: >-
-    Hosted Model Context Protocol server published on the monetate.com marketing site, advertised through RFC 8414
-    OAuth authorization-server metadata and RFC 9728 protected-resource metadata. Provided by the AI Engine
-    WordPress plugin. The MCP endpoint answers 401 with a Bearer challenge to anonymous callers, so the live tool
-    list requires an authenticated OAuth session.
+    Hosted Model Context Protocol server published on the monetate.com marketing site, advertised through
+    RFC 8414 OAuth authorization-server metadata and RFC 9728 protected-resource metadata. Provided by
+    the AI Engine WordPress plugin. The MCP endpoint answers 401 with a Bearer challenge to anonymous
+    callers, so the live tool list requires an authenticated OAuth session.
   humanURL: https://monetate.com/.well-known/oauth-protected-resource
   baseURL: https://monetate.com/wp-json/mcp/v1/http
   tags:
@@ -160,7 +112,111 @@ apis:
     url: mcp/monetate-tool-crosswalk.yml
   - type: WellKnown
     url: well-known/monetate-well-known.yml
+- aid: monetate:monetate-decision-api
+  name: Monetate Decision API
+  description: The Decision API from Monetate — 1 operation(s) for decision.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Decision
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-decision-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
+- aid: monetate:monetate-product-catalog-api
+  name: Monetate Product Catalog API
+  description: Product Catalog related endpoints.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Product Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-product-catalog-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
+- aid: monetate:monetate-schema-api
+  name: Monetate Schema API
+  description: Schema related endpoints.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Schema
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-schema-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
+- aid: monetate:monetate-token-api
+  name: Monetate Token API
+  description: API methods for manipulating tokens.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Token
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-token-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
+- aid: monetate:monetate-upload-api
+  name: Monetate Upload API
+  description: File upload related endpoints.
+  humanURL: https://developer.monetate.com/engine-api
+  baseURL: https://engine.monetate.net/api/engine/v1
+  tags:
+  - Upload
+  properties:
+  - type: OpenAPI
+    url: openapi/monetate-upload-api-openapi.yml
+  - type: Documentation
+    url: https://developer.monetate.com/engine-api
+  - type: APIReference
+    url: https://developer.monetate.com/engine-api/monetate-engine-api
+  - type: GettingStarted
+    url: https://developer.monetate.com/engine-api/engine-api-startup-guide
+  - type: Documentation
+    url: https://developer.monetate.com/auth-api
+  - type: Authentication
+    url: authentication/monetate-authentication.yml
 common:
+- type: Overlay
+  url: overlays/monetate-engine-api-overlay.yaml
+- type: Overlay
+  url: overlays/monetate-auth-api-overlay.yaml
 - type: Website
   url: https://monetate.com/
 - type: DeveloperPortal
