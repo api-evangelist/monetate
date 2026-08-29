@@ -9,6 +9,18 @@ description: >-
   default catalog management), the Metadata API (accounts, experiences, page events and custom targets) and the
   Auth API (bearer-token issue and refresh) — plus a browser JavaScript API and native SDKs for iOS, Android,
   React Web and React Native. Monetate operates as part of Kibo Commerce.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://images.archbee.com/ceIfEvQHzQk1IVxoRWUh7/48dIncdY24xPwZLOvfSEr_horizontal-pink-blue-800px.png
 url: https://raw.githubusercontent.com/api-evangelist/monetate/refs/heads/main/apis.yml
 x-type: company
