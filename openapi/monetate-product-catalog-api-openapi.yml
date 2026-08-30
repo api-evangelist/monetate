@@ -1,0 +1,325 @@
+openapi: 3.2.0
+info:
+  title: Monetate Data Product Catalog API
+  description: The Monetate Data API allows you to create and send data across any channel in real time. This data is leveraged by Monetate's real-time decisioning engine to deliver 1:1 experiences across any channel.
+  version: v1
+servers:
+- url: https://api.monetate.net/api/data/v1/{retailerShortname}/production
+security:
+- Token Authentication: []
+tags:
+- name: Product Catalog
+  description: Product Catalog related endpoints.
+paths:
+  /defaultcatalog/:
+    get:
+      tags:
+      - Product Catalog
+      summary: List Account Defaults
+      description: List all account default catalogs for retailer
+      responses:
+        '200':
+          description: A list of default account catalogs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogListResponse'
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: 'Forbidden.
+
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: 'Not found.
+
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+    post:
+      tags:
+      - Product Catalog
+      summary: Set Account Default
+      description: Set a default catalog for an account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultAccountCatalog'
+        required: false
+      responses:
+        '201':
+          description: The defaulted product catalog and account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogCreatedResponse'
+            meta:
+              example:
+                code: 201
+            data:
+              example:
+                account: '123'
+                schema: '456'
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: 'Forbidden.
+
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: 'Not found.
+
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: defaultaccountcatalog
+  /bulk-defaultcatalog/:
+    post:
+      tags:
+      - Product Catalog
+      summary: Bulk Set Account Defaults
+      description: Set default catalogs for accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefaultAccountCatalogBulk'
+        required: false
+      responses:
+        '201':
+          description: A list of the defaulted product catalogs and accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultAccountCatalogBulkCreatedResponse'
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: 'Forbidden.
+
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: 'Not found.
+
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-codegen-request-body-name: defaultaccountcatalogbulk
+components:
+  schemas:
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    DefaultAccountCatalogListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/DefaultAccountCatalog'
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    DefaultAccountCatalogBulk:
+      required:
+      - account
+      - schema
+      type: object
+      properties:
+        account:
+          type: string
+          description: Account ID
+        schema:
+          type: string
+          description: Schema ID
+        schema_name:
+          type: string
+          description: Schema Name
+          readOnly: true
+        account_domain:
+          type: string
+          description: Account Domain
+          readOnly: true
+        account_name:
+          type: string
+          description: Account Name
+          readOnly: true
+      description: A List of Account IDs and Schema IDs to connect together to be default product catalogs
+      example:
+        defaultaccountcatalogs:
+        - account: '123'
+          schema: '456'
+        - account: '234'
+          schema: '567'
+    DefaultAccountCatalogBulkCreatedResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/DefaultAccountCatalog'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    DefaultAccountCatalogCreatedResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/DefaultAccountCatalog'
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    DefaultAccountCatalog:
+      required:
+      - account
+      - schema
+      type: object
+      properties:
+        account:
+          type: string
+          description: Account ID
+        schema:
+          type: string
+          description: Schema ID
+        schema_name:
+          type: string
+          description: Schema Name
+          readOnly: true
+        account_domain:
+          type: string
+          description: Account Domain
+          readOnly: true
+        account_name:
+          type: string
+          description: Account Name
+          readOnly: true
+      description: An Account ID and a Schema ID to connect together to be a default product catalog
+      example:
+        account: '123'
+        schema: '456'
+  securitySchemes:
+    Token_Authentication:
+      type: apiKey
+      description: The Monetate Data API uses Token Authentication, so requests to the Data API must include a valid, active authentication token. Include an `Authorization` header with the value `Token [token_string]` with every request. See [Auth API](https://developer.monetate.com/auth-api) for information on obtaining the *token_string*.
+      name: Authorization
+      in: header
+x-original-swagger-version: '2.0'

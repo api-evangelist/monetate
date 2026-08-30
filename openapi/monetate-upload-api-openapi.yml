@@ -1,0 +1,196 @@
+openapi: 3.2.0
+info:
+  title: Monetate Data Upload API
+  description: The Monetate Data API allows you to create and send data across any channel in real time. This data is leveraged by Monetate's real-time decisioning engine to deliver 1:1 experiences across any channel.
+  version: v1
+servers:
+- url: https://api.monetate.net/api/data/v1/{retailerShortname}/production
+security:
+- Token Authentication: []
+tags:
+- name: Upload
+  description: File upload related endpoints.
+paths:
+  /upload/{schema-name}/:
+    get:
+      tags:
+      - Upload
+      summary: Get Upload History
+      description: 'Returns the most recent uploads for the Schema provided. Can be used for upload history or the view the status of a currently processed upload.
+
+
+        Uploads will appear once file is completely upload to Monetate. SFTP uploads appear when they are scanned and disappear from the SFTP drop location.
+
+
+        Uploads are sorted by upload_time in descending order, so the most recent upload will always be first in the list.'
+      parameters:
+      - name: schema-name
+        in: path
+        description: The name of the Schema.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of file uploads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadListResponse'
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: 'Forbidden.
+
+
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: 'Not found.
+
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    FileUpload:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the file upload.
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETE
+          - VALIDATION_ERROR
+          - SYSTEM_ERROR
+          - SKIPPED
+          - TIMEOUT_ERROR
+          - MAX_LOAD_ATTEMPTS_REACHED
+        upload_time:
+          type: string
+          description: The time the file was uploaded to Monetate.
+          format: date-time
+          readOnly: true
+        import_start_time:
+          type: string
+          description: The time Monetate began importing (validating) the file.
+          format: date-time
+          readOnly: true
+        import_end_time:
+          type: string
+          description: The time Monetate completed importing (validating) the file.
+          format: date-time
+          readOnly: true
+        validation_errors:
+          type: array
+          description: The validation error, if any that occurred. Populated when status is VALIDATION_ERROR.
+          readOnly: true
+          items:
+            type: string
+        validation_warnings:
+          type: array
+          description: The validation warnings, if any occurred. Status may still be COMPLETE.
+          readOnly: true
+          items:
+            type: string
+      description: A file upload attempt for a Schema.
+      example:
+        status: COMPLETE
+        upload_date: 2016-09-30 12:10:45.000145+00:00
+        import_start_time: 2016-09-30 12:10:45.000145+00:00
+        import_end_time: 2016-09-30 12:10:45.000145+00:00
+        validation_errors: ''
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    FileUploadListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/FileUpload'
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+  securitySchemes:
+    Token_Authentication:
+      type: apiKey
+      description: The Monetate Data API uses Token Authentication, so requests to the Data API must include a valid, active authentication token. Include an `Authorization` header with the value `Token [token_string]` with every request. See [Auth API](https://developer.monetate.com/auth-api) for information on obtaining the *token_string*.
+      name: Authorization
+      in: header
+x-original-swagger-version: '2.0'
