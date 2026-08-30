@@ -130,6 +130,8 @@ apis:
   humanURL: https://developer.monetate.com/engine-api
   baseURL: https://engine.monetate.net/api/engine/v1
   tags:
+  - Decisions
+  tags_raw:
   - Decision
   properties:
   - type: OpenAPI
