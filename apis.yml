@@ -21,6 +21,21 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  probe_state: covered
+  source:
+  - authentication
+  - rate-limits
+  - security
+  generated: '2026-09-03'
+  method: derived
 image: https://images.archbee.com/ceIfEvQHzQk1IVxoRWUh7/48dIncdY24xPwZLOvfSEr_horizontal-pink-blue-800px.png
 url: https://raw.githubusercontent.com/api-evangelist/monetate/refs/heads/main/apis.yml
 x-type: company
