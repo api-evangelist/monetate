@@ -1,8 +1,6 @@
 openapi: 3.2.0
 info:
-  description: 'The Monetate Engine API allows clients to request decisions (in terms of actions) when an event occurs.
-
-    '
+  description: The Monetate Engine API allows clients to request decisions (in terms of actions) when an event occurs.
   version: 1.0.0
   title: Monetate Engine Decision API
   termsOfService: http://monetate.com/terms/
@@ -18,9 +16,7 @@ paths:
       tags:
       - Decision
       summary: Request Decisions
-      description: 'Monetate Decision API
-
-        '
+      description: Monetate Decision API
       operationId: decide
       parameters:
       - name: retailerShortname
@@ -53,28 +49,35 @@ paths:
         required: true
 components:
   schemas:
-    Action:
+    Event:
       type: object
       required:
-      - actionType
+      - eventType
       properties:
-        actionType:
+        eventType:
           type: string
-          description: The value that identifies the type of action.
-        impressionId:
-          type: string
-          description: A token to be used for recording managed impressions.
-        impressionReporting:
-          description: This array identifies the experience and variant associated with the action. It's included for each action if the "includeReporting" option is set to true on the DecisionRequest event.
-          type: array
-          items:
-            $ref: '#/components/schemas/ImpressionReporting'
+          description: A value that identifies the type of event.
       discriminator:
-        propertyName: actionType
-      description: 'Parent class for all actions, which dictates required field.
+        propertyName: eventType
+      description: 'Parent class for all events, which dictates required fields.
 
         '
-      example: "{\n    \"actionType\": \"Action\"\n}\n"
+      example: "{\n    \"eventType\": \"Event\"\n}\n"
+    HttpResponseBody:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          description: The data portion of the response.
+          $ref: '#/components/schemas/ResponseData'
+        meta:
+          description: The metadata portion of the response.
+          $ref: '#/components/schemas/Meta'
+      description: 'Top-level object definition for the entire HTTP response.
+
+        '
+      example: "{\n    \"meta\": {\n        \"code\": 200,\n        \"errors\": [],\n        \"warnings\": [],\n        \"monetateId\": \"monetate id\"\n    },\n    \"data\": {\n        \"responses\": [\n            {\n                \"requestId\": \"12345\",\n                \"actions\": [\n                    {\n                        \"actionType\": \"Action\"\n                    }\n                ]\n            }\n        ]\n    }\n}\n"
     HttpRequestBody:
       type: object
       required:
@@ -172,21 +175,40 @@ components:
 
         '
       example: "{\n   \"experience_id\": 1,\n   \"experience_label\": \"Homepage Hero Replacement\"\n   \"variant_label\": \"New Arrivals\",\n   \"is_control\": False,\n   \"control_allocation\": 0.50,\n   \"experience_type\": \"Standard Test\",\n   \"has_targets\": False,\n   \"tags\": [\"Default\"]\n}\n"
-    HttpResponseBody:
+    ResponseData:
       type: object
-      required:
-      - data
       properties:
-        data:
-          description: The data portion of the response.
-          $ref: '#/components/schemas/ResponseData'
-        meta:
-          description: The metadata portion of the response.
-          $ref: '#/components/schemas/Meta'
-      description: 'Top-level object definition for the entire HTTP response.
+        responses:
+          description: The array of all responses.
+          type: array
+          items:
+            $ref: '#/components/schemas/Response'
+      description: 'Container array for all responses.
 
         '
-      example: "{\n    \"meta\": {\n        \"code\": 200,\n        \"errors\": [],\n        \"warnings\": [],\n        \"monetateId\": \"monetate id\"\n    },\n    \"data\": {\n        \"responses\": [\n            {\n                \"requestId\": \"12345\",\n                \"actions\": [\n                    {\n                        \"actionType\": \"Action\"\n                    }\n                ]\n            }\n        ]\n    }\n}\n"
+      example: "{\n    \"responses\": [\n        {\n            \"requestId\": \"12345\",\n            \"actions\": [\n                {\n                    \"actionType\": \"Action\"\n                }\n            ]\n        }\n    ]\n}\n"
+    Action:
+      type: object
+      required:
+      - actionType
+      properties:
+        actionType:
+          type: string
+          description: The value that identifies the type of action.
+        impressionId:
+          type: string
+          description: A token to be used for recording managed impressions.
+        impressionReporting:
+          description: This array identifies the experience and variant associated with the action. It's included for each action if the "includeReporting" option is set to true on the DecisionRequest event.
+          type: array
+          items:
+            $ref: '#/components/schemas/ImpressionReporting'
+      discriminator:
+        propertyName: actionType
+      description: 'Parent class for all actions, which dictates required field.
+
+        '
+      example: "{\n    \"actionType\": \"Action\"\n}\n"
     Meta:
       type: object
       properties:
@@ -209,29 +231,3 @@ components:
 
         '
       example: "{\n    \"code\": 200,\n    \"errors\": [],\n    \"warnings\": [],\n    \"monetateId\": \"monetate id\"\n}\n"
-    ResponseData:
-      type: object
-      properties:
-        responses:
-          description: The array of all responses.
-          type: array
-          items:
-            $ref: '#/components/schemas/Response'
-      description: 'Container array for all responses.
-
-        '
-      example: "{\n    \"responses\": [\n        {\n            \"requestId\": \"12345\",\n            \"actions\": [\n                {\n                    \"actionType\": \"Action\"\n                }\n            ]\n        }\n    ]\n}\n"
-    Event:
-      type: object
-      required:
-      - eventType
-      properties:
-        eventType:
-          type: string
-          description: A value that identifies the type of event.
-      discriminator:
-        propertyName: eventType
-      description: 'Parent class for all events, which dictates required fields.
-
-        '
-      example: "{\n    \"eventType\": \"Event\"\n}\n"

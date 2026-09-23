@@ -1,16 +1,7 @@
 openapi: 3.2.0
 info:
   title: Monetate Auth Token API
-  description: 'The Monetate Auth API allows you to manage tokens on a per—user key basis.
-
-
-    Using this API, you can request a token with a fixed expiration. It''s returned in a successful (200) response in the ''token'' key-value pair in the ''data'' object.
-
-
-    The ''data'' object also contains information about the token''s expiration. The value of ''expires_in'' is the number of seconds until the token expires, which always matches the value of ''ttl'' that you passed in the request. The value of ''expires_at'' is the timestamp in seconds since epoch for when the token expires.
-
-
-    This token is associated with a public key you uploaded to Monetate and may be revoked by deactivating said key.'
+  description: The Monetate Auth API allows you to manage tokens on a per—user key basis.
   version: v1
 servers:
 - url: https://api.monetate.net/api/auth/v0
@@ -25,7 +16,53 @@ paths:
       tags:
       - Token
       summary: Refresh a Token
-      description: "Request to refresh a token for use in token authentication.\n\nThis endpoint has no request body, but requires authentication using a signed JWT. For example, in Python using the PyJWT library:\n\n    import jwt\n    import requests\n    import time\n\n    private_key = \"== SECRET RSA KEY ==\"\n\n    payload = jwt.encode({\n        'username': 'api-xxx-yourname',\n        'iat': time.time()\n    }, private_key, algorithm='RS256')\n\n    authorization = \"JWT {}\".format(payload)\n    requests.get(refresh_url, headers={'Authorization': authorization})\n\nThe JWT should contain the username associated with the key and the creation time. The private key must be associated with an uploaded, active public key. The JWT must be encoded with one of the following algorithms:\n\n* `RS256`\n* `RS384`\n* `RS512`\n\nIssuing this request provides a token which is valid until the indicated expiration time. The default time until expiration (of 1 hour) can be manually set by passing a `ttl` query parameter with the request. Valid values are in the inclusive range of 15 minutes to 12 hours.\n\nIssuing this request does not cause any previously issued tokens to expire, they will continue to function.\n\nTo revoke a token prior to expiration, you must deactivate the public key associated with the token."
+      description: 'Request to refresh a token for use in token authentication.
+
+
+        This endpoint has no request body, but requires authentication using a signed JWT. For example, in Python using the PyJWT library:
+
+
+        import jwt
+
+        import requests
+
+        import time
+
+
+        private_key = "== SECRET RSA KEY =="
+
+
+        payload = jwt.encode({
+
+        ''username'': ''api-xxx-yourname'',
+
+        ''iat'': time.time()
+
+        }, private_key, algorithm=''RS256'')
+
+
+        authorization = "JWT {}".format(payload)
+
+        requests.get(refresh_url, headers={''Authorization'': authorization})
+
+
+        The JWT should contain the username associated with the key and the creation time. The private key must be associated with an uploaded, active public key. The JWT must be encoded with one of the following algorithms:
+
+
+        * `RS256`
+
+        * `RS384`
+
+        * `RS512`
+
+
+        Issuing this request provides a token which is valid until the indicated expiration time. The default time until expiration (of 1 hour) can be manually set by passing a `ttl` query parameter with the request. Valid values are in the inclusive range of 15 minutes to 12 hours.
+
+
+        Issuing this request does not cause any previously issued tokens to expire, they will continue to function.
+
+
+        To revoke a token prior to expiration, you must deactivate the public key associated with the token.'
       parameters:
       - name: ttl
         in: query
@@ -66,6 +103,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getRefresh
+      x-operation-id-source: derived
 components:
   schemas:
     ResponseMeta:
@@ -91,16 +130,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    TokenRefreshResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/TokenRefresh'
     Response:
       required:
       - data
@@ -130,6 +159,16 @@ components:
           type: number
           description: The timestamp, in seconds since epoch, when the token will expire.
           example: 1481650253.342885
+    TokenRefreshResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/TokenRefresh'
     ResponseAnyData:
       type: object
       additionalProperties: true

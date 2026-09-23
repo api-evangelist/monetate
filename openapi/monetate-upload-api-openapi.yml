@@ -70,6 +70,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getUploadBySchemaName
+      x-operation-id-source: derived
 components:
   schemas:
     ResponseMeta:
@@ -95,6 +97,23 @@ components:
           items:
             type: object
             additionalProperties: true
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
     FileUpload:
       type: object
       properties:
@@ -154,22 +173,6 @@ components:
           $ref: '#/components/schemas/ResponseMeta'
         data:
           $ref: '#/components/schemas/ResponseAnyData'
-    ResponsePagination:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: The number of items returned in this response.
-          example: 1
-        next:
-          type: string
-          description: A URL to the next group of items, if any.
-        previous:
-          type: string
-          description: A URL to the previous group of items, if any.
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
     FileUploadListResponse:
       required:
       - data
@@ -183,10 +186,9 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/FileUpload'
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
   securitySchemes:
     Token_Authentication:
       type: apiKey

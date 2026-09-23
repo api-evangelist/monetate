@@ -1,0 +1,42 @@
+{
+  "provider": "monetate",
+  "sources": [
+    "_original/monetate-auth-api-openapi-original.yml",
+    "_original/monetate-data-api-openapi-original.yml",
+    "_original/monetate-engine-api-openapi-original.yml",
+    "_original/monetate-metadata-api-openapi-original.yml"
+  ],
+  "outputs": [
+    "monetate-token-api-openapi.yml",
+    "monetate-data-api-openapi.yml",
+    "monetate-product-catalog-api-openapi.yml",
+    "monetate-schema-api-openapi.yml",
+    "monetate-upload-api-openapi.yml",
+    "monetate-decision-api-openapi.yml",
+    "monetate-metadata-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "monetate-auth-api-openapi-original.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "monetate-data-api-openapi-original.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0; renamed 1 component key(s) illegal in 3.x (e.g. Token Authentication)",
+    "monetate-engine-api-openapi-original.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0; renamed 45 component key(s) illegal in 3.x (e.g. monetate:action:ApiAction)",
+    "monetate-engine-api-openapi-original.yml: declared missing tag: Decision",
+    "monetate-metadata-api-openapi-original.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/monetate-engine-api-openapi.yml: archived document superseded by a larger archived document",
+    "_original/monetate-auth-api-openapi.yml: archived document superseded by a larger archived document",
+    "monetate-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-decision-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-product-catalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-schema-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-token-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "monetate-upload-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

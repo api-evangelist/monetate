@@ -64,11 +64,79 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getSchema
+      x-operation-id-source: derived
     post:
       tags:
       - Schema
       summary: Create a New Schema
-      description: "To send data to Monetate, you must first create a new Schema.\n\n### Schema types\n\nThe API currently accepts the following types of data:\n\n* **Event**: Any data that contains a timestamp for the purposes of understanding when the specific events or interactions occurred in a time series.\n    * **type**: `event`\n    * **Required fields**: `identifier`, `event_time`\n* **Entity**: Any non-time series data\n    * **type**: `attribute`\n    * **Required fields**: `identifier`\n* **Product**: Product catalog data\n    * **type**: `product`\n\n### Fields\n\nA Schema consists of a set of fields defining its structure. You can include up to 40 fields in each Schema.\n\n#### Field Data Types\n\nThe API supports the following field data types:\n\n* `STRING`: Non-empty text without leading or trailing whitespace.\n* `MULTI_STRING`: Comma-separated string. As `STRING`, but allows multiple values separated by commas. See [Product Catalog Specification: Comma Escaping](https://docs.monetate.com/docs/product-catalog-specification#comma-escaping) regarding the necessary escaping rules.\n* `NUMBER`: An integer or decimal number.\n* `DATETIME`: A timestamp conforming to the ISO-8601 standard.\n* `BOOLEAN`: A true or false value.\n\n#### Field Attributes\n\nThe API allows attributes to be set on certain fields:\n\n* `data_type`: String attribute. The type of data allowed in this field (see 'Field Data Types').\n* `required`: Boolean attribute. Defaults to false. Allows certain attributes to be 'required' when submitting records.\n* `identifier`: Boolean attribute. Field used to identify a customer. Exactly one field may be the identifier.\n* `unique_key`: Boolean attribute. Unique identifier for the record which can be used to update the record in the future. Only one field may be the unique_key.\n* `event_time`: Boolean attribute. For events, the time that the event occurred.\n\nOnly identifier and unique key are considered 'required' fields when specified. All other fields are optional and are marked as null if absent."
+      description: 'To send data to Monetate, you must first create a new Schema.
+
+
+        ### Schema types
+
+
+        The API currently accepts the following types of data:
+
+
+        * **Event**: Any data that contains a timestamp for the purposes of understanding when the specific events or interactions occurred in a time series.
+
+        * **type**: `event`
+
+        * **Required fields**: `identifier`, `event_time`
+
+        * **Entity**: Any non-time series data
+
+        * **type**: `attribute`
+
+        * **Required fields**: `identifier`
+
+        * **Product**: Product catalog data
+
+        * **type**: `product`
+
+
+        ### Fields
+
+
+        A Schema consists of a set of fields defining its structure. You can include up to 40 fields in each Schema.
+
+
+        #### Field Data Types
+
+
+        The API supports the following field data types:
+
+
+        * `STRING`: Non-empty text without leading or trailing whitespace.
+
+        * `MULTI_STRING`: Comma-separated string. As `STRING`, but allows multiple values separated by commas. See Product Catalog Specification: Comma Escaping regarding the necessary escaping rules.
+
+        * `NUMBER`: An integer or decimal number.
+
+        * `DATETIME`: A timestamp conforming to the ISO-8601 standard.
+
+        * `BOOLEAN`: A true or false value.
+
+
+        #### Field Attributes
+
+
+        The API allows attributes to be set on certain fields:
+
+
+        * `data_type`: String attribute. The type of data allowed in this field (see ''Field Data Types'').
+
+        * `required`: Boolean attribute. Defaults to false. Allows certain attributes to be ''required'' when submitting records.
+
+        * `identifier`: Boolean attribute. Field used to identify a customer. Exactly one field may be the identifier.
+
+        * `unique_key`: Boolean attribute. Unique identifier for the record which can be used to update the record in the future. Only one field may be the unique_key.
+
+        * `event_time`: Boolean attribute. For events, the time that the event occurred.
+
+
+        Only identifier and unique key are considered ''required'' fields when specified. All other fields are optional and are marked as null if absent.'
       requestBody:
         content:
           application/json:
@@ -137,6 +205,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Response'
       x-codegen-request-body-name: schema
+      operationId: postSchema
+      x-operation-id-source: derived
   /schema/{schema-name}/:
     get:
       tags:
@@ -200,6 +270,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getSchemaBySchemaName
+      x-operation-id-source: derived
     patch:
       tags:
       - Schema
@@ -275,6 +347,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Response'
       x-codegen-request-body-name: fields
+      operationId: patchSchemaBySchemaName
+      x-operation-id-source: derived
   /schematype/:
     get:
       tags:
@@ -321,6 +395,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getSchematype
+      x-operation-id-source: derived
   /schematype/{schema-type}/:
     get:
       tags:
@@ -374,31 +450,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getSchematypeBySchemaType
+      x-operation-id-source: derived
 components:
   schemas:
-    SchemaPatch:
-      required:
-      - fields
-      type: object
-      properties:
-        fields:
-          minProperties: 1
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Field'
-          description: The fields that define the structure of this Schema.
-      description: '
-
-        Within a Schema, fields must have unique names.
-
-
-        Columns passed in the fields property are added to the schema.'
-      example:
-        name: catalog
-        type: event
-        fields:
-          new_field:
-            data_type: STRING
     ResponseMeta:
       required:
       - code
@@ -422,6 +477,190 @@ components:
           items:
             type: object
             additionalProperties: true
+    SchemaResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Schema'
+    Schema:
+      required:
+      - fields
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          pattern: ^[A-Za-z][A-Za-z0-9_]*$
+          type: string
+          description: 'The name of the Schema.
+
+
+            Schema names must begin with a letter and contain only letters, numbers, hyphens, and the underscore character.
+
+
+            Maximum length of 64 characters.'
+        type:
+          type: string
+          description: The type of this schema.
+          enum:
+          - agil_one
+          - attribute
+          - behavioral_trigger
+          - custom_list
+          - customer_data_privacy
+          - email_metadata
+          - event
+          - inventory
+          - product
+          - product_recommendation
+          - purchase
+        fields:
+          minProperties: 1
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields that define the structure of this Schema.
+        created_date:
+          type: string
+          description: The time the schema was created.
+          format: date-time
+          readOnly: true
+        id:
+          type: integer
+          description: Monetate internal identifier for this schema.
+          readOnly: true
+        named_identifier:
+          type: string
+          description: '
+
+            Identifier Name to associate with the schema.
+
+
+            Identifier Name must be set for the schema to be used.'
+      description: 'Representation of a Schema object.  A schema must have a name, and at least one field.
+
+
+        Schemata for your account must have unique names.  If you are trying to re-create a Schema that already exists, please delete the old one first.
+
+
+        Within a Schema, fields must have unique names.
+
+
+        Exactly one field must be designated as the `identifier`.  This field will be used to link to a Person ID for testing and targeting.
+
+
+        Optionally, one field may be designated as a `unique_key`.  If a Schema defines a unique key, then only one record can exist in your data for a given value of the unique key.  Successive data updates with the same unique key value will replace earlier data updates.  If no unique key is defined, then all data updates will be considered new data and will never replace earlier data.'
+      example:
+        name: purchase_event
+        named_identifier: valid_named_identifier
+        type: event
+        fields:
+          purchase_id:
+            data_type: STRING
+            unique_key: true
+          customer_id:
+            data_type: STRING
+            identifier: true
+          purchase_time:
+            data_type: DATETIME
+            event_time: true
+          product_id:
+            data_type: STRING
+          product_category:
+            data_type: STRING
+          product_price:
+            data_type: NUMBER
+    SchemaTypeResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaType'
+    SchemaListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/Schema'
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    SchemaPatchResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaPatch'
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    SchemaPatch:
+      required:
+      - fields
+      type: object
+      properties:
+        fields:
+          minProperties: 1
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields that define the structure of this Schema.
+      description: '
+
+        Within a Schema, fields must have unique names.
+
+
+        Columns passed in the fields property are added to the schema.'
+      example:
+        name: catalog
+        type: event
+        fields:
+          new_field:
+            data_type: STRING
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
     Field:
       required:
       - data_type
@@ -474,29 +713,6 @@ components:
 
             For schema''s with type==event, there must be exactly 1 field marked as the event time.'
       description: Representation of the properties of a Field within a Schema. Only appears within a Schema object's `fields` property.
-    SchemaListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/Schema'
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
     SchemaType:
       required:
       - fields
@@ -758,130 +974,6 @@ components:
             unique_key: false
             event_time: false
             required: false
-    SchemaResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Schema'
-    SchemaTypeResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/SchemaType'
-    ResponsePagination:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: The number of items returned in this response.
-          example: 1
-        next:
-          type: string
-          description: A URL to the next group of items, if any.
-        previous:
-          type: string
-          description: A URL to the previous group of items, if any.
-    Schema:
-      required:
-      - fields
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          pattern: ^[A-Za-z][A-Za-z0-9_]*$
-          type: string
-          description: 'The name of the Schema.
-
-
-            Schema names must begin with a letter and contain only letters, numbers, hyphens, and the underscore character.
-
-
-            Maximum length of 64 characters.'
-        type:
-          type: string
-          description: The type of this schema.
-          enum:
-          - agil_one
-          - attribute
-          - behavioral_trigger
-          - custom_list
-          - customer_data_privacy
-          - email_metadata
-          - event
-          - inventory
-          - product
-          - product_recommendation
-          - purchase
-        fields:
-          minProperties: 1
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Field'
-          description: The fields that define the structure of this Schema.
-        created_date:
-          type: string
-          description: The time the schema was created.
-          format: date-time
-          readOnly: true
-        id:
-          type: integer
-          description: Monetate internal identifier for this schema.
-          readOnly: true
-        named_identifier:
-          type: string
-          description: '
-
-            Identifier Name to associate with the schema.
-
-
-            Identifier Name must be set for the schema to be used.'
-      description: 'Representation of a Schema object.  A schema must have a name, and at least one field.
-
-
-        Schemata for your account must have unique names.  If you are trying to re-create a Schema that already exists, please delete the old one first.
-
-
-        Within a Schema, fields must have unique names.
-
-
-        Exactly one field must be designated as the `identifier`.  This field will be used to link to a Person ID for testing and targeting.
-
-
-        Optionally, one field may be designated as a `unique_key`.  If a Schema defines a unique key, then only one record can exist in your data for a given value of the unique key.  Successive data updates with the same unique key value will replace earlier data updates.  If no unique key is defined, then all data updates will be considered new data and will never replace earlier data.'
-      example:
-        name: purchase_event
-        named_identifier: valid_named_identifier
-        type: event
-        fields:
-          purchase_id:
-            data_type: STRING
-            unique_key: true
-          customer_id:
-            data_type: STRING
-            identifier: true
-          purchase_time:
-            data_type: DATETIME
-            event_time: true
-          product_id:
-            data_type: STRING
-          product_category:
-            data_type: STRING
-          product_price:
-            data_type: NUMBER
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
     SchemaTypeListResponse:
       required:
       - data
@@ -895,20 +987,6 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/SchemaType'
-    SchemaPatchResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/SchemaPatch'
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
   securitySchemes:
     Token_Authentication:
       type: apiKey

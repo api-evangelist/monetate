@@ -1,8 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Monetate Metadata API
-  description: The Monetate Metadata API allows you fetch metadata about your Monetate
-    account.
+  description: The Monetate Metadata API allows you fetch metadata about your Monetate account.
   version: v1
 servers:
 - url: https://api.monetate.net/api/metadata/v1/{retailerShortname}/production
@@ -21,52 +20,51 @@ paths:
       parameters:
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A list of CustomTarget definitions.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomTargetListResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataCustomtarget
+      x-operation-id-source: derived
   /metadata/customtarget/{customtarget-id}:
     get:
       tags:
@@ -81,47 +79,47 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A single CustomTarget definition.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomTargetResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataCustomtargetByCustomtargetId
+      x-operation-id-source: derived
   /metadata/pageevent:
     get:
       tags:
@@ -131,52 +129,51 @@ paths:
       parameters:
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A list of PageEvent definitions.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageEventListResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataPageevent
+      x-operation-id-source: derived
   /metadata/pageevent/{pageevent-id}:
     get:
       tags:
@@ -191,47 +188,47 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A single PageEvent definition.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageEventResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataPageeventByPageeventId
+      x-operation-id-source: derived
   /metadata/variant:
     get:
       tags:
@@ -241,58 +238,56 @@ paths:
       parameters:
       - name: name
         in: query
-        description: "Case-insensitive query for the experience name. If the experience\
-          \ name contains the query value, it will be returned."
+        description: Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned.
         schema:
           type: string
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A list of Experience definitions.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VariantListResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataVariant
+      x-operation-id-source: derived
   /metadata/variant/{variant-id}:
     get:
       tags:
@@ -308,58 +303,56 @@ paths:
           type: integer
       - name: name
         in: query
-        description: "Case-insensitive query for the experience name. If the experience\
-          \ name contains the query value, it will be returned."
+        description: Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned.
         schema:
           type: string
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A single Experience definition.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VariantResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataVariantByVariantId
+      x-operation-id-source: derived
   /metadata/experience-summary:
     get:
       tags:
@@ -369,58 +362,56 @@ paths:
       parameters:
       - name: name
         in: query
-        description: "Case-insensitive query for the experience name. If the experience\
-          \ name contains the query value, it will be returned."
+        description: Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned.
         schema:
           type: string
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A list of Experience summaries.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Experience-SummaryListResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataExperienceSummary
+      x-operation-id-source: derived
   /metadata/experience-summary/{experience-summary-id}:
     get:
       tags:
@@ -436,58 +427,56 @@ paths:
           type: integer
       - name: name
         in: query
-        description: "Case-insensitive query for the experience name. If the experience\
-          \ name contains the query value, it will be returned."
+        description: Case-insensitive query for the experience name. If the experience name contains the query value, it will be returned.
         schema:
           type: string
       - name: page_size
         in: query
-        description: "The number of items per response page. The default is 10, and\
-          \ the maximum is 1000; higher values will be clamped to the maximum."
+        description: The number of items per response page. The default is 10, and the maximum is 1000; higher values will be clamped to the maximum.
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A single Experience summary.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Experience-SummaryResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataExperienceSummaryByExperienceSummaryId
+      x-operation-id-source: derived
   /metadata/account:
     get:
       tags:
@@ -495,47 +484,47 @@ paths:
       summary: List Accounts
       description: Return a list of accounts.
       responses:
-        "200":
+        '200':
           description: A list of account definitions.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountListResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataAccount
+      x-operation-id-source: derived
   /metadata/account/{account-id}:
     get:
       tags:
@@ -550,47 +539,47 @@ paths:
         schema:
           type: integer
       responses:
-        "200":
+        '200':
           description: A single account definition.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
-        "401":
-          description: "Unauthorized. \n\nThe request did not include a token, or\
-            \ the token provided was invalid. Please ensure that your token is correct\
-            \ and that the Authorization header is properly formatted."
+        '401':
+          description: "Unauthorized. \n\nThe request did not include a token, or the token provided was invalid. Please ensure that your token is correct and that the Authorization header is properly formatted."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "403":
-          description: |-
-            Forbidden.
+        '403':
+          description: 'Forbidden.
 
-            The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-        "404":
-          description: |-
-            Not found.
 
-            The resource you are trying to fetch does not exist, or has been deleted.
+            The request included a token that has been revoked. Please contact your account administrator to generate a new token.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
-        "500":
-          description: |-
-            Unknown error.
+        '404':
+          description: 'Not found.
 
-            Please try again or contact your account manager for more information.
+
+            The resource you are trying to fetch does not exist, or has been deleted.'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+        '500':
+          description: 'Unknown error.
+
+
+            Please try again or contact your account manager for more information.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      operationId: getMetadataAccountByAccountId
+      x-operation-id-source: derived
 components:
   schemas:
     ResponseMeta:
@@ -625,57 +614,11 @@ components:
           example: 1
         next:
           type: string
-          description: "A URL to the next group of items, if any."
+          description: A URL to the next group of items, if any.
         previous:
           type: string
-          description: "A URL to the previous group of items, if any."
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    CustomTarget:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for custom targets.
-          readOnly: true
-        title:
-          type: string
-          description: The title of the custom target.
-          readOnly: true
-        description:
-          type: string
-          description: The description of the custom target.
-          readOnly: true
-        is_identifier:
-          type: boolean
-          description: Whether the custom target collects an identifier.
-          readOnly: true
-        collects_person_id:
-          type: boolean
-          description: Whether the custom target collects your retailer person id.
-          readOnly: true
-      description: Representation of a Custom Target object.
-      example:
-        id: 132
-        title: Example CustomTarget Title
-        is_identifier: true
-        collects_person_id: true
-    CustomTargetListResponse:
+          description: A URL to the previous group of items, if any.
+    Experience-SummaryListResponse:
       required:
       - data
       - meta
@@ -687,45 +630,7 @@ components:
           type: array
           description: Data payload of this response.
           items:
-            $ref: '#/components/schemas/CustomTarget'
-    CustomTargetResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/CustomTarget'
-    PageEvent:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for page events.
-          readOnly: true
-        title:
-          type: string
-          description: The title of the page event.
-          readOnly: true
-      description: Representation of a Page Event object.
-      example:
-        id: 132
-        title: Example PageEvent Title
-    PageEventListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/PageEvent'
+            $ref: '#/components/schemas/Experience-Summary'
     PageEventResponse:
       required:
       - data
@@ -736,60 +641,29 @@ components:
           $ref: '#/components/schemas/ResponseMeta'
         data:
           $ref: '#/components/schemas/PageEvent'
-    Variant:
+    Response:
+      required:
+      - data
+      - meta
       type: object
       properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for experiences.
-          readOnly: true
-        account_domain:
-          type: string
-          description: The account domain the experience is associated with.
-          readOnly: true
-        experience_id:
-          type: integer
-          description: The Monetate internal identifier for the experience.
-          readOnly: true
-        experience_name:
-          type: string
-          description: The name of the experience.
-          readOnly: true
-        experience_type:
-          type: string
-          description: The split name associated with the offer for this experience.
-          readOnly: true
-        split_name:
-          type: string
-          description: The split name associated with the offer for this experience.
-          readOnly: true
-        split_description:
-          type: string
-          description: The description or label for a specific split defined in this
-            experience.
-          readOnly: true
-        preview_token:
-          type: string
-          description: The preview token associated with the split.
-          readOnly: true
-        integration_type:
-          type: string
-          description: "Experience type either client-side, email or engine-api."
-          readOnly: true
-          enum:
-          - js-tag
-          - engine-api
-          - email
-      description: Representation of an Experience object.
-      example:
-        id: 123456
-        account_domain: website.com
-        experience_id: 1234567
-        experience_name: example experience name
-        experience_type: experience
-        split_name: A
-        preview_token: 6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM
-        integration_type: js-tag
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    VariantResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Variant'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
     VariantListResponse:
       required:
       - data
@@ -803,7 +677,73 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Variant'
-    VariantResponse:
+    PageEventListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/PageEvent'
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for accounts.
+          readOnly: true
+        type:
+          type: string
+          description: The instance type of account (production, development, etc.).
+          readOnly: true
+        kind:
+          type: string
+          description: The kind of account (retail, travel, etc.).
+          readOnly: true
+        archived:
+          type: boolean
+          description: Whether the account has been archived.
+          readOnly: true
+        channel:
+          type: string
+          description: The instance name, instance type identifier, and account domain concatenated together as a single token.
+          readOnly: true
+        name:
+          type: string
+          description: The name of the account.
+          readOnly: true
+        preview_url:
+          type: string
+          description: The account preview token URL as defined in the UI.
+          readOnly: true
+      description: Representation of an Experience object.
+      example:
+        id: 123456
+        type: production
+        kind: retail
+        archived: true
+        channel: a-b6206def/p/demo.website.com
+        name: demo.website.com
+        preview_url: http://demo.website.com?__store=one
+    CustomTargetListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/CustomTarget'
+    AccountResponse:
       required:
       - data
       - meta
@@ -812,7 +752,7 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/Variant'
+          $ref: '#/components/schemas/Account'
     Experience-Summary:
       type: object
       properties:
@@ -842,8 +782,7 @@ components:
           readOnly: true
         start_time:
           type: string
-          description: The time what which the experience was activated or scheduled
-            to be activated.
+          description: The time what which the experience was activated or scheduled to be activated.
           readOnly: true
         end_time:
           type: string
@@ -851,8 +790,7 @@ components:
           readOnly: true
         status:
           type: string
-          description: "The current status of the experience. Options include \"active\"\
-            , \"draft\", \"paused\", \"scheduled\", \"ended\"."
+          description: The current status of the experience. Options include "active", "draft", "paused", "scheduled", "ended".
           readOnly: true
         splits:
           type: array
@@ -959,18 +897,14 @@ components:
             properties:
               id:
                 type: integer
-                description: Id of the variant. This matches one item in the splits
-                  list
+                description: Id of the variant. This matches one item in the splits list
               variant:
-                pattern: "^(?:[A-Z]+|Experiment|Control)$"
+                pattern: ^(?:[A-Z]+|Experiment|Control)$
                 type: string
-                description: "Name of the variant. Conforms to ^(?:[A-Z]+|Experiment|Control)$\
-                  \ where Experiment is used when there is only one variant running\
-                  \ and Control is used for the control splits"
+                description: Name of the variant. Conforms to ^(?:[A-Z]+|Experiment|Control)$ where Experiment is used when there is only one variant running and Control is used for the control splits
               split:
                 type: number
-                description: Ratio for the split. Sum of all ratios for variants and
-                  the control = 1
+                description: Ratio for the split. Sum of all ratios for variants and the control = 1
               label:
                 type: boolean
                 description: Label given to the variant. Empty if not assigned
@@ -985,27 +919,23 @@ components:
                   type: object
                   properties:
                     variant:
-                      pattern: "^[A-Z]+-Control$\" %}"
+                      pattern: ^[A-Z]+-Control$" %}
                       type: string
-                      description: "Name of the variant. When the group is a control\
-                        \ group this conforms to ^[A-Z]+-Control$"
+                      description: Name of the variant. When the group is a control group this conforms to ^[A-Z]+-Control$
                     split:
                       type: number
-                      description: Ratio for the control split. Sum of all ratios
-                        for control would sum up to the total control ratio
+                      description: Ratio for the control split. Sum of all ratios for control would sum up to the total control ratio
                     label:
                       type: string
-                      description: Label for the control. This is allways set the
-                        same as variant attribute
+                      description: Label for the control. This is allways set the same as variant attribute
                     split_id:
                       type: integer
                       description: Split id control belongs to
                   description: Holds allocations to control groups
-            description: Variants and their percentage splits. When there is only
-              one version running this defaults to a list with a single object
+            description: Variants and their percentage splits. When there is only one version running this defaults to a list with a single object
         integration_type:
           type: string
-          description: "Experience type either client-side, email or engine-api."
+          description: Experience type either client-side, email or engine-api.
           readOnly: true
           enum:
           - js-tag
@@ -1031,8 +961,7 @@ components:
         goals:
         - key: newcustomer
           name: New customer acquisition rate
-          description: Conversion rate for new customers - sessions with purchase
-            for new customers / number of sessions for new customers
+          description: Conversion rate for new customers - sessions with purchase for new customers / number of sessions for new customers
         variant_splits:
         - id: 98765
           variant: A
@@ -1041,7 +970,7 @@ components:
         - id: 54322
           variant: B
           split: 0.267
-          label: ""
+          label: ''
         - variant: Control
           is_control: true
           split: 0.2
@@ -1069,20 +998,7 @@ components:
             test_group: 2
             split_id: 2345584
         integration_type: js-tag
-    Experience-SummaryListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/Experience-Summary'
-    Experience-SummaryResponse:
+    CustomTargetResponse:
       required:
       - data
       - meta
@@ -1091,48 +1007,7 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/Experience-Summary'
-    Account:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for accounts.
-          readOnly: true
-        type:
-          type: string
-          description: "The instance type of account (production, development, etc.)."
-          readOnly: true
-        kind:
-          type: string
-          description: "The kind of account (retail, travel, etc.)."
-          readOnly: true
-        archived:
-          type: boolean
-          description: Whether the account has been archived.
-          readOnly: true
-        channel:
-          type: string
-          description: "The instance name, instance type identifier, and account domain\
-            \ concatenated together as a single token."
-          readOnly: true
-        name:
-          type: string
-          description: The name of the account.
-          readOnly: true
-        preview_url:
-          type: string
-          description: The account preview token URL as defined in the UI.
-          readOnly: true
-      description: Representation of an Experience object.
-      example:
-        id: 123456
-        type: production
-        kind: retail
-        archived: true
-        channel: a-b6206def/p/demo.website.com
-        name: demo.website.com
-        preview_url: http://demo.website.com?__store=one
+          $ref: '#/components/schemas/CustomTarget'
     AccountListResponse:
       required:
       - data
@@ -1146,7 +1021,26 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Account'
-    AccountResponse:
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    PageEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for page events.
+          readOnly: true
+        title:
+          type: string
+          description: The title of the page event.
+          readOnly: true
+      description: Representation of a Page Event object.
+      example:
+        id: 132
+        title: Example PageEvent Title
+    Experience-SummaryResponse:
       required:
       - data
       - meta
@@ -1155,167 +1049,93 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/Account'
-  responses:
-    "400-Validation-Error":
-      description: "Validation error. \n\nOne or more values being sent was not in\
-        \ the correct format, or a required value was missing."
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "401-Unauthorized":
-      description: "Unauthorized. \n\nThe request did not include a token, or the\
-        \ token provided was invalid. Please ensure that your token is correct and\
-        \ that the Authorization header is properly formatted."
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "403-Forbidden":
-      description: |-
-        Forbidden.
-
-        The request included a token that has been revoked. Please contact your account administrator to generate a new token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "404-Not-Found":
-      description: |-
-        Not found.
-
-        The resource you are trying to fetch does not exist, or has been deleted.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "429-Too-Many-Requests":
-      description: |-
-        Too many requests.
-
-        The user has sent too many requests in a given amount of time to a rate-limited endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "500-Server-Error":
-      description: |-
-        Unknown error.
-
-        Please try again or contact your account manager for more information.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Response'
-    "200-CustomTarget-List":
-      description: A list of CustomTarget definitions.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CustomTargetListResponse'
-    "200-CustomTarget":
-      description: A single CustomTarget definition.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CustomTargetResponse'
-    "200-PageEvent-List":
-      description: A list of PageEvent definitions.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PageEventListResponse'
-    "200-PageEvent":
-      description: A single PageEvent definition.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PageEventResponse'
-    "200-Variant-List":
-      description: A list of Experience definitions.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VariantListResponse'
-    "200-Variant":
-      description: A single Experience definition.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/VariantResponse'
-    "200-Experience-Summary-List":
-      description: A list of Experience summaries.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Experience-SummaryListResponse'
-    "200-Experience-Summary":
-      description: A single Experience summary.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Experience-SummaryResponse'
-    "200-Account-List":
-      description: A list of account definitions.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccountListResponse'
-    "200-Account":
-      description: A single account definition.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccountResponse'
-  parameters:
-    customtarget-id:
-      name: customtarget-id
-      in: path
-      description: The identifier of a custom target.
-      required: true
-      schema:
-        type: integer
-    pageevent-id:
-      name: pageevent-id
-      in: path
-      description: The identifier of a page event.
-      required: true
-      schema:
-        type: integer
-    experience-id:
-      name: experience-id
-      in: path
-      description: The Monetate internal identifier for the experience.
-      required: true
-      schema:
-        type: integer
-    experience-summary-id:
-      name: experience-summary-id
-      in: path
-      description: The identifier of a experience.
-      required: true
-      schema:
-        type: integer
-    variant-id:
-      name: variant-id
-      in: path
-      description: The identifier of a variant.
-      required: true
-      schema:
-        type: integer
-    account-id:
-      name: account-id
-      in: path
-      description: The identifier of a account.
-      required: true
-      schema:
-        type: integer
+          $ref: '#/components/schemas/Experience-Summary'
+    Variant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for experiences.
+          readOnly: true
+        account_domain:
+          type: string
+          description: The account domain the experience is associated with.
+          readOnly: true
+        experience_id:
+          type: integer
+          description: The Monetate internal identifier for the experience.
+          readOnly: true
+        experience_name:
+          type: string
+          description: The name of the experience.
+          readOnly: true
+        experience_type:
+          type: string
+          description: The split name associated with the offer for this experience.
+          readOnly: true
+        split_name:
+          type: string
+          description: The split name associated with the offer for this experience.
+          readOnly: true
+        split_description:
+          type: string
+          description: The description or label for a specific split defined in this experience.
+          readOnly: true
+        preview_token:
+          type: string
+          description: The preview token associated with the split.
+          readOnly: true
+        integration_type:
+          type: string
+          description: Experience type either client-side, email or engine-api.
+          readOnly: true
+          enum:
+          - js-tag
+          - engine-api
+          - email
+      description: Representation of an Experience object.
+      example:
+        id: 123456
+        account_domain: website.com
+        experience_id: 1234567
+        experience_name: example experience name
+        experience_type: experience
+        split_name: A
+        preview_token: 6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM
+        integration_type: js-tag
+    CustomTarget:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for custom targets.
+          readOnly: true
+        title:
+          type: string
+          description: The title of the custom target.
+          readOnly: true
+        description:
+          type: string
+          description: The description of the custom target.
+          readOnly: true
+        is_identifier:
+          type: boolean
+          description: Whether the custom target collects an identifier.
+          readOnly: true
+        collects_person_id:
+          type: boolean
+          description: Whether the custom target collects your retailer person id.
+          readOnly: true
+      description: Representation of a Custom Target object.
+      example:
+        id: 132
+        title: Example CustomTarget Title
+        is_identifier: true
+        collects_person_id: true
   securitySchemes:
     TokenAuthentication:
       type: apiKey
-      description: |-
-        The Monetate Metadata API uses Token Authentication. Requests to the Metadata API must include a valid, active authentication token. Include an `Authorization` header with the value `Token [token_string]` with every request. See [Auth API](https://developer.monetate.com/auth-api) for information on obtaining the *token_string*.
+      description: The Monetate Metadata API uses Token Authentication. Requests to the Metadata API must include a valid, active authentication token. Include an `Authorization` header with the value `Token [token_string]` with every request. See [Auth API](https://developer.monetate.com/auth-api) for information on obtaining the *token_string*.
       name: Authorization
       in: header
-x-original-swagger-version: "2.0"
+x-original-swagger-version: '2.0'

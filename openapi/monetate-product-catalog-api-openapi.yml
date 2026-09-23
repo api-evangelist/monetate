@@ -57,6 +57,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      operationId: getDefaultcatalog
+      x-operation-id-source: derived
     post:
       tags:
       - Product Catalog
@@ -116,6 +118,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Response'
       x-codegen-request-body-name: defaultaccountcatalog
+      operationId: postDefaultcatalog
+      x-operation-id-source: derived
   /bulk-defaultcatalog/:
     post:
       tags:
@@ -169,6 +173,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Response'
       x-codegen-request-body-name: defaultaccountcatalogbulk
+      operationId: postBulkDefaultcatalog
+      x-operation-id-source: derived
 components:
   schemas:
     ResponseMeta:
@@ -194,29 +200,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    DefaultAccountCatalogListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/DefaultAccountCatalog'
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
     DefaultAccountCatalogBulk:
       required:
       - account
@@ -248,19 +231,6 @@ components:
           schema: '456'
         - account: '234'
           schema: '567'
-    DefaultAccountCatalogBulkCreatedResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/DefaultAccountCatalog'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
     ResponsePagination:
       type: object
       properties:
@@ -274,6 +244,20 @@ components:
         previous:
           type: string
           description: A URL to the previous group of items, if any.
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
     DefaultAccountCatalogCreatedResponse:
       required:
       - data
@@ -284,10 +268,32 @@ components:
           $ref: '#/components/schemas/ResponseMeta'
         data:
           $ref: '#/components/schemas/DefaultAccountCatalog'
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
+    DefaultAccountCatalogListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/DefaultAccountCatalog'
+    DefaultAccountCatalogBulkCreatedResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/DefaultAccountCatalog'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
     DefaultAccountCatalog:
       required:
       - account
