@@ -74,6 +74,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    FileUploadListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/FileUpload'
     ResponseMeta:
       required:
       - code
@@ -97,6 +110,16 @@ components:
           items:
             type: object
             additionalProperties: true
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
     ResponsePagination:
       type: object
       properties:
@@ -163,29 +186,6 @@ components:
         import_start_time: 2016-09-30 12:10:45.000145+00:00
         import_end_time: 2016-09-30 12:10:45.000145+00:00
         validation_errors: ''
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    FileUploadListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/FileUpload'
     ResponseAnyData:
       type: object
       additionalProperties: true

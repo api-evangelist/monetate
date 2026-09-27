@@ -139,6 +139,9 @@ apis:
     url: mcp/monetate-tool-crosswalk.yml
   - type: WellKnown
     url: well-known/monetate-well-known.yml
+  x-surface: platform-generated
+  x-platform: wordpress
+  x-platform-surface: mcp-plugin
 - aid: monetate:monetate-decision-api
   name: Monetate Decision API
   description: The Decision API from Monetate — 1 operation(s) for decision.

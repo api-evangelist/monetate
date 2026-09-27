@@ -454,39 +454,42 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ResponseMeta:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The http response code for this response.
-          example: 200
-        warnings:
-          type: array
-          description: A list of warnings associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-        errors:
-          type: array
-          description: A list of errors associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-    SchemaResponse:
+    SchemaListResponse:
       required:
       - data
       - meta
       type: object
       properties:
         meta:
-          $ref: '#/components/schemas/ResponseMeta'
+          $ref: '#/components/schemas/ResponseMetaPagination'
         data:
-          $ref: '#/components/schemas/Schema'
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/Schema'
+    SchemaPatch:
+      required:
+      - fields
+      type: object
+      properties:
+        fields:
+          minProperties: 1
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Field'
+          description: The fields that define the structure of this Schema.
+      description: '
+
+        Within a Schema, fields must have unique names.
+
+
+        Columns passed in the fields property are added to the schema.'
+      example:
+        name: catalog
+        type: event
+        fields:
+          new_field:
+            data_type: STRING
     Schema:
       required:
       - fields
@@ -575,92 +578,29 @@ components:
             data_type: STRING
           product_price:
             data_type: NUMBER
-    SchemaTypeResponse:
+    ResponseMeta:
       required:
-      - data
-      - meta
+      - code
       type: object
       properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/SchemaType'
-    SchemaListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/Schema'
-    ResponsePagination:
-      type: object
-      properties:
-        count:
+        code:
           type: integer
-          description: The number of items returned in this response.
-          example: 1
-        next:
-          type: string
-          description: A URL to the next group of items, if any.
-        previous:
-          type: string
-          description: A URL to the previous group of items, if any.
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
-    SchemaPatchResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/SchemaPatch'
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    SchemaPatch:
-      required:
-      - fields
-      type: object
-      properties:
-        fields:
-          minProperties: 1
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Field'
-          description: The fields that define the structure of this Schema.
-      description: '
-
-        Within a Schema, fields must have unique names.
-
-
-        Columns passed in the fields property are added to the schema.'
-      example:
-        name: catalog
-        type: event
-        fields:
-          new_field:
-            data_type: STRING
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
     Field:
       required:
       - data_type
@@ -713,6 +653,46 @@ components:
 
             For schema''s with type==event, there must be exactly 1 field marked as the event time.'
       description: Representation of the properties of a Field within a Schema. Only appears within a Schema object's `fields` property.
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    SchemaTypeResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaType'
     SchemaType:
       required:
       - fields
@@ -974,6 +954,26 @@ components:
             unique_key: false
             event_time: false
             required: false
+    SchemaPatchResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaPatch'
+    SchemaResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Schema'
     SchemaTypeListResponse:
       required:
       - data
