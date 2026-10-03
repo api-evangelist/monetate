@@ -149,39 +149,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    example_schemaDataResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/example_schemaData'
-    ResponseMeta:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The http response code for this response.
-          example: 200
-        warnings:
-          type: array
-          description: A list of warnings associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-        errors:
-          type: array
-          description: A list of errors associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
     example_schemaDataRequest:
       description: Representation of the `fields` for this Schema.
       allOf:
@@ -192,6 +159,9 @@ components:
             type: string
             description: The time the request was sent
             format: date-time
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
     Response:
       required:
       - data
@@ -202,9 +172,16 @@ components:
           $ref: '#/components/schemas/ResponseMeta'
         data:
           $ref: '#/components/schemas/ResponseAnyData'
-    ResponseAnyData:
+    example_schemaDataResponse:
+      required:
+      - data
+      - meta
       type: object
-      additionalProperties: true
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/example_schemaData'
     example_schemaData:
       required:
       - schema_rows
@@ -237,6 +214,29 @@ components:
           example_field3: true
           example_field4: 10.5
           example_field5: example,secondexample
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
   securitySchemes:
     Token_Authentication:
       type: apiKey

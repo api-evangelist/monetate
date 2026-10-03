@@ -582,85 +582,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CustomTargetListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/CustomTarget'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
-    Account:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for accounts.
-          readOnly: true
-        type:
-          type: string
-          description: The instance type of account (production, development, etc.).
-          readOnly: true
-        kind:
-          type: string
-          description: The kind of account (retail, travel, etc.).
-          readOnly: true
-        archived:
-          type: boolean
-          description: Whether the account has been archived.
-          readOnly: true
-        channel:
-          type: string
-          description: The instance name, instance type identifier, and account domain concatenated together as a single token.
-          readOnly: true
-        name:
-          type: string
-          description: The name of the account.
-          readOnly: true
-        preview_url:
-          type: string
-          description: The account preview token URL as defined in the UI.
-          readOnly: true
-      description: Representation of an Experience object.
-      example:
-        id: 123456
-        type: production
-        kind: retail
-        archived: true
-        channel: a-b6206def/p/demo.website.com
-        name: demo.website.com
-        preview_url: http://demo.website.com?__store=one
-    ResponseMeta:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The http response code for this response.
-          example: 200
-        warnings:
-          type: array
-          description: A list of warnings associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-        errors:
-          type: array
-          description: A list of errors associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
     CustomTarget:
       type: object
       properties:
@@ -690,6 +611,84 @@ components:
         title: Example CustomTarget Title
         is_identifier: true
         collects_person_id: true
+    PageEventListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/PageEvent'
+    PageEventResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/PageEvent'
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    PageEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for page events.
+          readOnly: true
+        title:
+          type: string
+          description: The title of the page event.
+          readOnly: true
+      description: Representation of a Page Event object.
+      example:
+        id: 132
+        title: Example PageEvent Title
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    CustomTargetListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/CustomTarget'
+    AccountResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Account'
     AccountListResponse:
       required:
       - data
@@ -703,23 +702,39 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Account'
-    ResponsePagination:
+    ResponseMeta:
+      required:
+      - code
       type: object
       properties:
-        count:
+        code:
           type: integer
-          description: The number of items returned in this response.
-          example: 1
-        next:
-          type: string
-          description: A URL to the next group of items, if any.
-        previous:
-          type: string
-          description: A URL to the previous group of items, if any.
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    Experience-SummaryResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Experience-Summary'
     Experience-Summary:
       type: object
       properties:
@@ -965,19 +980,6 @@ components:
             test_group: 2
             split_id: 2345584
         integration_type: js-tag
-    PageEventListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/PageEvent'
     Variant:
       type: object
       properties:
@@ -1031,36 +1033,6 @@ components:
         split_name: A
         preview_token: 6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM
         integration_type: js-tag
-    CustomTargetResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/CustomTarget'
-    AccountResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Account'
-    Experience-SummaryResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Experience-Summary'
     Experience-SummaryListResponse:
       required:
       - data
@@ -1074,7 +1046,20 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Experience-Summary'
-    Response:
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    CustomTargetResponse:
       required:
       - data
       - meta
@@ -1083,7 +1068,57 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/ResponseAnyData'
+          $ref: '#/components/schemas/CustomTarget'
+    VariantResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Variant'
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for accounts.
+          readOnly: true
+        type:
+          type: string
+          description: The instance type of account (production, development, etc.).
+          readOnly: true
+        kind:
+          type: string
+          description: The kind of account (retail, travel, etc.).
+          readOnly: true
+        archived:
+          type: boolean
+          description: Whether the account has been archived.
+          readOnly: true
+        channel:
+          type: string
+          description: The instance name, instance type identifier, and account domain concatenated together as a single token.
+          readOnly: true
+        name:
+          type: string
+          description: The name of the account.
+          readOnly: true
+        preview_url:
+          type: string
+          description: The account preview token URL as defined in the UI.
+          readOnly: true
+      description: Representation of an Experience object.
+      example:
+        id: 123456
+        type: production
+        kind: retail
+        archived: true
+        channel: a-b6206def/p/demo.website.com
+        name: demo.website.com
+        preview_url: http://demo.website.com?__store=one
     VariantListResponse:
       required:
       - data
@@ -1097,41 +1132,6 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Variant'
-    PageEventResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/PageEvent'
-    VariantResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Variant'
-    PageEvent:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for page events.
-          readOnly: true
-        title:
-          type: string
-          description: The title of the page event.
-          readOnly: true
-      description: Representation of a Page Event object.
-      example:
-        id: 132
-        title: Example PageEvent Title
   securitySchemes:
     TokenAuthentication:
       type: apiKey

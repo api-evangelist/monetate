@@ -74,65 +74,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FileUploadListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/FileUpload'
-    ResponseMeta:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The http response code for this response.
-          example: 200
-        warnings:
-          type: array
-          description: A list of warnings associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-        errors:
-          type: array
-          description: A list of errors associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    ResponsePagination:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: The number of items returned in this response.
-          example: 1
-        next:
-          type: string
-          description: A URL to the next group of items, if any.
-        previous:
-          type: string
-          description: A URL to the previous group of items, if any.
     ResponseMetaPagination:
       allOf:
       - $ref: '#/components/schemas/ResponseMeta'
@@ -189,6 +130,65 @@ components:
     ResponseAnyData:
       type: object
       additionalProperties: true
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    ResponsePagination:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of items returned in this response.
+          example: 1
+        next:
+          type: string
+          description: A URL to the next group of items, if any.
+        previous:
+          type: string
+          description: A URL to the previous group of items, if any.
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+    FileUploadListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/FileUpload'
   securitySchemes:
     Token_Authentication:
       type: apiKey

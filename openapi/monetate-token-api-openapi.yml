@@ -107,7 +107,29 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TokenRefreshResponse:
+    TokenRefresh:
+      type: object
+      properties:
+        issued_at:
+          type: number
+          description: The timestamp, in seconds since epoch, when the token was issued.
+          example: 1481650253.342885
+        token:
+          type: string
+          description: The token to pass to Monetate APIs using token authentication.
+          example: 1.lM45vLVwAc5YUD5dAw.XATBdkXQI3Bf7_043j88ScWrzfkzvWcUGRknzkEK7fU
+        expires_in:
+          type: integer
+          description: The number seconds until this token expires, always matches the `ttl` you passed when requesting a new token.
+          example: 1000
+        expires_at:
+          type: number
+          description: The timestamp, in seconds since epoch, when the token will expire.
+          example: 1481650253.342885
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
+    Response:
       required:
       - data
       - meta
@@ -116,7 +138,7 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/TokenRefresh'
+          $ref: '#/components/schemas/ResponseAnyData'
     ResponseMeta:
       required:
       - code
@@ -140,7 +162,7 @@ components:
           items:
             type: object
             additionalProperties: true
-    Response:
+    TokenRefreshResponse:
       required:
       - data
       - meta
@@ -149,29 +171,7 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
-    TokenRefresh:
-      type: object
-      properties:
-        issued_at:
-          type: number
-          description: The timestamp, in seconds since epoch, when the token was issued.
-          example: 1481650253.342885
-        token:
-          type: string
-          description: The token to pass to Monetate APIs using token authentication.
-          example: 1.lM45vLVwAc5YUD5dAw.XATBdkXQI3Bf7_043j88ScWrzfkzvWcUGRknzkEK7fU
-        expires_in:
-          type: integer
-          description: The number seconds until this token expires, always matches the `ttl` you passed when requesting a new token.
-          example: 1000
-        expires_at:
-          type: number
-          description: The timestamp, in seconds since epoch, when the token will expire.
-          example: 1481650253.342885
+          $ref: '#/components/schemas/TokenRefresh'
   securitySchemes:
     JWTAuthentication:
       type: apiKey
