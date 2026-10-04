@@ -454,6 +454,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    SchemaListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/Schema'
     SchemaType:
       required:
       - fields
@@ -715,82 +728,6 @@ components:
             unique_key: false
             event_time: false
             required: false
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
-    SchemaListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/Schema'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    SchemaTypeListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/SchemaType'
-    SchemaResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Schema'
-    ResponseMeta:
-      required:
-      - code
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The http response code for this response.
-          example: 200
-        warnings:
-          type: array
-          description: A list of warnings associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
-        errors:
-          type: array
-          description: A list of errors associated with this response.
-          example: []
-          items:
-            type: object
-            additionalProperties: true
     Schema:
       required:
       - fields
@@ -879,6 +816,16 @@ components:
             data_type: STRING
           product_price:
             data_type: NUMBER
+    SchemaTypeResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/SchemaType'
     Field:
       required:
       - data_type
@@ -931,6 +878,19 @@ components:
 
             For schema''s with type==event, there must be exactly 1 field marked as the event time.'
       description: Representation of the properties of a Field within a Schema. Only appears within a Schema object's `fields` property.
+    SchemaTypeListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/SchemaType'
     ResponsePagination:
       type: object
       properties:
@@ -944,16 +904,6 @@ components:
         previous:
           type: string
           description: A URL to the previous group of items, if any.
-    SchemaTypeResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/SchemaType'
     SchemaPatch:
       required:
       - fields
@@ -977,6 +927,43 @@ components:
         fields:
           new_field:
             data_type: STRING
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    SchemaResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Schema'
+    ResponseMeta:
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The http response code for this response.
+          example: 200
+        warnings:
+          type: array
+          description: A list of warnings associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
+        errors:
+          type: array
+          description: A list of errors associated with this response.
+          example: []
+          items:
+            type: object
+            additionalProperties: true
     SchemaPatchResponse:
       required:
       - data
@@ -987,6 +974,19 @@ components:
           $ref: '#/components/schemas/ResponseMeta'
         data:
           $ref: '#/components/schemas/SchemaPatch'
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
   securitySchemes:
     Token_Authentication:
       type: apiKey

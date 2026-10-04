@@ -582,6 +582,115 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Experience-SummaryResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Experience-Summary'
+    CustomTargetListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/CustomTarget'
+    PageEventListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/PageEvent'
+    PageEventResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/PageEvent'
+    Variant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for experiences.
+          readOnly: true
+        account_domain:
+          type: string
+          description: The account domain the experience is associated with.
+          readOnly: true
+        experience_id:
+          type: integer
+          description: The Monetate internal identifier for the experience.
+          readOnly: true
+        experience_name:
+          type: string
+          description: The name of the experience.
+          readOnly: true
+        experience_type:
+          type: string
+          description: The split name associated with the offer for this experience.
+          readOnly: true
+        split_name:
+          type: string
+          description: The split name associated with the offer for this experience.
+          readOnly: true
+        split_description:
+          type: string
+          description: The description or label for a specific split defined in this experience.
+          readOnly: true
+        preview_token:
+          type: string
+          description: The preview token associated with the split.
+          readOnly: true
+        integration_type:
+          type: string
+          description: Experience type either client-side, email or engine-api.
+          readOnly: true
+          enum:
+          - js-tag
+          - engine-api
+          - email
+      description: Representation of an Experience object.
+      example:
+        id: 123456
+        account_domain: website.com
+        experience_id: 1234567
+        experience_name: example experience name
+        experience_type: experience
+        split_name: A
+        preview_token: 6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM
+        integration_type: js-tag
+    VariantResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Variant'
     CustomTarget:
       type: object
       properties:
@@ -611,20 +720,7 @@ components:
         title: Example CustomTarget Title
         is_identifier: true
         collects_person_id: true
-    PageEventListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/PageEvent'
-    PageEventResponse:
+    CustomTargetResponse:
       required:
       - data
       - meta
@@ -633,14 +729,57 @@ components:
         meta:
           $ref: '#/components/schemas/ResponseMeta'
         data:
-          $ref: '#/components/schemas/PageEvent'
-    ResponseMetaPagination:
-      allOf:
-      - $ref: '#/components/schemas/ResponseMeta'
-      - $ref: '#/components/schemas/ResponsePagination'
-    ResponseAnyData:
+          $ref: '#/components/schemas/CustomTarget'
+    Response:
+      required:
+      - data
+      - meta
       type: object
-      additionalProperties: true
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Monetate internal identifier for accounts.
+          readOnly: true
+        type:
+          type: string
+          description: The instance type of account (production, development, etc.).
+          readOnly: true
+        kind:
+          type: string
+          description: The kind of account (retail, travel, etc.).
+          readOnly: true
+        archived:
+          type: boolean
+          description: Whether the account has been archived.
+          readOnly: true
+        channel:
+          type: string
+          description: The instance name, instance type identifier, and account domain concatenated together as a single token.
+          readOnly: true
+        name:
+          type: string
+          description: The name of the account.
+          readOnly: true
+        preview_url:
+          type: string
+          description: The account preview token URL as defined in the UI.
+          readOnly: true
+      description: Representation of an Experience object.
+      example:
+        id: 123456
+        type: production
+        kind: retail
+        archived: true
+        channel: a-b6206def/p/demo.website.com
+        name: demo.website.com
+        preview_url: http://demo.website.com?__store=one
     PageEvent:
       type: object
       properties:
@@ -656,52 +795,6 @@ components:
       example:
         id: 132
         title: Example PageEvent Title
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    CustomTargetListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/CustomTarget'
-    AccountResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Account'
-    AccountListResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMetaPagination'
-        data:
-          type: array
-          description: Data payload of this response.
-          items:
-            $ref: '#/components/schemas/Account'
     ResponseMeta:
       required:
       - code
@@ -725,16 +818,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    Experience-SummaryResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Experience-Summary'
     Experience-Summary:
       type: object
       properties:
@@ -980,59 +1063,16 @@ components:
             test_group: 2
             split_id: 2345584
         integration_type: js-tag
-    Variant:
+    AccountResponse:
+      required:
+      - data
+      - meta
       type: object
       properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for experiences.
-          readOnly: true
-        account_domain:
-          type: string
-          description: The account domain the experience is associated with.
-          readOnly: true
-        experience_id:
-          type: integer
-          description: The Monetate internal identifier for the experience.
-          readOnly: true
-        experience_name:
-          type: string
-          description: The name of the experience.
-          readOnly: true
-        experience_type:
-          type: string
-          description: The split name associated with the offer for this experience.
-          readOnly: true
-        split_name:
-          type: string
-          description: The split name associated with the offer for this experience.
-          readOnly: true
-        split_description:
-          type: string
-          description: The description or label for a specific split defined in this experience.
-          readOnly: true
-        preview_token:
-          type: string
-          description: The preview token associated with the split.
-          readOnly: true
-        integration_type:
-          type: string
-          description: Experience type either client-side, email or engine-api.
-          readOnly: true
-          enum:
-          - js-tag
-          - engine-api
-          - email
-      description: Representation of an Experience object.
-      example:
-        id: 123456
-        account_domain: website.com
-        experience_id: 1234567
-        experience_name: example experience name
-        experience_type: experience
-        split_name: A
-        preview_token: 6.3.eJwdy1EKgCAQBNC7zPd-uGS5dJkIExFEQ7KC6O5pXzNvYB6s1uaajiVsmM1omGB976xYy6Abf7EoYUNw994kkxE9aBkJvvSBkFtgL-4M7gKh9FeqMb4fXNsb8g.oiGd_WLhGvI77LIltXYJlBnRJ7qGrmNWDz5Zx0wsPFM
-        integration_type: js-tag
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/Account'
     Experience-SummaryListResponse:
       required:
       - data
@@ -1059,66 +1099,6 @@ components:
         previous:
           type: string
           description: A URL to the previous group of items, if any.
-    CustomTargetResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/CustomTarget'
-    VariantResponse:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/Variant'
-    Account:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Monetate internal identifier for accounts.
-          readOnly: true
-        type:
-          type: string
-          description: The instance type of account (production, development, etc.).
-          readOnly: true
-        kind:
-          type: string
-          description: The kind of account (retail, travel, etc.).
-          readOnly: true
-        archived:
-          type: boolean
-          description: Whether the account has been archived.
-          readOnly: true
-        channel:
-          type: string
-          description: The instance name, instance type identifier, and account domain concatenated together as a single token.
-          readOnly: true
-        name:
-          type: string
-          description: The name of the account.
-          readOnly: true
-        preview_url:
-          type: string
-          description: The account preview token URL as defined in the UI.
-          readOnly: true
-      description: Representation of an Experience object.
-      example:
-        id: 123456
-        type: production
-        kind: retail
-        archived: true
-        channel: a-b6206def/p/demo.website.com
-        name: demo.website.com
-        preview_url: http://demo.website.com?__store=one
     VariantListResponse:
       required:
       - data
@@ -1132,6 +1112,26 @@ components:
           description: Data payload of this response.
           items:
             $ref: '#/components/schemas/Variant'
+    AccountListResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMetaPagination'
+        data:
+          type: array
+          description: Data payload of this response.
+          items:
+            $ref: '#/components/schemas/Account'
+    ResponseMetaPagination:
+      allOf:
+      - $ref: '#/components/schemas/ResponseMeta'
+      - $ref: '#/components/schemas/ResponsePagination'
+    ResponseAnyData:
+      type: object
+      additionalProperties: true
   securitySchemes:
     TokenAuthentication:
       type: apiKey
