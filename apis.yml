@@ -42,7 +42,7 @@ x-type: company
 x-source: harvest:marketing-integration-graph
 specificationVersion: '0.23'
 created: '2026-08-12'
-modified: '2026-08-12'
+modified: '2026-10-06'
 tags:
 - Company
 - Personalization
@@ -247,6 +247,10 @@ apis:
   - type: Authentication
     url: authentication/monetate-authentication.yml
 common:
+- url: https://monetate.com/resources/
+  type: Blog
+- url: https://monetate.com/feed/
+  type: BlogRSS
 - type: Overlay
   url: overlays/monetate-engine-api-overlay.yaml
 - type: Overlay
