@@ -107,6 +107,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TokenRefreshResponse:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/TokenRefresh'
+    Response:
+      required:
+      - data
+      - meta
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+        data:
+          $ref: '#/components/schemas/ResponseAnyData'
     TokenRefresh:
       type: object
       properties:
@@ -126,16 +146,9 @@ components:
           type: number
           description: The timestamp, in seconds since epoch, when the token will expire.
           example: 1481650253.342885
-    TokenRefreshResponse:
-      required:
-      - data
-      - meta
+    ResponseAnyData:
       type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/TokenRefresh'
+      additionalProperties: true
     ResponseMeta:
       required:
       - code
@@ -159,19 +172,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    Response:
-      required:
-      - data
-      - meta
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-        data:
-          $ref: '#/components/schemas/ResponseAnyData'
-    ResponseAnyData:
-      type: object
-      additionalProperties: true
   securitySchemes:
     JWTAuthentication:
       type: apiKey
