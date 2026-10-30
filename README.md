@@ -64,40 +64,144 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Monetate is an enterprise experience-optimization and personalization platform for ecommerce and digital
-businesses — A/B and multivariate testing, automated 1:1 personalization, product and content
-recommendations, personalized search, dynamic bundles, social proof and product badging — operating as part
-of Kibo Commerce.
+Monetate is an enterprise experience-optimization and personalization platform for ecommerce and digital businesses, delivering A/B and multivariate testing, automated 1:1 personalization, product and content recommendations, personalized search, dynamic bundles, social proof and product badging across web, mobile, email and in-store channels. Its decision engine is exposed to developers through four public REST APIs — the Engine API (real-time decision requests), the Data API (schema definition, customer/product data ingestion and default catalog management), the Metadata API (accounts, experiences, page events and custom targets) and the Auth API (bearer-token issue and refresh) — plus a browser JavaScript API and native SDKs for iOS, Android, React Web and React Native. Monetate operates as part of Kibo Commerce.
 
-- Website: https://monetate.com/
-- Developer hub: https://developer.monetate.com/
-- Knowledge base: https://docs.monetate.com/docs
-- Status: https://monetate.statuspage.io
+**Areas:** Company · Personalization · Experience Optimization · A/B Testing · E-Commerce · Product Recommendations · Personalized Search · Marketing · Customer Data · Retail · Decision Engine
 
-## Published APIs
+## Monetate on APIs.io
 
-| API | Base | Spec |
-|---|---|---|
-| Engine API | `https://engine.monetate.net/api/engine/v1` | Swagger 2.0, 1 operation (`POST /decide/{retailerShortname}`) |
-| Data API | `https://api.monetate.net/api/data/v1/{retailerShortname}/production` | OpenAPI 3.0.1, 12 operations |
-| Metadata API | `https://api.monetate.net/api/metadata/v1/{retailerShortname}/production` | OpenAPI 3.0.1, 10 operations |
-| Auth API | `https://api.monetate.net/api/auth/v0` | OpenAPI 3.0.1, 1 operation |
+Everything profiled for Monetate is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/monetate/](https://apis.io/providers/monetate/)** — or go straight to one of the APIs or properties below.
 
-All four specifications are real, provider-authored documents harvested from the Archbee document store
-behind developer.monetate.com. Monetate does not serve them from a stable public URL of its own — the
-developer hub is a client-rendered Next.js site whose `/openapi.json` returns an HTML "Not found" shell —
-so `openapi/_original/` records the exact upload each was taken from.
+### APIs (8)
 
-## What this profile records
+- [Monetate Data API](https://apis.io/apis/monetate/monetate-data-api/) — Create and manage data schemas and send customer, product and catalog data into Monetate in real time for use by the decision engine. Covers schema CRUD,…
+- [Monetate Metadata API](https://apis.io/apis/monetate/monetate-metadata-api/) — Read-only API returning metadata about a Monetate account so that experience, page-event and custom-target identifiers seen in engine responses and…
+- [Monetate Website MCP Server](https://apis.io/apis/monetate/monetate-website-mcp-server/) — Hosted Model Context Protocol server published on the monetate.com marketing site, advertised through RFC 8414 OAuth authorization-server metadata and RFC…
+- [Monetate Decision API](https://apis.io/apis/monetate/monetate-decision-api/) — The Decision API from Monetate — 1 operation(s) for decision.
+- [Monetate Product Catalog API](https://apis.io/apis/monetate/monetate-product-catalog-api/) — Product Catalog related endpoints.
+- [Monetate Schema API](https://apis.io/apis/monetate/monetate-schema-api/) — Schema related endpoints.
+- [Monetate Token API](https://apis.io/apis/monetate/monetate-token-api/) — API methods for manipulating tokens.
+- [Monetate Upload API](https://apis.io/apis/monetate/monetate-upload-api/) — File upload related endpoints.
 
-`apis.yml` is the index. Alongside the specs, this repo holds the authentication model (a two-scheme JWT →
-bearer-token exchange), API conventions, the derived error catalog, the entity/relationship data model,
-lifecycle and versioning, the dated changelog, published packages, well-known probes, the MCP server
-Monetate publishes on its marketing site, domain-security probes, trust-center findings, and four packaged
-Agent Skills grounded in real operations.
+### Published properties
 
-Notable honest findings, recorded rather than smoothed over: no published rate limits or rate-limit
-headers, no idempotency support on any write, no deprecation policy or Sunset headers, no
-`/.well-known/security.txt` or vulnerability-disclosure channel, a trust center with zero named
-certifications, quote-only pricing with no published plans, and no `operationId` on 23 of the 24 published
-operations. See each artifact for the evidence.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [monetate-website-mcp](https://apis.io/servers/monetate/monetate-website-mcp/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [Monetate Auth API](https://apis.io/collections/monetate/open-monetate-auth-api/)
+- [Monetate Data API](https://apis.io/collections/monetate/open-monetate-data-api/)
+- [Monetate Engine API](https://apis.io/collections/monetate/open-monetate-engine-api/)
+- [Monetate Metadata API](https://apis.io/collections/monetate/open-monetate-metadata-api/)
+
+#### Overlays (4)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Monetate Auth Api Overlay](https://apis.io/overlays/monetate/monetate-auth-api-overlay/)
+- [Monetate Data Api Overlay](https://apis.io/overlays/monetate/monetate-data-api-overlay/)
+- [Monetate Engine Api Overlay](https://apis.io/overlays/monetate/monetate-engine-api-overlay/)
+- [Monetate Metadata Api Overlay](https://apis.io/overlays/monetate/monetate-metadata-api-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Monetate Authentication](https://apis.io/security/monetate/monetate-authentication/)
+- [Monetate Domain Security](https://apis.io/security/monetate/monetate-domain-security/)
+- [Monetate Trust Center](https://apis.io/security/monetate/monetate-trust-center/)
+- [Monetate Vulnerability Disclosure](https://apis.io/security/monetate/monetate-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Monetate Plans Pricing](https://apis.io/plans/monetate/monetate-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Monetate Rate Limits](https://apis.io/rate-limits/monetate/monetate-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://monetate.com/)
+- [Documentation](https://docs.monetate.com/docs)
+- [Getting started](https://developer.monetate.com/engine-api/engine-api-startup-guide)
+- [API reference](https://developer.monetate.com/)
+- [Pricing](https://monetate.com/pricing/)
+- [Sign up](https://monetate.com/demo/)
+- [Support](https://monetate.com/contact/)
+- [Changelog](https://docs.monetate.com/docs/release-notes)
+- [Blog](https://monetate.com/resources/)
+- [Trust centre](https://trust.monetate.com/)
+- [Terms of service](https://monetate.com/terms-of-use/)
+- [Privacy policy](https://monetate.com/website-privacy-policy/)
+- [GitHub](https://github.com/monetate)
+- [Status](https://monetate.statuspage.io)
+
+## API Evangelist rating
+
+**Kin Score 53.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 49.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 52.6 |
+
+**Agent readiness 45.1** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 29.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/monetate/](https://apis.io/providers/monetate/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Monetate: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/monetate/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
